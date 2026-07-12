@@ -1,0 +1,68 @@
+// 12-column responsive grid (CONSTITUTION.md §5).
+// Verified reference implementation: prototypes/spikes/responsive-grid-spike.html
+// Breakpoint: --breakpoint-grid (1024px, defined in _variants.scss), shared
+// across every group/variant.
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+main.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 0 var(--space-md);
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: var(--space-md);
+
+  >* {
+    grid-column: 1 / span 12;
+    min-width: 0;
+  }
+
+  // Single-post article view (page.html renders `<article class="post content">`;
+  // post-list excerpts render `<article class="post">` without `.content`, so
+  // this selector only ever matches the single-article template). The
+  // `.has-sidebar` modifier is added by page.html only when a sidebar
+  // actually has content to show (auto TOC and/or page.extra.sidebar) — see
+  // partials/sidebar.html. Without it, the article keeps the default
+  // full-12-column span from `> *` above instead of reserving an empty
+  // columns 9-12 gap, per specs/design-tokens-scholarly.md.
+  >article.post.content.has-sidebar {
+    grid-column: 1 / span 8;
+
+    @media (max-width: 1023.98px) {
+      grid-column: 1 / span 12;
+    }
+  }
+
+  >aside.sidebar {
+    grid-column: 9 / span 4;
+
+    @media (max-width: 1023.98px) {
+      grid-column: 1 / span 12;
+    }
+  }
+}
+
+// Long tokens must wrap rather than force page-level horizontal overflow,
+// even at the 320px minimum viewport (CONSTITUTION.md §5).
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+li,
+td,
+th {
+  overflow-wrap: break-word;
+}
+
+pre {
+  overflow-x: auto;
+  max-width: 100%;
+}

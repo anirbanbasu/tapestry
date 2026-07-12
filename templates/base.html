@@ -1,0 +1,550 @@
+{%- import "macros/config.html" as config_macros -%}
+{%- import "macros/feed.html" as feed_macros -%}
+{%- import "macros/post.html" as post_macros -%}
+
+<!doctype html>
+<html lang="{{ lang }}">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% include "partials/content_security_policy.html" %}
+    <title>{%- block title -%}{{ config.title }}{%- endblock -%}</title>
+
+    {#- Self-hosted fonts (CONSTITUTION.md §4): all scholarly + creative + natural -#}
+    {#- variants. Preload heading, body, and code fonts (latin subset) for -#}
+    {#- the active variant only. crossorigin is required even for same-origin -#}
+    {#- font preloads. No cachebust=true: paths must be byte-identical to the -#}
+    {#- src: URLs in _fonts.scss @font-face blocks; a fingerprint mismatch -#}
+    {#- doubles requests. -#}
+    {%- set requested_style_ = config.extra.presentation_style | default(value="scholarly") -%}
+    {%- set valid_scholarly_variants_ = ["classic-ivy", "nordic-minimalist", "dark-academia", "scientific-journal",
+    "contemporary-research-lab"] -%}
+    {%- set valid_creative_variants_ = ["bauhaus-studio", "editorial-zine", "watercolor-atelier", "neon-studio",
+    "collage-mixed-media"] -%}
+    {%- set valid_natural_variants_ = ["celestial-observatory", "periodic-table-chemistry", "field-notebook",
+    "chalkboard-proof", "quantum-circuit"] -%}
+    {%- set valid_precision_variants_ = ["blueprint-drafting", "surgical-precision", "aerospace-materials-lab",
+    "biomedical-diagnostics", "swiss-precision-instrument"] -%}
+    {%- set valid_collective_variants_ = ["cartographers-atlas", "ledger-index", "social-network-diagram",
+    "agora-classical-philosophy", "strata-geology"] -%}
+    {%- if requested_style_ == "creative" -%}
+    {%- set active_style_ = "creative" -%}
+    {%- set requested_variant_ = config.extra.presentation_variant | default(value="editorial-zine") -%}
+    {%- if requested_variant_ in valid_creative_variants_ -%}
+    {%- set active_variant_ = requested_variant_ -%}
+    {%- else -%}
+    {%- set active_variant_ = "editorial-zine" -%}
+    {%- endif -%}
+    {%- elif requested_style_ == "natural" -%}
+    {%- set active_style_ = "natural" -%}
+    {%- set requested_variant_ = config.extra.presentation_variant | default(value="periodic-table-chemistry") -%}
+    {%- if requested_variant_ in valid_natural_variants_ -%}
+    {%- set active_variant_ = requested_variant_ -%}
+    {%- else -%}
+    {%- set active_variant_ = "periodic-table-chemistry" -%}
+    {%- endif -%}
+    {%- elif requested_style_ == "precision" -%}
+    {%- set active_style_ = "precision" -%}
+    {%- set requested_variant_ = config.extra.presentation_variant | default(value="swiss-precision-instrument") -%}
+    {%- if requested_variant_ in valid_precision_variants_ -%}
+    {%- set active_variant_ = requested_variant_ -%}
+    {%- else -%}
+    {%- set active_variant_ = "swiss-precision-instrument" -%}
+    {%- endif -%}
+    {%- elif requested_style_ == "collective" -%}
+    {%- set active_style_ = "collective" -%}
+    {%- set requested_variant_ = config.extra.presentation_variant | default(value="cartographers-atlas") -%}
+    {%- if requested_variant_ in valid_collective_variants_ -%}
+    {%- set active_variant_ = requested_variant_ -%}
+    {%- else -%}
+    {%- set active_variant_ = "cartographers-atlas" -%}
+    {%- endif -%}
+    {%- else -%}
+    {%- set active_style_ = "scholarly" -%}
+    {%- set requested_variant_ = config.extra.presentation_variant | default(value="contemporary-research-lab") -%}
+    {%- if requested_variant_ in valid_scholarly_variants_ -%}
+    {%- set active_variant_ = requested_variant_ -%}
+    {%- else -%}
+    {%- set active_variant_ = "contemporary-research-lab" -%}
+    {%- endif -%}
+    {%- endif -%}
+    {%- if active_style_ == "creative" %}
+    {%- if active_variant_ == "bauhaus-studio" %}
+    <link rel="preload" href="{{ get_url(path='fonts/creative/bauhaus-studio/Archivo-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/creative/bauhaus-studio/WorkSans-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/creative/bauhaus-studio/DMMono-Regular-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    {%- elif active_variant_ == "watercolor-atelier" %}
+    <link rel="preload" href="{{ get_url(path='fonts/creative/watercolor-atelier/DMSerifDisplay-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/creative/watercolor-atelier/Karla-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/creative/watercolor-atelier/IBMPlexMono-Regular-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    {%- elif active_variant_ == "neon-studio" %}
+    <link rel="preload" href="{{ get_url(path='fonts/creative/neon-studio/Orbitron-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/creative/neon-studio/Manrope-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/creative/neon-studio/SpaceMono-Regular-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    {%- elif active_variant_ == "collage-mixed-media" %}
+    <link rel="preload" href="{{ get_url(path='fonts/creative/collage-mixed-media/Fredoka-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/creative/collage-mixed-media/Mulish-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/creative/collage-mixed-media/UbuntuMono-Regular-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    {%- else %}
+    {#- editorial-zine (creative group default) -#}
+    <link rel="preload" href="{{ get_url(path='fonts/creative/editorial-zine/Anton-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/creative/editorial-zine/PublicSans-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/creative/editorial-zine/CourierPrime-Regular-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    {%- endif %}
+    {%- elif active_style_ == "natural" %}
+    {%- if active_variant_ == "celestial-observatory" %}
+    <link rel="preload" href="{{ get_url(path='fonts/natural/celestial-observatory/Cardo-Regular-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/natural/celestial-observatory/CrimsonPro-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/natural/celestial-observatory/JetBrainsMono-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    {%- elif active_variant_ == "field-notebook" %}
+    <link rel="preload" href="{{ get_url(path='fonts/natural/field-notebook/Lora-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/natural/field-notebook/Vollkorn-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/natural/field-notebook/IBMPlexMono-Regular-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    {%- elif active_variant_ == "chalkboard-proof" %}
+    <link rel="preload" href="{{ get_url(path='fonts/natural/chalkboard-proof/Newsreader-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/natural/chalkboard-proof/Literata-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/natural/chalkboard-proof/FiraCode-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    {%- elif active_variant_ == "quantum-circuit" %}
+    <link rel="preload" href="{{ get_url(path='fonts/natural/quantum-circuit/Chivo-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/natural/quantum-circuit/PlusJakartaSans-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/natural/quantum-circuit/JetBrainsMono-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    {%- else %}
+    {#- periodic-table-chemistry (natural group default) -#}
+    <link rel="preload" href="{{ get_url(path='fonts/natural/periodic-table-chemistry/RobotoSlab-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/natural/periodic-table-chemistry/NotoSans-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    <link rel="preload"
+        href="{{ get_url(path='fonts/natural/periodic-table-chemistry/IBMPlexMono-Regular-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    {%- endif %}
+    {%- elif active_style_ == "precision" %}
+    {%- if active_variant_ == "blueprint-drafting" %}
+    <link rel="preload" href="{{ get_url(path='fonts/precision/blueprint-drafting/BigShouldersDisplay-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/precision/blueprint-drafting/IBMPlexSans-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/precision/blueprint-drafting/IBMPlexMono-Regular-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    {%- elif active_variant_ == "surgical-precision" %}
+    <link rel="preload"
+        href="{{ get_url(path='fonts/precision/surgical-precision/BarlowCondensed-SemiBold-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/precision/surgical-precision/Roboto-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/precision/surgical-precision/RobotoMono-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    {%- elif active_variant_ == "aerospace-materials-lab" %}
+    <link rel="preload" href="{{ get_url(path='fonts/precision/aerospace-materials-lab/Rajdhani-SemiBold-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/precision/aerospace-materials-lab/Overpass-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/precision/aerospace-materials-lab/RedHatMono-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    {%- elif active_variant_ == "biomedical-diagnostics" %}
+    <link rel="preload" href="{{ get_url(path='fonts/precision/biomedical-diagnostics/Sora-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/precision/biomedical-diagnostics/WorkSans-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    <link rel="preload"
+        href="{{ get_url(path='fonts/precision/biomedical-diagnostics/IBMPlexMono-Regular-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    {%- else %}
+    {#- swiss-precision-instrument (precision group default) — one typeface -#}
+    {#- for heading/body/code alike, so only one preload is needed. -#}
+    <link rel="preload"
+        href="{{ get_url(path='fonts/precision/swiss-precision-instrument/IBMPlexMono-Regular-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    {%- endif %}
+    {%- elif active_style_ == "collective" %}
+    {%- if active_variant_ == "ledger-index" %}
+    <link rel="preload" href="{{ get_url(path='fonts/collective/ledger-index/Bitter-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/collective/ledger-index/IBMPlexSans-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/collective/ledger-index/IBMPlexMono-Regular-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    {%- elif active_variant_ == "social-network-diagram" %}
+    <link rel="preload" href="{{ get_url(path='fonts/collective/social-network-diagram/Outfit-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    <link rel="preload"
+        href="{{ get_url(path='fonts/collective/social-network-diagram/HankenGrotesk-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/collective/social-network-diagram/JetBrainsMono-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    {%- elif active_variant_ == "agora-classical-philosophy" %}
+    <link rel="preload" href="{{ get_url(path='fonts/collective/agora-classical-philosophy/Marcellus-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    <link rel="preload"
+        href="{{ get_url(path='fonts/collective/agora-classical-philosophy/PTSerif-Regular-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    <link rel="preload"
+        href="{{ get_url(path='fonts/collective/agora-classical-philosophy/IBMPlexMono-Regular-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    {%- elif active_variant_ == "strata-geology" %}
+    <link rel="preload" href="{{ get_url(path='fonts/collective/strata-geology/ZillaSlab-SemiBold-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/collective/strata-geology/PublicSans-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/collective/strata-geology/IBMPlexMono-Regular-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    {%- else %}
+    {#- cartographers-atlas (collective group default) -#}
+    <link rel="preload" href="{{ get_url(path='fonts/collective/cartographers-atlas/Domine-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/collective/cartographers-atlas/NotoSerif-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    <link rel="preload"
+        href="{{ get_url(path='fonts/collective/cartographers-atlas/IBMPlexMono-Regular-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    {%- endif %}
+    {%- else %}
+    {%- if active_variant_ == "classic-ivy" %}
+    <link rel="preload" href="{{ get_url(path='fonts/scholarly/classic-ivy/PlayfairDisplay-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/scholarly/classic-ivy/SourceSerif4-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/scholarly/classic-ivy/IBMPlexMono-Regular-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    {%- elif active_variant_ == "nordic-minimalist" %}
+    <link rel="preload" href="{{ get_url(path='fonts/scholarly/nordic-minimalist/SpaceGrotesk-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/scholarly/nordic-minimalist/SourceSerif4-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/scholarly/nordic-minimalist/JetBrainsMono-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    {%- elif active_variant_ == "dark-academia" %}
+    <link rel="preload" href="{{ get_url(path='fonts/scholarly/dark-academia/CormorantGaramond-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/scholarly/dark-academia/EBGaramond-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/scholarly/dark-academia/FiraCode-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    {%- elif active_variant_ == "scientific-journal" %}
+    <link rel="preload" href="{{ get_url(path='fonts/scholarly/scientific-journal/Spectral-SemiBold-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/scholarly/scientific-journal/PTSerif-Regular-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/scholarly/scientific-journal/SourceCodePro-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    {%- else %}
+    {#- contemporary-research-lab (scholarly group default) -#}
+    <link rel="preload" href="{{ get_url(path='fonts/scholarly/contemporary-research-lab/Inter-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/scholarly/contemporary-research-lab/Fraunces-latin.woff2') }}"
+        as="font" type="font/woff2" crossorigin>
+    <link rel="preload"
+        href="{{ get_url(path='fonts/scholarly/contemporary-research-lab/SpaceMono-Regular-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    <link rel="preload"
+        href="{{ get_url(path='fonts/scholarly/contemporary-research-lab/SpaceMono-Regular-latin.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
+    {%- endif %}
+    {%- endif %}
+    <link rel="stylesheet" href="{{ get_url(path='css/style.css', cachebust=true) }}">
+    {%- for stylesheet in config.extra.stylesheets | default(value=[]) | concat(with=section.extra.stylesheets |
+    default(value=[])) | concat(with=page.extra.stylesheets | default(value=[])) %}
+    <link rel="stylesheet" href="{{ get_url(path=stylesheet, cachebust=true) }}">
+    {%- endfor -%}
+
+    {%- if config.extra.favicon %}
+    {%- if config.extra.favicon is ending_with(".svg") %}
+    {#- Zola's `get_image_metadata`/`resize_image` are raster-image functions -#}
+    {#- and do not support SVG; special-case the SVG favicon path and skip the -#}
+    {#- apple-touch-icon PNG resize branch entirely for SVG sources. -#}
+    <link rel="icon" type="image/svg+xml" href="{{ get_url(path=config.extra.favicon) }}">
+    {%- else %}
+    {% set image_meta = get_image_metadata(path=config.extra.favicon) -%}
+    <link rel="icon" type="{{ image_meta.mime | safe }}" href="{{ get_url(path=config.extra.favicon) }}">
+    {%- if image_meta.mime is ending_with("png") %}
+    {% set resized_image = resize_image(path=config.extra.favicon, width=180, height=180, op="fit") -%}
+    <link rel="apple-touch-icon" href="{{ resized_image.url | safe }}">
+    {%- endif -%}
+    {%- endif -%}
+    {%- elif config.extra.favicon_emoji %}
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>{{ config.extra.favicon_emoji }}</text></svg>">
+    {%- endif %}
+
+    {#- Note: `js/auto-close-popover-on-resize.js` and `js/copy-code-to-clipboard.js` -#}
+    {#- are deliberately dropped per CONSTITUTION.md §2 and -#}
+    {#- specs/terminus-compat-contract.md §7 — no JS is shipped for either. The nav -#}
+    {#- collapse itself remains fully functional via the native `popover`/ -#}
+    {#- `popovertarget` attributes in partials/menu.html (no JS involved); the -#}
+    {#- copy-to-clipboard button is simply not rendered (`copy_button` becomes a -#}
+    {#- silent no-op key). -#}
+
+    {#- The theme switcher is the first of three sanctioned JS files -#}
+    {#- (CONSTITUTION.md §2) and always loads — it is no longer gated behind a -#}
+    {#- config key, since terminus's `color_scheme_switcher` key is -#}
+    {#- inert/unused under Tapestry. -#}
+    <script src="{{ get_url(path='js/theme-switcher.js', cachebust=true) }}" defer></script>
+
+    {%- if config_macros::get(setting="katex", default_global_value=false) == "true" %}
+    {#- Client-side KaTeX rendering is the second sanctioned JS file -#}
+    {#- (CONSTITUTION.md §2, amended 2026-07-05) — adopted as-is from terminus, -#}
+    {#- loaded identically to terminus's own `extra.katex` gate. See -#}
+    {#- specs/terminus-compat-contract.md §7 for why this is a JS exception -#}
+    {#- rather than the build-time pre-rendering approach tried first. -#}
+    {#- Preload the two KaTeX fonts that appear in virtually every math expression -#}
+    {#- (upright body + italic). Reduces the critical request chain depth from 3 -#}
+    {#- hops (HTML→katex-swap.css→font) to 2 (HTML→font in parallel with CSS). -#}
+    {#- No cachebust=true: path must stay byte-identical to the src: URL in -#}
+    {#- katex-swap.css @font-face blocks to avoid the browser fetching twice. -#}
+    <link rel="preload" href="{{ get_url(path='fonts/katex/KaTeX_Main-Regular.woff2') }}" as="font" type="font/woff2"
+        crossorigin>
+    <link rel="preload" href="{{ get_url(path='fonts/katex/KaTeX_Math-Italic.woff2') }}" as="font" type="font/woff2"
+        crossorigin>
+    <link rel="stylesheet" href="{{ get_url(path='css/katex-swap.css', cachebust=true) }}">
+    <script src="{{ get_url(path='js/katex.min.js', cachebust=true) }}" defer></script>
+    {%- endif %}
+
+    {%- if config.extra.presentation_style_switcher %}
+    {#- The presentation style/variant switcher is the third sanctioned JS -#}
+    {#- file (CONSTITUTION.md §2, amendment 2026-JUL-05-002) — opt-in via -#}
+    {#- `extra.presentation_style_switcher` (default false). Renders the -#}
+    {#- gear-icon disclosure menu in partials/style-switcher.html. Every -#}
+    {#- variant's self-hosted fonts (CONSTITUTION.md §4) are already -#}
+    {#- unconditionally compiled into style.css, so the switcher only ever -#}
+    {#- flips `data-style`/`data-variant` attributes — it makes no network -#}
+    {#- requests and does not load fonts. -#}
+    <script src="{{ get_url(path='js/presentation-style-switcher.js', cachebust=true) }}" defer></script>
+    {%- endif %}
+
+    {# Canonical and alternate links -#}
+    {% if current_url -%}
+    <link rel="canonical" href="{{ current_url | safe }}">
+    {% endif -%}
+    {%- block translations -%}{%- endblock -%}
+    {%- if config.generate_feeds %}
+    {%- for feed in config.feed_filenames -%}
+    {{ feed_macros::link_alternate(filename=feed, title=config.title) }}
+    {% endfor -%}
+    {%- block feeds -%}{%- endblock -%}
+    {% endif %}
+
+    {#- Standard meta tags -#}
+    {%- if page.authors -%}
+    {%- for author in page.authors %}
+    <meta name="author" content="{{ author }}">
+    {%- endfor -%}
+    {%- elif page and config.author %}
+    <meta name="author" content="{{ config.author }}">
+    {%- endif %}
+    {%- block description -%}
+    {%- if config.description %}
+    <meta name="description" content="{{ config.description }}">
+    {%- endif %}
+    {%- endblock %}
+    {% block robots -%}
+    <meta name="robots" content="index, follow">
+    {%- endblock %}
+    {#- Concrete theme-color value intentionally left neutral: real colour tokens -#}
+    {#- per presentation style/variant are being defined in a parallel SCSS task -#}
+    {#- (see specs/design-tokens-scholarly.md). `color-scheme` is `light dark` -#}
+    {#- since every Tapestry variant ships both modes (CONSTITUTION.md §8). -#}
+    <meta name="color-scheme" content="light dark">
+
+    {# Social media meta tags -#}
+    {#- FIXME: Refactor all of these to blocks/set-blocks when Tera V2 is available. -#}
+    {#- See this GitHub comment: https://github.com/Keats/tera/issues/637#issuecomment-2974769236 -#}
+    {%- if current_path and current_path == "/" -%}
+    {%- set page_title = config.title -%}
+    <meta property="og:title" content="{{ page_title }}">
+    {% elif current_path -%}
+    {%- set page_title = page.title | default(value=section.title | default(value=taxonomy.name | capitalize |
+    default(value=config.title))) -%}
+    <meta property="og:title" content="{{ page_title | replace(from='"', to="&quot;") | replace(from="&", to="&amp;") | safe }}">
+    {% endif -%}
+
+    {% if page -%}
+    <meta property="og:type" content="article">
+    {% else -%}
+    <meta property="og:type" content="website">
+    {% endif -%}
+
+    {%- if page.extra.social_media_image.path or section.extra.social_media_image.path -%}
+    {%- set relative_path = page.extra.social_media_image.path | default(value=section.extra.social_media_image.path) -%}
+    {%- set base_path = page.colocated_path | default(value=section.relative_path | trim_end_matches(pat="_index.md")) -%}
+    {%- set absolute_path = base_path ~ relative_path -%}
+    {%- set image_meta = get_image_metadata(path=absolute_path) -%}
+    {%- set resized_image = resize_image(path=absolute_path, width=1200, height=675, op="fit") -%}
+
+    <meta property="og:image" content="{{ resized_image.url | safe }}">
+    <meta property="og:image:width" content="{{ resized_image.width }}">
+    <meta property="og:image:height" content="{{ resized_image.height }}">
+    <meta property="og:image:type" content="{{ image_meta.mime | safe }}">
+    {% if page.extra.social_media_image.alt_text or section.extra.social_media_image.alt_text -%}
+    {%- set alt_text = page.extra.social_media_image.alt_text | default(value=section.extra.social_media_image.alt_text) -%}
+    <meta property="og:image:alt" content="{{ alt_text | replace(from='"', to=" &quot;") | replace(from="&" ,
+        to="&amp;" ) | safe }}">
+    {% endif -%}
+    <meta name="twitter:card" content="summary_large_image">
+    {% endif -%}
+
+    {%- if current_url -%}
+    {% set permalink = page.permalink | default(value=section.permalink | default(value=current_url)) -%}
+    <meta property="og:url" content="{{ permalink | safe }}">
+    {% endif -%}
+
+    {%- if page.description -%}
+    <meta property="og:description" content="{{ page.description | markdown(inline=true) | striptags }}">
+    {% elif page.summary -%}
+    {%- set inline_summary = page.summary | linebreaksbr | replace(from="<br>", to=" ") | striptags -%}
+    <meta property="og:description" content="{{ inline_summary | trim_end_matches(pat=" .") | replace(from='"' ,
+        to="&quot;" ) | replace(from="&" , to="&amp;" ) | safe }}…">
+    {% elif section.description -%}
+    <meta property="og:description" content="{{ section.description | markdown(inline=true) | striptags }}">
+    {% elif config.description -%}
+    <meta property="og:description" content="{{ config.description }}">
+    {% endif -%}
+    <meta property="og:site_name" content="{{ config.title }}">
+    <meta property="og:updated_time" content="{{ now() }}">
+    {%- if page.date %}
+    <meta property="article:published_time" content="{{ page.date | date(format=" %+") }}">
+    {%- endif -%}
+    {%- if page.updated %}
+    <meta property="article:modified_time" content="{{ page.updated | date(format=" %+") }}">
+    {%- endif -%}
+    {%- if page.taxonomies and page.taxonomies.categories %}
+    <meta property="article:section" content="{{ page.taxonomies.categories[0] }}">
+    {%- endif -%}
+    {%- if page.taxonomies and page.taxonomies.tags %}
+    {%- for tag in page.taxonomies.tags %}
+    <meta property="article:tag" content="{{ tag }}">
+    {%- endfor -%}
+    {%- endif -%}
+    {%- if page.authors %}
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="{{ page.authors | join(sep=" , ") }}">
+    {%- elif page and config.author %}
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="{{ config.author }}">
+    {%- endif -%}
+    {%- if page.reading_time %}
+    <meta name="twitter:label2" content="Reading time">
+    <meta name="twitter:data2" content="{{ page.reading_time ~ " min" | replace(from="0 min" , to="<1 min" ) }}">
+    {%- endif -%}
+    {%- if config.extra.fediverse_creator %}
+    <meta name="fediverse:creator" content="{{ config.extra.fediverse_creator }}">
+    {%- endif -%}
+
+    {%- block head -%}
+    {%- endblock %}
+</head>
+
+{#- Presentation style/variant fallback logic (CONSTITUTION.md §7): -#}
+{#- "scholarly" (5 variants), "creative" (5 variants), "natural" (5 variants), -#}
+{#- "precision" (5 variants), and "collective" (5 variants) are implemented -#}
+{#- so far. An unrecognised `presentation_style` falls back to "scholarly" -#}
+{#- (Tapestry's theme-wide default, including on sites migrating from -#}
+{#- terminus). An unrecognised `presentation_variant`, once a style has been -#}
+{#- resolved, falls back to that style's own default variant: -#}
+{#- "contemporary-research-lab" for scholarly, "editorial-zine" for creative, -#}
+{#- "periodic-table-chemistry" for natural (specs/design-tokens-natural.md), -#}
+{#- "swiss-precision-instrument" for precision -#}
+{#- (specs/design-tokens-precision.md), "cartographers-atlas" for collective -#}
+{#- (specs/design-tokens-collective.md). -#}
+{%- set valid_styles = ["scholarly", "creative", "natural", "precision", "collective"] -%}
+{%- set valid_scholarly_variants = ["classic-ivy", "nordic-minimalist", "dark-academia", "scientific-journal",
+"contemporary-research-lab"] -%}
+{%- set valid_creative_variants = ["bauhaus-studio", "editorial-zine", "watercolor-atelier", "neon-studio",
+"collage-mixed-media"] -%}
+{%- set valid_natural_variants = ["celestial-observatory", "periodic-table-chemistry", "field-notebook",
+"chalkboard-proof", "quantum-circuit"] -%}
+{%- set valid_precision_variants = ["blueprint-drafting", "surgical-precision", "aerospace-materials-lab",
+"biomedical-diagnostics", "swiss-precision-instrument"] -%}
+{%- set valid_collective_variants = ["cartographers-atlas", "ledger-index", "social-network-diagram",
+"agora-classical-philosophy", "strata-geology"] -%}
+{%- set requested_style = config.extra.presentation_style | default(value="scholarly") -%}
+{%- if requested_style in valid_styles -%}
+{%- set resolved_style = requested_style -%}
+{%- else -%}
+{%- set resolved_style = "scholarly" -%}
+{%- endif -%}
+{%- if resolved_style == "creative" -%}
+{%- set requested_variant = config.extra.presentation_variant | default(value="editorial-zine") -%}
+{%- if requested_variant in valid_creative_variants -%}
+{%- set resolved_variant = requested_variant -%}
+{%- else -%}
+{%- set resolved_variant = "editorial-zine" -%}
+{%- endif -%}
+{%- elif resolved_style == "natural" -%}
+{%- set requested_variant = config.extra.presentation_variant | default(value="periodic-table-chemistry") -%}
+{%- if requested_variant in valid_natural_variants -%}
+{%- set resolved_variant = requested_variant -%}
+{%- else -%}
+{%- set resolved_variant = "periodic-table-chemistry" -%}
+{%- endif -%}
+{%- elif resolved_style == "precision" -%}
+{%- set requested_variant = config.extra.presentation_variant | default(value="swiss-precision-instrument") -%}
+{%- if requested_variant in valid_precision_variants -%}
+{%- set resolved_variant = requested_variant -%}
+{%- else -%}
+{%- set resolved_variant = "swiss-precision-instrument" -%}
+{%- endif -%}
+{%- elif resolved_style == "collective" -%}
+{%- set requested_variant = config.extra.presentation_variant | default(value="cartographers-atlas") -%}
+{%- if requested_variant in valid_collective_variants -%}
+{%- set resolved_variant = requested_variant -%}
+{%- else -%}
+{%- set resolved_variant = "cartographers-atlas" -%}
+{%- endif -%}
+{%- else -%}
+{%- set requested_variant = config.extra.presentation_variant | default(value="contemporary-research-lab") -%}
+{%- if requested_variant in valid_scholarly_variants -%}
+{%- set resolved_variant = requested_variant -%}
+{%- else -%}
+{%- set resolved_variant = "contemporary-research-lab" -%}
+{%- endif -%}
+{%- endif -%}
+
+<body class="layout-{{ config.extra.layout }}" data-style="{{ resolved_style }}" data-variant="{{ resolved_variant }}">
+    <header class="header">
+        {% filter indent -%}{%- filter indent -%}
+        {%- block header -%}
+        {% include "partials/header.html" %}
+        {%- endblock -%}
+        {%- endfilter -%}{%- endfilter %}
+    </header>
+    <main id="main" class="grid">
+        {% block main %}{% endblock %}
+    </main>
+    <footer class="footer">
+        {% filter indent -%}{%- filter indent -%}
+        {%- block footer -%}
+        {% include "partials/footer.html" %}
+        {%- endblock -%}
+        {%- endfilter -%}{%- endfilter %}
+    </footer>
+</body>
+
+</html>

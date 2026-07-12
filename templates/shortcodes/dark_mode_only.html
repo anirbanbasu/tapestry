@@ -1,0 +1,6 @@
+{#- Renders its body only while the site is in dark mode (see -#}
+{#- light_mode_only.html for the inverse and for the visibility mechanism). -#}
+
+<div class="colour-mode-only colour-mode-only-dark">
+    {{ body | markdown | safe }}
+</div>

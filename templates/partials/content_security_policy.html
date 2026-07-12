@@ -1,0 +1,53 @@
+{% if config.extra.content_security_policy.enable == true -%}
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'
+    {%- set allowed_domains = [] -%}
+
+    {#- Allow WebSocket protocol if served via `zola serve` -#}
+    {%- if config.mode == " serve" -%} {%- set connect_src=load_data(literal=`{"directive": "connect-src" , "domains" :
+    ["'self'", "ws:" ]}`, format="json" ) -%} {%- set script_src_elem=load_data(literal=`{"directive": "script-src-elem"
+    , "domains" : ["'self'", "'unsafe-inline'" ]}`, format="json" ) -%} {%- set allowed_domains=allowed_domains |
+    concat(with=connect_src) | concat(with=script_src_elem) -%} {%- endif -%} {#- Allow `data:` URL scheme for `img-src`
+    unconditionally: besides the -#} {#- optional emoji-based favicon, the theme's own CSS relies on inline -#} {#-
+    `data:image/svg+xml` icons (the external-link marker in _main.scss and -#} {#- the alert-type icons in _alerts.scss,
+    both loaded as CSS mask images, -#} {#- which are governed by `img-src` just like `<img>`/favicon sources). -#}
+{#- Gating this on `favicon_emoji` left those icons silently invisible -#}
+{#- (and their layout box empty) on any site not using an emoji favicon. -#}
+{%- set img_src = load_data(literal=`{"directive": "img-src", "domains":["'self'", "data:"]}`, format="json") -%}
+{%- set allowed_domains = allowed_domains | concat(with=img_src) -%}
+
+{#- Allow inline `style="..."` attributes unconditionally. Originally this -#}
+{#- was gated on `markdown.highlighting.style == "inline"` (terminus's own -#}
+{#- assumption that inline styles are only ever needed for Zola's syntax- -#}
+{#- highlighting colours) — but Tapestry's own content also legitimately -#}
+{#- uses inline styles for one-off presentational layout (e.g. the -#}
+{#- responsive two-column header pattern and colour-swatch demos in -#}
+{#- content/_index.md, and the presentation_palette shortcode's swatches), -#}
+{#- independent of whichever `markdown.highlighting.style` is configured. -#}
+{#- Switching highlighting to `"class"` (see specs/terminus-compat-contract.md -#}
+{#- §7) silently broke all of those unrelated inline styles by no longer -#}
+{#- matching this condition — allowing `style-src-attr` unconditionally -#}
+{#- avoids that coupling. Inline styles are a much lower injection risk -#}
+{#- than inline scripts (CONSTITUTION.md §2 governs the latter), so this -#}
+{#- is a reasonable standing allowance rather than a narrow, easily- -#}
+{#- broken special case. -#}
+{%- set style_src = load_data(literal=`{"directive": "style-src-attr", "domains": ["'unsafe-inline'"]}`, format="json")
+-%}
+{%- set allowed_domains = allowed_domains | concat(with=style_src) -%}
+
+{%- set extra_domains = config.extra.content_security_policy.allowed_domains -%}
+{%- set allowed_domains = allowed_domains | concat(with=extra_domains) -%}
+
+{%- for directive, entries in allowed_domains | group_by(attribute="directive") -%}
+{%- set_global domains = [] -%}
+
+{%- for entry in entries -%}
+{%- set_global domains = domains | concat(with=entry.domains) | unique -%}
+{%- endfor -%}
+
+{%- set domains = domains | join(sep=" ") -%}
+{%- if domains -%}
+; {{ directive }} {{ domains | safe }}
+{%- endif -%}
+{%- endfor -%}
+">
+{% endif -%}

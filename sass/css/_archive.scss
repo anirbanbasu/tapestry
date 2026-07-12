@@ -1,0 +1,25 @@
+.archive-year {
+  h2 {
+    margin-block-end: 1rem;
+  }
+
+  ul {
+    margin-block-start: 1rem;
+    margin-inline-start: 1.25rem;
+    list-style: none;
+    padding: 0;
+
+    li {
+      &:not(:last-of-type) {
+        margin-bottom: 3px;
+      }
+
+      &::before {
+        content: '⦿';
+        position: absolute;
+        inset-inline-start: -1.25rem;
+        color: var(--colour-accent-primary);
+      }
+    }
+  }
+}

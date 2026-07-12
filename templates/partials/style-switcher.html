@@ -1,0 +1,88 @@
+{#- Presentation style/variant switcher (CONSTITUTION.md §2, amendment -#}
+{#- 2026-JUL-10-001) — opt-in via `config.extra.presentation_style_switcher`. -#}
+{#- Renders a gear button (native popover/popovertarget disclosure, same -#}
+{#- zero-extra-JS mechanism as partials/menu.html) containing a two-level -#}
+{#- grouped accordion: one <details name="style-switcher-group"> per style -#}
+{#- group, each revealing that group's variants. The shared `name` makes the -#}
+{#- groups natively mutually exclusive — no JS involved in that mechanic. -#}
+{#- See specs/presentation-style-switcher.md for the full interaction spec. -#}
+{#- Selecting a variant is handled entirely by -#}
+{#- static/js/presentation-style-switcher.js — this partial only renders the -#}
+{#- button/list/data-*/open/current-class markup it operates on. -#}
+
+{#- `resolved_style`/`resolved_variant` are already computed in base.html -#}
+{#- (CONSTITUTION.md §7 fallback logic) before this partial is included, and -#}
+{#- Tera's `include` inherits the calling template's context — used here to -#}
+{#- auto-expand the visitor's current style group and mark it/its active -#}
+{#- variant as current at build time, so the no-JS default is already -#}
+{#- correct before presentation-style-switcher.js ever runs. -#}
+
+<div class="style-switcher">
+    <button type="button" class="style-switcher-toggle" popovertarget="style-switcher-menu" aria-haspopup="true" aria-label="Choose presentation style and variant">
+        {% filter indent -%}{%- filter indent -%}
+        {% include "partials/icon-gear.svg.html" %}
+        {%- endfilter -%}{%- endfilter %}
+    </button>
+    <ul id="style-switcher-menu" class="style-switcher-menu" aria-label="Presentation style and variant" popover>
+        <li>
+            <details name="style-switcher-group" class="style-switcher-group{% if resolved_style == "scholarly" %} style-switcher-group-current{% endif %}" data-style="scholarly"{% if resolved_style == "scholarly" %} open{% endif %}>
+                <summary>Scholarly</summary>
+                <ul>
+                    <li><button type="button" class="style-switcher-option" data-style="scholarly" data-variant="classic-ivy">Classic Ivy</button></li>
+                    <li><button type="button" class="style-switcher-option" data-style="scholarly" data-variant="nordic-minimalist">Nordic Minimalist</button></li>
+                    <li><button type="button" class="style-switcher-option" data-style="scholarly" data-variant="dark-academia">Dark Academia</button></li>
+                    <li><button type="button" class="style-switcher-option" data-style="scholarly" data-variant="scientific-journal">Scientific Journal</button></li>
+                    <li><button type="button" class="style-switcher-option" data-style="scholarly" data-variant="contemporary-research-lab">Contemporary Research Lab</button></li>
+                </ul>
+            </details>
+        </li>
+        <li>
+            <details name="style-switcher-group" class="style-switcher-group{% if resolved_style == "creative" %} style-switcher-group-current{% endif %}" data-style="creative"{% if resolved_style == "creative" %} open{% endif %}>
+                <summary>Creative</summary>
+                <ul>
+                    <li><button type="button" class="style-switcher-option" data-style="creative" data-variant="bauhaus-studio">Bauhaus Studio</button></li>
+                    <li><button type="button" class="style-switcher-option" data-style="creative" data-variant="editorial-zine">Editorial Zine</button></li>
+                    <li><button type="button" class="style-switcher-option" data-style="creative" data-variant="watercolor-atelier">Watercolor Atelier</button></li>
+                    <li><button type="button" class="style-switcher-option" data-style="creative" data-variant="neon-studio">Neon Studio</button></li>
+                    <li><button type="button" class="style-switcher-option" data-style="creative" data-variant="collage-mixed-media">Collage Mixed Media</button></li>
+                </ul>
+            </details>
+        </li>
+        <li>
+            <details name="style-switcher-group" class="style-switcher-group{% if resolved_style == "natural" %} style-switcher-group-current{% endif %}" data-style="natural"{% if resolved_style == "natural" %} open{% endif %}>
+                <summary>Natural</summary>
+                <ul>
+                    <li><button type="button" class="style-switcher-option" data-style="natural" data-variant="celestial-observatory">Celestial Observatory</button></li>
+                    <li><button type="button" class="style-switcher-option" data-style="natural" data-variant="periodic-table-chemistry">Periodic Table Chemistry</button></li>
+                    <li><button type="button" class="style-switcher-option" data-style="natural" data-variant="field-notebook">Field Notebook</button></li>
+                    <li><button type="button" class="style-switcher-option" data-style="natural" data-variant="chalkboard-proof">Chalkboard Proof</button></li>
+                    <li><button type="button" class="style-switcher-option" data-style="natural" data-variant="quantum-circuit">Quantum Circuit</button></li>
+                </ul>
+            </details>
+        </li>
+        <li>
+            <details name="style-switcher-group" class="style-switcher-group{% if resolved_style == "precision" %} style-switcher-group-current{% endif %}" data-style="precision"{% if resolved_style == "precision" %} open{% endif %}>
+                <summary>Precision</summary>
+                <ul>
+                    <li><button type="button" class="style-switcher-option" data-style="precision" data-variant="blueprint-drafting">Blueprint Drafting</button></li>
+                    <li><button type="button" class="style-switcher-option" data-style="precision" data-variant="surgical-precision">Surgical Precision</button></li>
+                    <li><button type="button" class="style-switcher-option" data-style="precision" data-variant="aerospace-materials-lab">Aerospace Materials Lab</button></li>
+                    <li><button type="button" class="style-switcher-option" data-style="precision" data-variant="biomedical-diagnostics">Biomedical Diagnostics</button></li>
+                    <li><button type="button" class="style-switcher-option" data-style="precision" data-variant="swiss-precision-instrument">Swiss Precision Instrument</button></li>
+                </ul>
+            </details>
+        </li>
+        <li>
+            <details name="style-switcher-group" class="style-switcher-group{% if resolved_style == "collective" %} style-switcher-group-current{% endif %}" data-style="collective"{% if resolved_style == "collective" %} open{% endif %}>
+                <summary>Collective</summary>
+                <ul>
+                    <li><button type="button" class="style-switcher-option" data-style="collective" data-variant="cartographers-atlas">Cartographers Atlas</button></li>
+                    <li><button type="button" class="style-switcher-option" data-style="collective" data-variant="ledger-index">Ledger Index</button></li>
+                    <li><button type="button" class="style-switcher-option" data-style="collective" data-variant="social-network-diagram">Social Network Diagram</button></li>
+                    <li><button type="button" class="style-switcher-option" data-style="collective" data-variant="agora-classical-philosophy">Agora Classical Philosophy</button></li>
+                    <li><button type="button" class="style-switcher-option" data-style="collective" data-variant="strata-geology">Strata Geology</button></li>
+                </ul>
+            </details>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,30 @@
+{%- macro get(setting, default_global_value="") -%}
+    {#- Precedence (most specific wins): page → section → nearest ancestor section → global config. -#}
+    {#- Each level uses an `in` existence check rather than `or` so that an explicit `false` -#}
+    {#- at a more specific level correctly overrides a `true` set further up the tree. -#}
+    {%- if page is defined and setting in page.extra -%}
+        {{- page.extra[setting] -}}
+    {%- elif section is defined and setting in section.extra -%}
+        {{- section.extra[setting] -}}
+    {%- else -%}
+        {%- set_global ancestor_value_ = "" -%}
+        {%- set_global ancestor_found_ = false -%}
+        {%- if page is defined and page.ancestors -%}
+            {%- for ancestor in page.ancestors | reverse -%}
+                {%- set section_data = get_section(path=ancestor, metadata_only=true) -%}
+                {%- if section_data is defined and setting in section_data.extra -%}
+                    {%- set_global ancestor_value_ = section_data.extra[setting] -%}
+                    {%- set_global ancestor_found_ = true -%}
+                    {%- break -%}
+                {%- endif -%}
+            {%- endfor -%}
+        {%- endif -%}
+        {%- if ancestor_found_ -%}
+            {{- ancestor_value_ -}}
+        {%- elif setting in config.extra -%}
+            {{- config.extra[setting] -}}
+        {%- else -%}
+            {{- default_global_value -}}
+        {%- endif -%}
+    {%- endif -%}
+{%- endmacro -%}

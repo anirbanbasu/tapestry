@@ -1,0 +1,16 @@
+ul.taxonomy-list {
+  list-style: none;
+  padding: 0;
+
+  > li {
+    margin-block-end: 1rem;
+  }
+}
+
+.three-column {
+  column-count: 3;
+}
+
+.two-column {
+  column-count: 2;
+}

@@ -1,0 +1,939 @@
+// Design tokens for the "scholarly" presentation style group.
+// Frozen values per specs/design-tokens-scholarly.md — one map entry per variant.
+//
+// Selector contract (see themes/tapestry/templates/base.html and
+// static/js/theme-switcher.js):
+//   - body[data-variant="<name>"]                       -> light-mode baseline
+//   - @media (prefers-color-scheme: dark) body[data-variant="<name>"] -> no-JS dark default
+//   - html[data-color-mode="dark"] body[data-variant="<name>"]        -> explicit JS override
+//   - html[data-color-mode="light"] body[data-variant="<name>"]       -> explicit JS override
+
+$variants: (
+  'classic-ivy': ('font-heading': ('Playfair Display', 'Playfair Display Fallback', Georgia, 'Times New Roman', serif),
+    'font-body': ('Source Serif 4 Classic Ivy', 'Source Serif 4 Fallback', Georgia, Cambria, serif),
+    'font-code': ('IBM Plex Mono', 'SFMono-Regular', Consolas, monospace),
+    'font-size-h1': 2.75rem, 'font-size-h2': 1.85rem, 'font-size-h3': 1.35rem,
+    'font-size-body': 1.125rem, 'font-size-small': 0.875rem,
+    'line-height-heading': 1.15, 'line-height-body': 1.7,
+    'radius-sm': 2px, 'radius-md': 4px,
+    'shadow-sm': (0 1px 2px rgba(20, 33, 44, 0.08)), 'shadow-md': (0 4px 16px rgba(20, 33, 44, 0.12)),
+    'light': ('bg-primary': #faf6ec, 'bg-secondary': #f1ead7, 'text-primary': #1c2b39,
+      'text-heading': #14212c, 'text-muted': #5b5142, 'accent-primary': #7a2231,
+      'accent-secondary': #a8823f, 'border': #ded2b3, 'code-bg': #f1ead7,
+      'syntax-comment': #5b5142, 'syntax-keyword': #7a2231, 'syntax-storage': #7a2231,
+      'syntax-string': #836531, 'syntax-variable': #1c2b39, 'syntax-constant': #836531,
+      'syntax-entity': #7a2231, 'syntax-support': #836531, 'syntax-punctuation': #5b5142,
+    ),
+    'dark': ('bg-primary': #14191f, 'bg-secondary': #1c232b, 'text-primary': #ece4d3,
+      'text-heading': #f5efe0, 'text-muted': #b3a890, 'accent-primary': #e0a5ad,
+      'accent-secondary': #d1ab6c, 'border': #33404d, 'code-bg': #1c232b,
+      'syntax-comment': #b3a890, 'syntax-keyword': #e0a5ad, 'syntax-storage': #e0a5ad,
+      'syntax-string': #d1ab6c, 'syntax-variable': #ece4d3, 'syntax-constant': #d1ab6c,
+      'syntax-entity': #e0a5ad, 'syntax-support': #d1ab6c, 'syntax-punctuation': #b3a890,
+    ),
+  ),
+  'nordic-minimalist': ('font-heading': ('Space Grotesk', 'Space Grotesk Fallback', 'Segoe UI', Helvetica, Arial, sans-serif),
+    'font-body': ('Source Serif 4 Nordic Minimalist', 'Source Serif 4 Fallback', Georgia, Cambria, serif),
+    'font-code': ('JetBrains Mono', 'SFMono-Regular', Consolas, monospace),
+    'font-size-h1': 2.6rem, 'font-size-h2': 1.7rem, 'font-size-h3': 1.25rem,
+    'font-size-body': 1.0625rem, 'font-size-small': 0.85rem,
+    'line-height-heading': 1.1, 'line-height-body': 1.65,
+    'radius-sm': 0px, 'radius-md': 2px,
+    'shadow-sm': none, 'shadow-md': none,
+    'light': ('bg-primary': #f7f8f7, 'bg-secondary': #ecefec, 'text-primary': #20242b,
+      'text-heading': #14171b, 'text-muted': #5c6470, 'accent-primary': #2f5f8f,
+      'accent-secondary': #4b6b4b, 'border': #d5dad5, 'code-bg': #ecefec,
+      'syntax-comment': #5c6470, 'syntax-keyword': #2f5f8f, 'syntax-storage': #2f5f8f,
+      'syntax-string': #4b6b4b, 'syntax-variable': #20242b, 'syntax-constant': #4b6b4b,
+      'syntax-entity': #2f5f8f, 'syntax-support': #4b6b4b, 'syntax-punctuation': #5c6470,
+    ),
+    'dark': ('bg-primary': #14171b, 'bg-secondary': #1c2026, 'text-primary': #e7e9ea,
+      'text-heading': #f4f5f5, 'text-muted': #9aa2ab, 'accent-primary': #8fb4de,
+      'accent-secondary': #9dc09d, 'border': #2c333c, 'code-bg': #1c2026,
+      'syntax-comment': #9aa2ab, 'syntax-keyword': #8fb4de, 'syntax-storage': #8fb4de,
+      'syntax-string': #9dc09d, 'syntax-variable': #e7e9ea, 'syntax-constant': #9dc09d,
+      'syntax-entity': #8fb4de, 'syntax-support': #9dc09d, 'syntax-punctuation': #9aa2ab,
+    ),
+  ),
+  'dark-academia': ('font-heading': ('Cormorant Garamond', 'Cormorant Garamond Fallback', Garamond, Georgia, serif),
+    'font-body': ('EB Garamond', 'EB Garamond Fallback', Garamond, Georgia, serif),
+    'font-code': ('Fira Code', 'SFMono-Regular', Consolas, monospace),
+    'font-size-h1': 3rem, 'font-size-h2': 1.9rem, 'font-size-h3': 1.4rem,
+    'font-size-body': 1.15rem, 'font-size-small': 0.85rem,
+    'line-height-heading': 1.1, 'line-height-body': 1.75,
+    'radius-sm': 2px, 'radius-md': 3px,
+    'shadow-sm': (0 1px 3px rgba(0, 0, 0, 0.25)), 'shadow-md': (0 6px 20px rgba(0, 0, 0, 0.35)),
+    'light': ('bg-primary': #efe6d8, 'bg-secondary': #e5d9c5, 'text-primary': #2a1f1a,
+      'text-heading': #201712, 'text-muted': #6b5c4c, 'accent-primary': #6e2c33,
+      'accent-secondary': #33502f, 'border': #cdbc9f, 'code-bg': #e5d9c5,
+      'syntax-comment': #6b5c4c, 'syntax-keyword': #6e2c33, 'syntax-storage': #6e2c33,
+      'syntax-string': #33502f, 'syntax-variable': #2a1f1a, 'syntax-constant': #33502f,
+      'syntax-entity': #6e2c33, 'syntax-support': #33502f, 'syntax-punctuation': #6b5c4c,
+    ),
+    'dark': ('bg-primary': #1b1512, 'bg-secondary': #241c17, 'text-primary': #ece1cf,
+      'text-heading': #f4ead9, 'text-muted': #a8977e, 'accent-primary': #c98089,
+      'accent-secondary': #86ab82, 'border': #3c322a, 'code-bg': #241c17,
+      'syntax-comment': #a8977e, 'syntax-keyword': #c98089, 'syntax-storage': #c98089,
+      'syntax-string': #86ab82, 'syntax-variable': #ece1cf, 'syntax-constant': #86ab82,
+      'syntax-entity': #c98089, 'syntax-support': #86ab82, 'syntax-punctuation': #a8977e,
+    ),
+  ),
+  'scientific-journal': ('font-heading': (Spectral, 'Spectral Fallback', Georgia, 'Times New Roman', serif),
+    'font-body': ('PT Serif', 'PT Serif Fallback', Georgia, 'Times New Roman', serif),
+    'font-code': ('Source Code Pro', 'SFMono-Regular', Consolas, monospace),
+    'font-size-h1': 2.5rem, 'font-size-h2': 1.6rem, 'font-size-h3': 1.2rem,
+    'font-size-body': 1.0625rem, 'font-size-small': 0.8rem,
+    'line-height-heading': 1.2, 'line-height-body': 1.65,
+    'radius-sm': 3px, 'radius-md': 5px,
+    'shadow-sm': (0 1px 2px rgba(13, 17, 23, 0.08)), 'shadow-md': (0 6px 18px rgba(13, 17, 23, 0.1)),
+    'light': ('bg-primary': #ffffff, 'bg-secondary': #f2f4f7, 'text-primary': #1a1a1a,
+      'text-heading': #0d1117, 'text-muted': #57606a, 'accent-primary': #1449a6,
+      'accent-secondary': #0b6d64, 'border': #d8dee4, 'code-bg': #f2f4f7,
+      'syntax-comment': #57606a, 'syntax-keyword': #1449a6, 'syntax-storage': #1449a6,
+      'syntax-string': #0b6d64, 'syntax-variable': #1a1a1a, 'syntax-constant': #0b6d64,
+      'syntax-entity': #1449a6, 'syntax-support': #0b6d64, 'syntax-punctuation': #57606a,
+    ),
+    'dark': ('bg-primary': #0d1117, 'bg-secondary': #161b22, 'text-primary': #e6edf3,
+      'text-heading': #f4f8fb, 'text-muted': #8b949e, 'accent-primary': #79b1ff,
+      'accent-secondary': #57d9c4, 'border': #30363d, 'code-bg': #161b22,
+      'syntax-comment': #8b949e, 'syntax-keyword': #79b1ff, 'syntax-storage': #79b1ff,
+      'syntax-string': #57d9c4, 'syntax-variable': #e6edf3, 'syntax-constant': #57d9c4,
+      'syntax-entity': #79b1ff, 'syntax-support': #57d9c4, 'syntax-punctuation': #8b949e,
+    ),
+  ),
+  'contemporary-research-lab': ('font-heading': (Fraunces, 'Fraunces Fallback', Georgia, 'Iowan Old Style', serif),
+    'font-body': (Inter, 'Inter Fallback', 'Segoe UI', Helvetica, Arial, sans-serif),
+    'font-code': ('Space Mono', 'SFMono-Regular', Consolas, monospace),
+    'font-size-h1': 2.9rem, 'font-size-h2': 1.75rem, 'font-size-h3': 1.25rem,
+    'font-size-body': 1.0625rem, 'font-size-small': 0.85rem,
+    'line-height-heading': 1.05, 'line-height-body': 1.65,
+    'radius-sm': 6px, 'radius-md': 12px,
+    'shadow-sm': (0 2px 8px rgba(43, 31, 46, 0.08)), 'shadow-md': (0 10px 30px rgba(43, 31, 46, 0.14)),
+    'light': ('bg-primary': #fbfaf8, 'bg-secondary': #f1ede8, 'text-primary': #2b1f2e,
+      'text-heading': #1e1521, 'text-muted': #6d6070, 'accent-primary': #a8481f,
+      'accent-secondary': #1f5c50, 'border': #e2dad2, 'code-bg': #f1ede8,
+      'syntax-comment': #6d6070, 'syntax-keyword': #a8481f, 'syntax-storage': #a8481f,
+      'syntax-string': #1f5c50, 'syntax-variable': #2b1f2e, 'syntax-constant': #1f5c50,
+      'syntax-entity': #a8481f, 'syntax-support': #1f5c50, 'syntax-punctuation': #6d6070,
+    ),
+    'dark': ('bg-primary': #1a1420, 'bg-secondary': #241c2c, 'text-primary': #f1ece9,
+      'text-heading': #faf7f5, 'text-muted': #b6a9b9, 'accent-primary': #e8916b,
+      'accent-secondary': #6cb5a4, 'border': #382d40, 'code-bg': #241c2c,
+      'syntax-comment': #b6a9b9, 'syntax-keyword': #e8916b, 'syntax-storage': #e8916b,
+      'syntax-string': #6cb5a4, 'syntax-variable': #f1ece9, 'syntax-constant': #6cb5a4,
+      'syntax-entity': #e8916b, 'syntax-support': #6cb5a4, 'syntax-punctuation': #b6a9b9,
+    ),
+  ),
+
+  // ─── creative group (specs/design-tokens-creative.md) ────────────────────
+  // Syntax-highlight colours below reuse each variant's own frozen
+  // accent-primary/accent-secondary/text-primary/text-muted tokens, same
+  // mapping formula as every scholarly variant above (keyword/storage/entity
+  // -> accent-primary, string/constant/support -> accent-secondary,
+  // variable -> text-primary, comment/punctuation -> text-muted). Three
+  // slots (marked below) substitute a darkened, syntax-only variant of the
+  // frozen token instead of reusing it verbatim: the frozen value is
+  // verified >=4.5:1 against bg-primary (per specs/design-tokens-creative.md)
+  // but code-bg equals bg-secondary, and for those three combinations the
+  // verbatim token falls just short of 4.5:1 against bg-secondary
+  // specifically. The darkened swap only affects the `--syntax-*` custom
+  // property emitted below — the actual `--colour-accent-secondary`/
+  // `--colour-text-muted` tokens stay exactly as frozen in the spec.
+  'bauhaus-studio': ('font-heading': (Archivo, 'Archivo Fallback', 'Helvetica Neue', Arial, sans-serif),
+    'font-body': ('Work Sans', 'Work Sans Fallback', 'Segoe UI', Helvetica, Arial, sans-serif),
+    'font-code': ('DM Mono', 'SFMono-Regular', Consolas, monospace),
+    'font-size-h1': 3rem, 'font-size-h2': 1.8rem, 'font-size-h3': 1.3rem,
+    'font-size-body': 1.0625rem, 'font-size-small': 0.85rem,
+    'line-height-heading': 1.05, 'line-height-body': 1.6,
+    'radius-sm': 0px, 'radius-md': 0px,
+    'shadow-sm': none, 'shadow-md': (6px 6px 0 rgba(0, 0, 0, 0.15)),
+    'light': ('bg-primary': #ffffff, 'bg-secondary': #f0f0f0, 'text-primary': #111111,
+      'text-heading': #000000, 'text-muted': #555555, 'accent-primary': #c81d25,
+      'accent-secondary': #1b3a8a, 'border': #111111, 'code-bg': #f0f0f0,
+      'syntax-comment': #555555, 'syntax-keyword': #c81d25, 'syntax-storage': #c81d25,
+      'syntax-string': #1b3a8a, 'syntax-variable': #111111, 'syntax-constant': #1b3a8a,
+      'syntax-entity': #c81d25, 'syntax-support': #1b3a8a, 'syntax-punctuation': #555555,
+    ),
+    'dark': ('bg-primary': #121212, 'bg-secondary': #1c1c1c, 'text-primary': #f2f2f2,
+      'text-heading': #ffffff, 'text-muted': #a8a8a8, 'accent-primary': #ff6b6b,
+      'accent-secondary': #6ea8fe, 'border': #f2f2f2, 'code-bg': #1c1c1c,
+      'syntax-comment': #a8a8a8, 'syntax-keyword': #ff6b6b, 'syntax-storage': #ff6b6b,
+      'syntax-string': #6ea8fe, 'syntax-variable': #f2f2f2, 'syntax-constant': #6ea8fe,
+      'syntax-entity': #ff6b6b, 'syntax-support': #6ea8fe, 'syntax-punctuation': #a8a8a8,
+    ),
+  ),
+  'editorial-zine': ('font-heading': (Anton, 'Anton Fallback', 'Arial Narrow', Arial, sans-serif),
+    'font-body': ('Public Sans', 'Public Sans Fallback', 'Segoe UI', Helvetica, Arial, sans-serif),
+    'font-code': ('Courier Prime', 'Courier New', monospace),
+    'font-size-h1': 3.4rem, 'font-size-h2': 1.9rem, 'font-size-h3': 1.3rem,
+    'font-size-body': 1.0625rem, 'font-size-small': 0.85rem,
+    'line-height-heading': 0.95, 'line-height-body': 1.6,
+    'radius-sm': 0px, 'radius-md': 0px,
+    'shadow-sm': none, 'shadow-md': none,
+    'light': ('bg-primary': #fdfdfb, 'bg-secondary': #efeee9, 'text-primary': #111111,
+      'text-heading': #000000, 'text-muted': #555555, 'accent-primary': #c2006e,
+      'accent-secondary': #3f7d20, 'border': #111111, 'code-bg': #efeee9,
+      'pattern-bg-image': "radial-gradient(circle, rgba(0, 0, 0, 0.05) 1px, transparent 1px)",
+      'pattern-bg-size': 8px 8px,
+      'syntax-comment': #555555, 'syntax-keyword': #c2006e, 'syntax-storage': #c2006e,
+      // syntax-only darkened accent-secondary (#3f7d20 is 4.34:1 vs code-bg, below AA)
+      'syntax-string': #38701c, 'syntax-variable': #111111, 'syntax-constant': #38701c,
+      'syntax-entity': #c2006e, 'syntax-support': #38701c, 'syntax-punctuation': #555555,
+    ),
+    'dark': ('bg-primary': #121212, 'bg-secondary': #1d1d1a, 'text-primary': #f5f5f0,
+      'text-heading': #ffffff, 'text-muted': #b0b0a8, 'accent-primary': #ff5fa8,
+      'accent-secondary': #9ee36b, 'border': #f5f5f0, 'code-bg': #1d1d1a,
+      'pattern-bg-image': "radial-gradient(circle, rgba(245, 245, 240, 0.05) 1px, transparent 1px)",
+      'pattern-bg-size': 8px 8px,
+      'syntax-comment': #b0b0a8, 'syntax-keyword': #ff5fa8, 'syntax-storage': #ff5fa8,
+      'syntax-string': #9ee36b, 'syntax-variable': #f5f5f0, 'syntax-constant': #9ee36b,
+      'syntax-entity': #ff5fa8, 'syntax-support': #9ee36b, 'syntax-punctuation': #b0b0a8,
+    ),
+  ),
+  'watercolor-atelier': ('font-heading': ('DM Serif Display', 'DM Serif Display Fallback', Georgia,
+      'Times New Roman', serif),
+    'font-body': (Karla, 'Karla Fallback', 'Segoe UI', Helvetica, Arial, sans-serif),
+    'font-code': ('IBM Plex Mono Watercolor Atelier', 'SFMono-Regular', Consolas, monospace),
+    'font-size-h1': 2.9rem, 'font-size-h2': 1.7rem, 'font-size-h3': 1.25rem,
+    'font-size-body': 1.0625rem, 'font-size-small': 0.85rem,
+    'line-height-heading': 1.15, 'line-height-body': 1.7,
+    'radius-sm': 10px, 'radius-md': 20px,
+    'shadow-sm': (0 2px 10px rgba(59, 42, 53, 0.08)), 'shadow-md': (0 10px 30px rgba(59, 42, 53, 0.12)),
+    'light': ('bg-primary': #fbf3f0, 'bg-secondary': #f3e6e2, 'text-primary': #3b2a35,
+      'text-heading': #2c1f28, 'text-muted': #7a6270, 'accent-primary': #a3475a,
+      'accent-secondary': #3f6355, 'border': #e6d3cd, 'code-bg': #f3e6e2,
+      'syntax-comment': #7a6270, 'syntax-keyword': #a3475a, 'syntax-storage': #a3475a,
+      'syntax-string': #3f6355, 'syntax-variable': #3b2a35, 'syntax-constant': #3f6355,
+      'syntax-entity': #a3475a, 'syntax-support': #3f6355, 'syntax-punctuation': #7a6270,
+    ),
+    'dark': ('bg-primary': #241a20, 'bg-secondary': #2f2229, 'text-primary': #f1e6ea,
+      'text-heading': #f9f0f3, 'text-muted': #c2a9b6, 'accent-primary': #e39aad,
+      'accent-secondary': #8bbfa8, 'border': #423039, 'code-bg': #2f2229,
+      'syntax-comment': #c2a9b6, 'syntax-keyword': #e39aad, 'syntax-storage': #e39aad,
+      'syntax-string': #8bbfa8, 'syntax-variable': #f1e6ea, 'syntax-constant': #8bbfa8,
+      'syntax-entity': #e39aad, 'syntax-support': #8bbfa8, 'syntax-punctuation': #c2a9b6,
+    ),
+  ),
+  'neon-studio': ('font-heading': (Orbitron, 'Orbitron Fallback', 'Segoe UI', Arial, sans-serif),
+    'font-body': (Manrope, 'Manrope Fallback', 'Segoe UI', Helvetica, Arial, sans-serif),
+    'font-code': ('Space Mono Neon Studio', 'SFMono-Regular', Consolas, monospace),
+    'font-size-h1': 2.7rem, 'font-size-h2': 1.6rem, 'font-size-h3': 1.2rem,
+    'font-size-body': 1.0625rem, 'font-size-small': 0.85rem,
+    'line-height-heading': 1.15, 'line-height-body': 1.65,
+    'radius-sm': 4px, 'radius-md': 10px,
+    'shadow-sm': (0 0 12px rgba(176, 21, 138, 0.25)), 'shadow-md': (0 0 28px rgba(176, 21, 138, 0.3)),
+    'light': ('bg-primary': #f5f2fb, 'bg-secondary': #ece5f7, 'text-primary': #241b36,
+      'text-heading': #17102a, 'text-muted': #675a7d, 'accent-primary': #b0158a,
+      'accent-secondary': #0a7a86, 'border': #d9cdec, 'code-bg': #ece5f7,
+      'syntax-comment': #675a7d, 'syntax-keyword': #b0158a, 'syntax-storage': #b0158a,
+      // syntax-only darkened accent-secondary (#0a7a86 is 4.13:1 vs code-bg, below AA)
+      'syntax-string': #096d78, 'syntax-variable': #241b36, 'syntax-constant': #096d78,
+      'syntax-entity': #b0158a, 'syntax-support': #096d78, 'syntax-punctuation': #675a7d,
+    ),
+    'dark': ('bg-primary': #150f24, 'bg-secondary': #1e1533, 'text-primary': #eee6ff,
+      'text-heading': #ffffff, 'text-muted': #b3a3d1, 'accent-primary': #ff6fd8,
+      'accent-secondary': #4de8f0, 'border': #362959, 'code-bg': #1e1533,
+      'syntax-comment': #b3a3d1, 'syntax-keyword': #ff6fd8, 'syntax-storage': #ff6fd8,
+      'syntax-string': #4de8f0, 'syntax-variable': #eee6ff, 'syntax-constant': #4de8f0,
+      'syntax-entity': #ff6fd8, 'syntax-support': #4de8f0, 'syntax-punctuation': #b3a3d1,
+    ),
+  ),
+  'collage-mixed-media': ('font-heading': (Fredoka, 'Fredoka Fallback', 'Segoe UI', Helvetica, Arial, sans-serif),
+    'font-body': (Mulish, 'Mulish Fallback', 'Segoe UI', Helvetica, Arial, sans-serif),
+    'font-code': ('Ubuntu Mono', 'SFMono-Regular', Consolas, monospace),
+    'font-size-h1': 2.6rem, 'font-size-h2': 1.6rem, 'font-size-h3': 1.2rem,
+    'font-size-body': 1.0625rem, 'font-size-small': 0.85rem,
+    'line-height-heading': 1.15, 'line-height-body': 1.65,
+    'radius-sm': 8px, 'radius-md': 16px,
+    'shadow-sm': (0 3px 10px rgba(46, 32, 19, 0.12)), 'shadow-md': (0 10px 24px rgba(46, 32, 19, 0.16)),
+    'light': ('bg-primary': #faf3e7, 'bg-secondary': #f1e6d2, 'text-primary': #2e2013,
+      'text-heading': #201607, 'text-muted': #786751, 'accent-primary': #7d6118,
+      'accent-secondary': #6b3f57, 'border': #e2d2b3, 'code-bg': #f1e6d2,
+      // syntax-only darkened text-muted (#786751 is 4.40:1 vs code-bg, below AA)
+      'syntax-comment': #6c5c48, 'syntax-keyword': #7d6118, 'syntax-storage': #7d6118,
+      'syntax-string': #6b3f57, 'syntax-variable': #2e2013, 'syntax-constant': #6b3f57,
+      'syntax-entity': #7d6118, 'syntax-support': #6b3f57, 'syntax-punctuation': #6c5c48,
+    ),
+    'dark': ('bg-primary': #201812, 'bg-secondary': #2b2018, 'text-primary': #f2e9da,
+      'text-heading': #fbf5e9, 'text-muted': #c2ae90, 'accent-primary': #d9b24c,
+      'accent-secondary': #c98fb0, 'border': #3d3024, 'code-bg': #2b2018,
+      'syntax-comment': #c2ae90, 'syntax-keyword': #d9b24c, 'syntax-storage': #d9b24c,
+      'syntax-string': #c98fb0, 'syntax-variable': #f2e9da, 'syntax-constant': #c98fb0,
+      'syntax-entity': #d9b24c, 'syntax-support': #c98fb0, 'syntax-punctuation': #c2ae90,
+    ),
+  ),
+
+  // ─── natural group (specs/design-tokens-natural.md) ──────────────────────
+  // Same syntax-colour mapping formula as scholarly/creative above. Five
+  // slots (marked below) substitute a darkened, syntax-only variant of the
+  // frozen token — the underlying --colour-accent-secondary/--colour-text-muted/
+  // --colour-accent-primary tokens stay exactly as frozen in the spec; only
+  // the emitted --syntax-* custom property differs.
+  'celestial-observatory': ('font-heading': (Cardo, 'Cardo Fallback', Georgia, 'Times New Roman', serif),
+    'font-body': ('Crimson Pro', 'Crimson Pro Fallback', Georgia, Cambria, serif),
+    'font-code': ('JetBrains Mono Celestial Observatory', 'SFMono-Regular', Consolas, monospace),
+    'font-size-h1': 2.9rem, 'font-size-h2': 1.7rem, 'font-size-h3': 1.25rem,
+    'font-size-body': 1.1rem, 'font-size-small': 0.85rem,
+    'line-height-heading': 1.15, 'line-height-body': 1.7,
+    'radius-sm': 2px, 'radius-md': 4px,
+    'shadow-sm': (0 2px 8px rgba(10, 14, 28, 0.2)), 'shadow-md': (0 8px 24px rgba(10, 14, 28, 0.28)),
+    'light': ('bg-primary': #f7f3e8, 'bg-secondary': #efe8d4, 'text-primary': #1b2440,
+      'text-heading': #10162b, 'text-muted': #7a7458, 'accent-primary': #7d621b,
+      'accent-secondary': #2c4a7c, 'border': #ddd3ae, 'code-bg': #efe8d4,
+      // syntax-only darkened text-muted (#7a7458 is 3.84:1 vs code-bg, below AA)
+      'syntax-comment': #6f6950, 'syntax-keyword': #7d621b, 'syntax-storage': #7d621b,
+      'syntax-string': #2c4a7c, 'syntax-variable': #1b2440, 'syntax-constant': #2c4a7c,
+      'syntax-entity': #7d621b, 'syntax-support': #2c4a7c, 'syntax-punctuation': #6f6950,
+    ),
+    'dark': ('bg-primary': #0a0e1c, 'bg-secondary': #121a30, 'text-primary': #e8e6f0,
+      'text-heading': #ffffff, 'text-muted': #9098b8, 'accent-primary': #d9b968,
+      'accent-secondary': #7fa8e0, 'border': #232c4a, 'code-bg': #121a30,
+      // Starfield is dark-mode only, per the prototype — a night sky has no
+      // light-mode analogue, so this variant's light submap intentionally
+      // omits pattern-bg-image/-size (falls back to none/auto).
+      'pattern-bg-image': "radial-gradient(1.5px 1.5px at 20px 30px, rgba(255, 255, 255, 0.5), transparent), radial-gradient(1px 1px at 90px 70px, rgba(255, 255, 255, 0.4), transparent), radial-gradient(1.5px 1.5px at 160px 20px, rgba(255, 255, 255, 0.4), transparent), radial-gradient(1px 1px at 220px 90px, rgba(255, 255, 255, 0.35), transparent), radial-gradient(1.5px 1.5px at 60px 130px, rgba(255, 255, 255, 0.4), transparent)",
+      'pattern-bg-size': 260px 160px,
+      'syntax-comment': #9098b8, 'syntax-keyword': #d9b968, 'syntax-storage': #d9b968,
+      'syntax-string': #7fa8e0, 'syntax-variable': #e8e6f0, 'syntax-constant': #7fa8e0,
+      'syntax-entity': #d9b968, 'syntax-support': #7fa8e0, 'syntax-punctuation': #9098b8,
+    ),
+  ),
+  'periodic-table-chemistry': ('font-heading': ('Roboto Slab', 'Roboto Slab Fallback', Georgia, 'Times New Roman', serif),
+    'font-body': ('Noto Sans', 'Noto Sans Fallback', 'Segoe UI', Helvetica, Arial, sans-serif),
+    'font-code': ('IBM Plex Mono Periodic Table Chemistry', 'SFMono-Regular', Consolas, monospace),
+    'font-size-h1': 2.6rem, 'font-size-h2': 1.55rem, 'font-size-h3': 1.15rem,
+    'font-size-body': 1.0625rem, 'font-size-small': 0.8rem,
+    'line-height-heading': 1.15, 'line-height-body': 1.65,
+    'radius-sm': 4px, 'radius-md': 6px,
+    'shadow-sm': (0 2px 6px rgba(20, 32, 42, 0.1)), 'shadow-md': (0 8px 20px rgba(20, 32, 42, 0.14)),
+    'light': ('bg-primary': #f5f7f8, 'bg-secondary': #e8edf0, 'text-primary': #14202a,
+      'text-heading': #0c161e, 'text-muted': #55697b, 'accent-primary': #1a5ba8,
+      'accent-secondary': #157a4f, 'border': #cfdbe2, 'code-bg': #e8edf0,
+      'syntax-comment': #55697b, 'syntax-keyword': #1a5ba8, 'syntax-storage': #1a5ba8,
+      'syntax-string': #157a4f, 'syntax-variable': #14202a, 'syntax-constant': #157a4f,
+      'syntax-entity': #1a5ba8, 'syntax-support': #157a4f, 'syntax-punctuation': #55697b,
+    ),
+    'dark': ('bg-primary': #0c1319, 'bg-secondary': #141d24, 'text-primary': #e6eef2,
+      'text-heading': #ffffff, 'text-muted': #93a7b3, 'accent-primary': #6fa8e8,
+      'accent-secondary': #4fd68f, 'border': #23303a, 'code-bg': #141d24,
+      'syntax-comment': #93a7b3, 'syntax-keyword': #6fa8e8, 'syntax-storage': #6fa8e8,
+      'syntax-string': #4fd68f, 'syntax-variable': #e6eef2, 'syntax-constant': #4fd68f,
+      'syntax-entity': #6fa8e8, 'syntax-support': #4fd68f, 'syntax-punctuation': #93a7b3,
+    ),
+  ),
+  'field-notebook': ('font-heading': (Lora, 'Lora Fallback', Georgia, 'Times New Roman', serif),
+    'font-body': (Vollkorn, 'Vollkorn Fallback', Georgia, serif),
+    'font-code': ('IBM Plex Mono Field Notebook', 'SFMono-Regular', Consolas, monospace),
+    'font-size-h1': 2.7rem, 'font-size-h2': 1.6rem, 'font-size-h3': 1.2rem,
+    'font-size-body': 1.0625rem, 'font-size-small': 0.82rem,
+    'line-height-heading': 1.2, 'line-height-body': 1.7,
+    'radius-sm': 3px, 'radius-md': 6px,
+    'shadow-sm': (0 2px 8px rgba(59, 46, 31, 0.12)), 'shadow-md': (0 8px 22px rgba(59, 46, 31, 0.16)),
+    'light': ('bg-primary': #f3ecd9, 'bg-secondary': #e8ddc3, 'text-primary': #3b2e1f,
+      'text-heading': #241a10, 'text-muted': #7a6a4e, 'accent-primary': #3f5c3a,
+      'accent-secondary': #7a4a24, 'border': #d8c9a3, 'code-bg': #e8ddc3,
+      // syntax-only darkened text-muted (#7a6a4e is 3.89:1 vs code-bg, below AA)
+      'syntax-comment': #6f6046, 'syntax-keyword': #3f5c3a, 'syntax-storage': #3f5c3a,
+      'syntax-string': #7a4a24, 'syntax-variable': #3b2e1f, 'syntax-constant': #7a4a24,
+      'syntax-entity': #3f5c3a, 'syntax-support': #7a4a24, 'syntax-punctuation': #6f6046,
+    ),
+    'dark': ('bg-primary': #1c2318, 'bg-secondary': #262f1f, 'text-primary': #ece3cc,
+      'text-heading': #f7f0dc, 'text-muted': #b3a883, 'accent-primary': #8fbf80,
+      'accent-secondary': #d19a5f, 'border': #384730, 'code-bg': #262f1f,
+      'syntax-comment': #b3a883, 'syntax-keyword': #8fbf80, 'syntax-storage': #8fbf80,
+      'syntax-string': #d19a5f, 'syntax-variable': #ece3cc, 'syntax-constant': #d19a5f,
+      'syntax-entity': #8fbf80, 'syntax-support': #d19a5f, 'syntax-punctuation': #b3a883,
+    ),
+  ),
+  'chalkboard-proof': ('font-heading': (Newsreader, 'Newsreader Fallback', Georgia, 'Times New Roman', serif),
+    'font-body': (Literata, 'Literata Fallback', Georgia, serif),
+    'font-code': ('Fira Code Chalkboard Proof', 'SFMono-Regular', Consolas, monospace),
+    'font-size-h1': 2.7rem, 'font-size-h2': 1.6rem, 'font-size-h3': 1.2rem,
+    'font-size-body': 1.0625rem, 'font-size-small': 0.82rem,
+    'line-height-heading': 1.2, 'line-height-body': 1.7,
+    'radius-sm': 2px, 'radius-md': 4px,
+    'shadow-sm': (0 2px 8px rgba(0, 0, 0, 0.2)), 'shadow-md': (0 8px 22px rgba(0, 0, 0, 0.26)),
+    'light': ('bg-primary': #f7f5ef, 'bg-secondary': #ece8dc, 'text-primary': #2a2a28,
+      'text-heading': #16160f, 'text-muted': #6b6b5e, 'accent-primary': #2f5c46,
+      'accent-secondary': #8a6d16, 'border': #ddd7c3, 'code-bg': #ece8dc,
+      // syntax-only darkened text-muted (#6b6b5e is 4.41:1) and accent-secondary
+      // (#8a6d16 is 4.01:1) — both vs code-bg, below AA
+      'syntax-comment': #69695d, 'syntax-keyword': #2f5c46, 'syntax-storage': #2f5c46,
+      'syntax-string': #806514, 'syntax-variable': #2a2a28, 'syntax-constant': #806514,
+      'syntax-entity': #2f5c46, 'syntax-support': #806514, 'syntax-punctuation': #69695d,
+    ),
+    'dark': ('bg-primary': #1b2e22, 'bg-secondary': #24392b, 'text-primary': #f0ede3,
+      'text-heading': #ffffff, 'text-muted': #b7c2ba, 'accent-primary': #e8d67a,
+      'accent-secondary': #9fd8e0, 'border': #325240, 'code-bg': #24392b,
+      // Chalk-dust texture is dark-mode only, per the prototype — this
+      // variant's light submap intentionally omits pattern-bg-image/-size.
+      'pattern-bg-image': "radial-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px)",
+      'pattern-bg-size': 5px 5px,
+      'syntax-comment': #b7c2ba, 'syntax-keyword': #e8d67a, 'syntax-storage': #e8d67a,
+      'syntax-string': #9fd8e0, 'syntax-variable': #f0ede3, 'syntax-constant': #9fd8e0,
+      'syntax-entity': #e8d67a, 'syntax-support': #9fd8e0, 'syntax-punctuation': #b7c2ba,
+    ),
+  ),
+  'quantum-circuit': ('font-heading': (Chivo, 'Chivo Fallback', 'Helvetica Neue', Arial, sans-serif),
+    'font-body': ('Plus Jakarta Sans', 'Plus Jakarta Sans Fallback', 'Segoe UI', Helvetica, Arial, sans-serif),
+    'font-code': ('JetBrains Mono Quantum Circuit', 'SFMono-Regular', Consolas, monospace),
+    'font-size-h1': 2.7rem, 'font-size-h2': 1.55rem, 'font-size-h3': 1.15rem,
+    'font-size-body': 1.0625rem, 'font-size-small': 0.8rem,
+    'line-height-heading': 1.15, 'line-height-body': 1.65,
+    'radius-sm': 4px, 'radius-md': 8px,
+    'shadow-sm': (0 0 10px rgba(163, 21, 126, 0.2)), 'shadow-md': (0 0 24px rgba(163, 21, 126, 0.25)),
+    'light': ('bg-primary': #f5f3fb, 'bg-secondary': #e9e4f6, 'text-primary': #241b3d,
+      'text-heading': #150f28, 'text-muted': #6a5f8a, 'accent-primary': #0a7a86,
+      'accent-secondary': #a3157e, 'border': #d7cdec, 'code-bg': #e9e4f6,
+      'pattern-bg-image': "linear-gradient(var(--colour-border) 1px, transparent 1px)",
+      'pattern-bg-size': 100% 46px,
+      // syntax-only darkened accent-primary (#0a7a86 is 4.08:1 vs code-bg, below AA)
+      'syntax-comment': #6a5f8a, 'syntax-keyword': #09727d, 'syntax-storage': #09727d,
+      'syntax-string': #a3157e, 'syntax-variable': #241b3d, 'syntax-constant': #a3157e,
+      'syntax-entity': #09727d, 'syntax-support': #a3157e, 'syntax-punctuation': #6a5f8a,
+    ),
+    'dark': ('bg-primary': #120c24, 'bg-secondary': #1c1438, 'text-primary': #ece6fa,
+      'text-heading': #ffffff, 'text-muted': #b0a3d6, 'accent-primary': #4de8f0,
+      'accent-secondary': #ef6fd8, 'border': #2e2354, 'code-bg': #1c1438,
+      'pattern-bg-image': "linear-gradient(rgba(77, 232, 240, 0.06) 1px, transparent 1px)",
+      'pattern-bg-size': 100% 46px,
+      'syntax-comment': #b0a3d6, 'syntax-keyword': #4de8f0, 'syntax-storage': #4de8f0,
+      'syntax-string': #ef6fd8, 'syntax-variable': #ece6fa, 'syntax-constant': #ef6fd8,
+      'syntax-entity': #4de8f0, 'syntax-support': #ef6fd8, 'syntax-punctuation': #b0a3d6,
+    ),
+  ),
+
+  // ─── precision group (specs/design-tokens-precision.md) ──────────────────
+  // Same syntax-colour mapping formula as scholarly/creative/natural above.
+  // Font-family tuples reference the disambiguated family names declared in
+  // _fonts.scss for every reused font (IBM Plex Mono, Work Sans) — see that
+  // file's "precision group" section for the collision rationale.
+  'blueprint-drafting': ('font-heading': ('Big Shoulders Display', 'Big Shoulders Display Fallback', 'Arial Narrow', Arial, sans-serif),
+    'font-body': ('IBM Plex Sans', 'IBM Plex Sans Fallback', 'Segoe UI', Helvetica, Arial, sans-serif),
+    'font-code': ('IBM Plex Mono Blueprint Drafting', 'SFMono-Regular', Consolas, monospace),
+    'font-size-h1': 2.9rem, 'font-size-h2': 1.6rem, 'font-size-h3': 1.15rem,
+    'font-size-body': 1.0625rem, 'font-size-small': 0.8rem,
+    'line-height-heading': 1.05, 'line-height-body': 1.6,
+    'radius-sm': 0px, 'radius-md': 2px,
+    'shadow-sm': none, 'shadow-md': none,
+    'light': ('bg-primary': #f5f7fa, 'bg-secondary': #e7edf3, 'text-primary': #1a3a5c,
+      'text-heading': #12293f, 'text-muted': #5c7690, 'accent-primary': #0f5fa8,
+      'accent-secondary': #b8302a, 'border': #cddbe7, 'code-bg': #e7edf3,
+      'pattern-bg-image': "linear-gradient(var(--colour-border) 1px, transparent 1px), linear-gradient(90deg, var(--colour-border) 1px, transparent 1px)",
+      'pattern-bg-size': 24px 24px,
+      // syntax-only darkened text-muted (#5c7690 is 4.00:1 vs code-bg, below AA)
+      'syntax-comment': #556d85, 'syntax-keyword': #0f5fa8, 'syntax-storage': #0f5fa8,
+      'syntax-string': #b8302a, 'syntax-variable': #1a3a5c, 'syntax-constant': #b8302a,
+      'syntax-entity': #0f5fa8, 'syntax-support': #b8302a, 'syntax-punctuation': #556d85,
+    ),
+    'dark': ('bg-primary': #0b2e4a, 'bg-secondary': #123a5c, 'text-primary': #eaf3fb,
+      'text-heading': #ffffff, 'text-muted': #9dbdd6, 'accent-primary': #6fc3e8,
+      'accent-secondary': #e0846b, 'border': #1d4d70, 'code-bg': #123a5c,
+      'pattern-bg-image': "linear-gradient(rgba(111, 195, 232, 0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(111, 195, 232, 0.12) 1px, transparent 1px)",
+      'pattern-bg-size': 24px 24px,
+      // syntax-only lightened accent-secondary (#e0846b is 4.30:1 vs code-bg, below AA)
+      'syntax-comment': #9dbdd6, 'syntax-keyword': #6fc3e8, 'syntax-storage': #6fc3e8,
+      'syntax-string': #e28b74, 'syntax-variable': #eaf3fb, 'syntax-constant': #e28b74,
+      'syntax-entity': #6fc3e8, 'syntax-support': #e28b74, 'syntax-punctuation': #9dbdd6,
+    ),
+  ),
+  'surgical-precision': ('font-heading': ('Barlow Condensed', 'Barlow Condensed Fallback', 'Arial Narrow', Arial, sans-serif),
+    'font-body': (Roboto, 'Roboto Fallback', 'Segoe UI', Helvetica, Arial, sans-serif),
+    'font-code': ('Roboto Mono', 'SFMono-Regular', Consolas, monospace),
+    'font-size-h1': 2.7rem, 'font-size-h2': 1.55rem, 'font-size-h3': 1.15rem,
+    'font-size-body': 1.0625rem, 'font-size-small': 0.8rem,
+    'line-height-heading': 1.1, 'line-height-body': 1.6,
+    'radius-sm': 2px, 'radius-md': 4px,
+    'shadow-sm': (0 1px 3px rgba(13, 20, 22, 0.08)), 'shadow-md': (0 6px 18px rgba(13, 20, 22, 0.1)),
+    'light': ('bg-primary': #f7f9fa, 'bg-secondary': #eef2f3, 'text-primary': #1c2226,
+      'text-heading': #101416, 'text-muted': #5a6a70, 'accent-primary': #0d6e6e,
+      'accent-secondary': #b3123a, 'border': #dbe3e5, 'code-bg': #eef2f3,
+      'syntax-comment': #5a6a70, 'syntax-keyword': #0d6e6e, 'syntax-storage': #0d6e6e,
+      'syntax-string': #b3123a, 'syntax-variable': #1c2226, 'syntax-constant': #b3123a,
+      'syntax-entity': #0d6e6e, 'syntax-support': #b3123a, 'syntax-punctuation': #5a6a70,
+    ),
+    'dark': ('bg-primary': #12171a, 'bg-secondary': #1b2226, 'text-primary': #eef2f3,
+      'text-heading': #ffffff, 'text-muted': #9fb0b5, 'accent-primary': #4fc9c4,
+      'accent-secondary': #ef6f8e, 'border': #2a343a, 'code-bg': #1b2226,
+      'syntax-comment': #9fb0b5, 'syntax-keyword': #4fc9c4, 'syntax-storage': #4fc9c4,
+      'syntax-string': #ef6f8e, 'syntax-variable': #eef2f3, 'syntax-constant': #ef6f8e,
+      'syntax-entity': #4fc9c4, 'syntax-support': #ef6f8e, 'syntax-punctuation': #9fb0b5,
+    ),
+  ),
+  'aerospace-materials-lab': ('font-heading': (Rajdhani, 'Rajdhani Fallback', 'Segoe UI', Arial, sans-serif),
+    'font-body': (Overpass, 'Overpass Fallback', 'Segoe UI', Helvetica, Arial, sans-serif),
+    'font-code': ('Red Hat Mono', 'SFMono-Regular', Consolas, monospace),
+    'font-size-h1': 2.7rem, 'font-size-h2': 1.6rem, 'font-size-h3': 1.2rem,
+    'font-size-body': 1.0625rem, 'font-size-small': 0.8rem,
+    'line-height-heading': 1.1, 'line-height-body': 1.6,
+    'radius-sm': 2px, 'radius-md': 3px,
+    'shadow-sm': (0 2px 6px rgba(0, 0, 0, 0.25)), 'shadow-md': (0 8px 22px rgba(0, 0, 0, 0.3)),
+    'light': ('bg-primary': #ece9e4, 'bg-secondary': #ded9d0, 'text-primary': #201f1d,
+      'text-heading': #141311, 'text-muted': #6b6459, 'accent-primary': #96490a,
+      'accent-secondary': #2b4c6f, 'border': #cec7ba, 'code-bg': #ded9d0,
+      // syntax-only darkened text-muted (#6b6459 is 4.16:1 vs code-bg, below AA)
+      'syntax-comment': #655e54, 'syntax-keyword': #96490a, 'syntax-storage': #96490a,
+      'syntax-string': #2b4c6f, 'syntax-variable': #201f1d, 'syntax-constant': #2b4c6f,
+      'syntax-entity': #96490a, 'syntax-support': #2b4c6f, 'syntax-punctuation': #655e54,
+    ),
+    'dark': ('bg-primary': #17140f, 'bg-secondary': #201c15, 'text-primary': #f2ede4,
+      'text-heading': #fbf7ee, 'text-muted': #b3a894, 'accent-primary': #e8a33d,
+      'accent-secondary': #7fa8c9, 'border': #35301f, 'code-bg': #201c15,
+      'syntax-comment': #b3a894, 'syntax-keyword': #e8a33d, 'syntax-storage': #e8a33d,
+      'syntax-string': #7fa8c9, 'syntax-variable': #f2ede4, 'syntax-constant': #7fa8c9,
+      'syntax-entity': #e8a33d, 'syntax-support': #7fa8c9, 'syntax-punctuation': #b3a894,
+    ),
+  ),
+  'biomedical-diagnostics': ('font-heading': (Sora, 'Sora Fallback', 'Segoe UI', Helvetica, Arial, sans-serif),
+    'font-body': ('Work Sans Biomedical Diagnostics', 'Work Sans Fallback', 'Segoe UI', Helvetica, Arial, sans-serif),
+    'font-code': ('IBM Plex Mono Biomedical Diagnostics', 'SFMono-Regular', Consolas, monospace),
+    'font-size-h1': 2.6rem, 'font-size-h2': 1.55rem, 'font-size-h3': 1.15rem,
+    'font-size-body': 1.0625rem, 'font-size-small': 0.8rem,
+    'line-height-heading': 1.15, 'line-height-body': 1.65,
+    'radius-sm': 6px, 'radius-md': 12px,
+    'shadow-sm': (0 2px 8px rgba(12, 25, 23, 0.08)), 'shadow-md': (0 10px 26px rgba(12, 25, 23, 0.12)),
+    'light': ('bg-primary': #f2f9f7, 'bg-secondary': #e3f1ed, 'text-primary': #17242a,
+      'text-heading': #0e1a1f, 'text-muted': #52716d, 'accent-primary': #0d7d6e,
+      'accent-secondary': #c1473a, 'border': #cfe6df, 'code-bg': #e3f1ed,
+      'pattern-bg-image': "radial-gradient(circle, rgba(13, 125, 110, 0.14) 1.5px, transparent 1.5px)",
+      'pattern-bg-size': 22px 22px,
+      // syntax-only darkened accent-primary (#0d7d6e is 4.33:1) and
+      // accent-secondary (#c1473a is 4.27:1) — both vs code-bg, below AA
+      'syntax-comment': #52716d, 'syntax-keyword': #0c786a, 'syntax-storage': #0c786a,
+      'syntax-string': #b94438, 'syntax-variable': #17242a, 'syntax-constant': #b94438,
+      'syntax-entity': #0c786a, 'syntax-support': #b94438, 'syntax-punctuation': #52716d,
+    ),
+    'dark': ('bg-primary': #0c1917, 'bg-secondary': #12211e, 'text-primary': #e6f5f1,
+      'text-heading': #f5fffb, 'text-muted': #9bc4bb, 'accent-primary': #5fd6c0,
+      'accent-secondary': #ef8672, 'border': #1c332e, 'code-bg': #12211e,
+      'pattern-bg-image': "radial-gradient(circle, rgba(95, 214, 192, 0.14) 1.5px, transparent 1.5px)",
+      'pattern-bg-size': 22px 22px,
+      'syntax-comment': #9bc4bb, 'syntax-keyword': #5fd6c0, 'syntax-storage': #5fd6c0,
+      'syntax-string': #ef8672, 'syntax-variable': #e6f5f1, 'syntax-constant': #ef8672,
+      'syntax-entity': #5fd6c0, 'syntax-support': #ef8672, 'syntax-punctuation': #9bc4bb,
+    ),
+  ),
+  // swiss-precision-instrument (default variant for this group) — heading,
+  // body, and code all use the same single typeface (IBM Plex Mono), per the
+  // corrected spec (specs/design-tokens-precision.md). accent-secondary is
+  // aliased to accent-primary in both modes, per that same correction.
+  'swiss-precision-instrument': ('font-heading': ('IBM Plex Mono Swiss Precision Instrument', 'SFMono-Regular', Consolas, monospace),
+    'font-body': ('IBM Plex Mono Swiss Precision Instrument', 'SFMono-Regular', Consolas, monospace),
+    'font-code': ('IBM Plex Mono Swiss Precision Instrument', 'SFMono-Regular', Consolas, monospace),
+    'font-size-h1': 2.4rem, 'font-size-h2': 1.4rem, 'font-size-h3': 1.05rem,
+    'font-size-body': 1.0625rem, 'font-size-small': 0.78rem,
+    'line-height-heading': 1.15, 'line-height-body': 1.65,
+    'radius-sm': 0px, 'radius-md': 0px,
+    'shadow-sm': none, 'shadow-md': none,
+    'light': ('bg-primary': #ffffff, 'bg-secondary': #f2f2f2, 'text-primary': #121212,
+      'text-heading': #000000, 'text-muted': #6e6e6e, 'accent-primary': #c8102e,
+      'accent-secondary': #c8102e, 'border': #dedede, 'code-bg': #f2f2f2,
+      'syntax-comment': #6e6e6e, 'syntax-keyword': #c8102e, 'syntax-storage': #c8102e,
+      'syntax-string': #c8102e, 'syntax-variable': #121212, 'syntax-constant': #c8102e,
+      'syntax-entity': #c8102e, 'syntax-support': #c8102e, 'syntax-punctuation': #6e6e6e,
+    ),
+    'dark': ('bg-primary': #101010, 'bg-secondary': #1a1a1a, 'text-primary': #f2f2f2,
+      'text-heading': #ffffff, 'text-muted': #9c9c9c, 'accent-primary': #ff3b52,
+      'accent-secondary': #ff3b52, 'border': #2c2c2c, 'code-bg': #1a1a1a,
+      'syntax-comment': #9c9c9c, 'syntax-keyword': #ff3b52, 'syntax-storage': #ff3b52,
+      'syntax-string': #ff3b52, 'syntax-variable': #f2f2f2, 'syntax-constant': #ff3b52,
+      'syntax-entity': #ff3b52, 'syntax-support': #ff3b52, 'syntax-punctuation': #9c9c9c,
+    ),
+  ),
+
+  // ─── collective group (specs/design-tokens-collective.md) ────────────────
+  // Same syntax-colour mapping formula as scholarly/creative/natural/precision
+  // above (keyword/storage/entity -> accent-primary, string/constant/support
+  // -> accent-secondary, variable -> text-primary, comment/punctuation ->
+  // text-muted). Font-family tuples reference the disambiguated family names
+  // declared in _fonts.scss for every reused font (IBM Plex Mono, IBM Plex
+  // Sans, JetBrains Mono, PT Serif, Public Sans) — see that file's
+  // "collective group" section for the collision rationale.
+  'cartographers-atlas': ('font-heading': (Domine, 'Domine Fallback', Georgia, 'Times New Roman', serif),
+    'font-body': ('Noto Serif', 'Noto Serif Fallback', Georgia, serif),
+    'font-code': ('IBM Plex Mono Cartographers Atlas', 'SFMono-Regular', Consolas, monospace),
+    'font-size-h1': 2.7rem, 'font-size-h2': 1.6rem, 'font-size-h3': 1.2rem,
+    'font-size-body': 1.0625rem, 'font-size-small': 0.82rem,
+    'line-height-heading': 1.2, 'line-height-body': 1.7,
+    'radius-sm': 2px, 'radius-md': 4px,
+    'shadow-sm': (0 2px 8px rgba(28, 40, 51, 0.14)), 'shadow-md': (0 8px 22px rgba(28, 40, 51, 0.18)),
+    'light': ('bg-primary': #e8edf0, 'bg-secondary': #dbe3e8, 'text-primary': #1c2833,
+      'text-heading': #12191f, 'text-muted': #556873, 'accent-primary': #245c3f,
+      'accent-secondary': #1f4e73, 'border': #c9d5db, 'code-bg': #dbe3e8,
+      'pattern-bg-image': "repeating-radial-gradient(circle at 15% 20%, transparent 0, transparent 26px, rgba(36, 92, 63, 0.07) 27px, transparent 28px)",
+      // syntax-only darkened text-muted (#556873 is 4.47:1 vs code-bg, below AA)
+      'syntax-comment': #536671, 'syntax-keyword': #245c3f, 'syntax-storage': #245c3f,
+      'syntax-string': #1f4e73, 'syntax-variable': #1c2833, 'syntax-constant': #1f4e73,
+      'syntax-entity': #245c3f, 'syntax-support': #1f4e73, 'syntax-punctuation': #536671,
+    ),
+    'dark': ('bg-primary': #101823, 'bg-secondary': #182430, 'text-primary': #e6edf0,
+      'text-heading': #f5f8fa, 'text-muted': #9aabb8, 'accent-primary': #6fc99a,
+      'accent-secondary': #6fa8d9, 'border': #233242, 'code-bg': #182430,
+      'pattern-bg-image': "repeating-radial-gradient(circle at 15% 20%, transparent 0, transparent 26px, rgba(111, 168, 217, 0.07) 27px, transparent 28px)",
+      'syntax-comment': #9aabb8, 'syntax-keyword': #6fc99a, 'syntax-storage': #6fc99a,
+      'syntax-string': #6fa8d9, 'syntax-variable': #e6edf0, 'syntax-constant': #6fa8d9,
+      'syntax-entity': #6fc99a, 'syntax-support': #6fa8d9, 'syntax-punctuation': #9aabb8,
+    ),
+  ),
+  'ledger-index': ('font-heading': (Bitter, 'Bitter Fallback', Georgia, 'Times New Roman', serif),
+    'font-body': ('IBM Plex Sans Ledger Index', 'IBM Plex Sans Fallback', 'Segoe UI', Helvetica, Arial, sans-serif),
+    'font-code': ('IBM Plex Mono Ledger Index', 'SFMono-Regular', Consolas, monospace),
+    'font-size-h1': 2.6rem, 'font-size-h2': 1.55rem, 'font-size-h3': 1.15rem,
+    'font-size-body': 1.0625rem, 'font-size-small': 0.8rem,
+    'line-height-heading': 1.2, 'line-height-body': 1.6,
+    'radius-sm': 2px, 'radius-md': 4px,
+    'shadow-sm': (0 2px 6px rgba(15, 26, 19, 0.12)), 'shadow-md': (0 8px 20px rgba(15, 26, 19, 0.16)),
+    'light': ('bg-primary': #f8f7f4, 'bg-secondary': #ece8de, 'text-primary': #16211a,
+      'text-heading': #0c140f, 'text-muted': #5c6a5f, 'accent-primary': #8a6817,
+      'accent-secondary': #164d33, 'border': #ddd6c4, 'code-bg': #ece8de,
+      'pattern-bg-image': "linear-gradient(var(--colour-border) 1px, transparent 1px)",
+      'pattern-bg-size': 100% 30px,
+      // syntax-only darkened accent-primary (#8a6817 is 4.21:1 vs code-bg, below AA)
+      'syntax-comment': #5c6a5f, 'syntax-keyword': #826216, 'syntax-storage': #826216,
+      'syntax-string': #164d33, 'syntax-variable': #16211a, 'syntax-constant': #164d33,
+      'syntax-entity': #826216, 'syntax-support': #164d33, 'syntax-punctuation': #5c6a5f,
+    ),
+    'dark': ('bg-primary': #0d1510, 'bg-secondary': #162019, 'text-primary': #eee7d6,
+      'text-heading': #f7f4e6, 'text-muted': #a3ab9a, 'accent-primary': #d9ab52,
+      'accent-secondary': #6fbf94, 'border': #233428, 'code-bg': #162019,
+      'pattern-bg-image': "linear-gradient(rgba(217, 171, 82, 0.09) 1px, transparent 1px)",
+      'pattern-bg-size': 100% 30px,
+      'syntax-comment': #a3ab9a, 'syntax-keyword': #d9ab52, 'syntax-storage': #d9ab52,
+      'syntax-string': #6fbf94, 'syntax-variable': #eee7d6, 'syntax-constant': #6fbf94,
+      'syntax-entity': #d9ab52, 'syntax-support': #6fbf94, 'syntax-punctuation': #a3ab9a,
+    ),
+  ),
+  'social-network-diagram': ('font-heading': (Outfit, 'Outfit Fallback', 'Segoe UI', Helvetica, Arial, sans-serif),
+    'font-body': ('Hanken Grotesk', 'Hanken Grotesk Fallback', 'Segoe UI', Helvetica, Arial, sans-serif),
+    'font-code': ('JetBrains Mono Social Network Diagram', 'SFMono-Regular', Consolas, monospace),
+    'font-size-h1': 2.6rem, 'font-size-h2': 1.5rem, 'font-size-h3': 1.15rem,
+    'font-size-body': 1.0625rem, 'font-size-small': 0.8rem,
+    'line-height-heading': 1.15, 'line-height-body': 1.65,
+    'radius-sm': 6px, 'radius-md': 14px,
+    'shadow-sm': (0 2px 8px rgba(42, 36, 32, 0.1)), 'shadow-md': (0 10px 24px rgba(42, 36, 32, 0.14)),
+    'light': ('bg-primary': #faf6f2, 'bg-secondary': #f0e7dd, 'text-primary': #2a2420,
+      'text-heading': #181410, 'text-muted': #6b5f54, 'accent-primary': #b8472e,
+      'accent-secondary': #1f6b6b, 'border': #e2d4c6, 'code-bg': #f0e7dd,
+      // syntax-only darkened accent-primary (#b8472e is 4.32:1 vs code-bg, below AA)
+      'syntax-comment': #6b5f54, 'syntax-keyword': #b1442c, 'syntax-storage': #b1442c,
+      'syntax-string': #1f6b6b, 'syntax-variable': #2a2420, 'syntax-constant': #1f6b6b,
+      'syntax-entity': #b1442c, 'syntax-support': #1f6b6b, 'syntax-punctuation': #6b5f54,
+    ),
+    'dark': ('bg-primary': #1c1815, 'bg-secondary': #241f1a, 'text-primary': #f2ece4,
+      'text-heading': #fbf7f2, 'text-muted': #b8ac9e, 'accent-primary': #e88a6c,
+      'accent-secondary': #5fc9c4, 'border': #362e26, 'code-bg': #241f1a,
+      'syntax-comment': #b8ac9e, 'syntax-keyword': #e88a6c, 'syntax-storage': #e88a6c,
+      'syntax-string': #5fc9c4, 'syntax-variable': #f2ece4, 'syntax-constant': #5fc9c4,
+      'syntax-entity': #e88a6c, 'syntax-support': #5fc9c4, 'syntax-punctuation': #b8ac9e,
+    ),
+  ),
+  'agora-classical-philosophy': ('font-heading': (Marcellus, 'Marcellus Fallback', Georgia, 'Times New Roman', serif),
+    'font-body': ('PT Serif Agora Classical Philosophy', 'PT Serif Fallback', Georgia, 'Times New Roman', serif),
+    'font-code': ('IBM Plex Mono Agora Classical Philosophy', 'SFMono-Regular', Consolas, monospace),
+    'font-size-h1': 2.7rem, 'font-size-h2': 1.6rem, 'font-size-h3': 1.2rem,
+    'font-size-body': 1.0625rem, 'font-size-small': 0.8rem,
+    'line-height-heading': 1.25, 'line-height-body': 1.7,
+    'radius-sm': 2px, 'radius-md': 4px,
+    'shadow-sm': (0 2px 8px rgba(23, 22, 20, 0.12)), 'shadow-md': (0 8px 20px rgba(23, 22, 20, 0.16)),
+    'light': ('bg-primary': #f2efe9, 'bg-secondary': #e6e0d4, 'text-primary': #2b2a28,
+      'text-heading': #171614, 'text-muted': #6b6862, 'accent-primary': #a8432b,
+      'accent-secondary': #3f6b5c, 'border': #d6cfbf, 'code-bg': #e6e0d4,
+      // syntax-only darkened text-muted (#6b6862 is 4.23:1 vs code-bg, below AA)
+      'syntax-comment': #65625c, 'syntax-keyword': #a8432b, 'syntax-storage': #a8432b,
+      'syntax-string': #3f6b5c, 'syntax-variable': #2b2a28, 'syntax-constant': #3f6b5c,
+      'syntax-entity': #a8432b, 'syntax-support': #3f6b5c, 'syntax-punctuation': #65625c,
+    ),
+    'dark': ('bg-primary': #1c1c1a, 'bg-secondary': #262624, 'text-primary': #ede9e0,
+      'text-heading': #faf7f0, 'text-muted': #b3ada0, 'accent-primary': #d97a5f,
+      'accent-secondary': #7fada0, 'border': #37372f, 'code-bg': #262624,
+      'syntax-comment': #b3ada0, 'syntax-keyword': #d97a5f, 'syntax-storage': #d97a5f,
+      'syntax-string': #7fada0, 'syntax-variable': #ede9e0, 'syntax-constant': #7fada0,
+      'syntax-entity': #d97a5f, 'syntax-support': #7fada0, 'syntax-punctuation': #b3ada0,
+    ),
+  ),
+  // strata-geology (default variant for this group is cartographers-atlas,
+  // not this one — see specs/design-tokens-collective.md's "Default variant
+  // for this group" line). Three light-mode syntax tokens needed darkening;
+  // see comment inline below.
+  'strata-geology': ('font-heading': ('Zilla Slab', 'Zilla Slab Fallback', Georgia, 'Times New Roman', serif),
+    'font-body': ('Public Sans Strata Geology', 'Public Sans Fallback', 'Segoe UI', Helvetica, Arial, sans-serif),
+    'font-code': ('IBM Plex Mono Strata Geology', 'SFMono-Regular', Consolas, monospace),
+    'font-size-h1': 2.7rem, 'font-size-h2': 1.6rem, 'font-size-h3': 1.2rem,
+    'font-size-body': 1.0625rem, 'font-size-small': 0.8rem,
+    'line-height-heading': 1.15, 'line-height-body': 1.65,
+    'radius-sm': 2px, 'radius-md': 4px,
+    'shadow-sm': (0 2px 8px rgba(46, 36, 24, 0.14)), 'shadow-md': (0 8px 22px rgba(46, 36, 24, 0.18)),
+    'light': ('bg-primary': #e6e0d5, 'bg-secondary': #d9d0be, 'text-primary': #2e2015,
+      'text-heading': #1c130b, 'text-muted': #6b5f4e, 'accent-primary': #9c4318,
+      'accent-secondary': #57616b, 'border': #cfc4ac, 'code-bg': #d9d0be,
+      // syntax-only darkened accent-primary (#9c4318 is 4.25:1), accent-secondary
+      // (#57616b is 4.12:1), and text-muted (#6b5f4e is 4.07:1) — all vs code-bg, below AA
+      'syntax-comment': #625748, 'syntax-keyword': #964017, 'syntax-storage': #964017,
+      'syntax-string': #525b65, 'syntax-variable': #2e2015, 'syntax-constant': #525b65,
+      'syntax-entity': #964017, 'syntax-support': #525b65, 'syntax-punctuation': #625748,
+    ),
+    'dark': ('bg-primary': #1f160f, 'bg-secondary': #2a2015, 'text-primary': #ece2cf,
+      'text-heading': #f7efdf, 'text-muted': #b3a68f, 'accent-primary': #d98a56,
+      'accent-secondary': #9aa3ab, 'border': #3d301f, 'code-bg': #2a2015,
+      'syntax-comment': #b3a68f, 'syntax-keyword': #d98a56, 'syntax-storage': #d98a56,
+      'syntax-string': #9aa3ab, 'syntax-variable': #ece2cf, 'syntax-constant': #9aa3ab,
+      'syntax-entity': #d98a56, 'syntax-support': #9aa3ab, 'syntax-punctuation': #b3a68f,
+    ),
+  ),
+);
+
+// Space + spacing scale (shared across every scholarly variant, per
+// specs/design-tokens-scholarly.md — identical values in every variant table).
+:root {
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: 4rem;
+
+  // Shared mechanism breakpoints, resolved by the technical spikes
+  // (prototypes/spikes/), applied uniformly across every group/variant.
+  --breakpoint-grid: 1024px;
+  --breakpoint-nav: 860px;
+
+  // Alert semantic colours (light mode default) — accessible against a
+  // near-white/parchment background shared by every scholarly variant's light
+  // mode. Kept mode-scoped (not per-variant) since the semantic hues
+  // (danger=red, tip=green...) don't need to vary by variant, only by mode,
+  // to keep >=4.5:1 contrast against that mode's typical background lightness.
+  --alert-note-border: #57606a;
+  --alert-note-bg: #57606a;
+  --alert-note-code: #6e7781;
+  --alert-tip-border: #1a7f37;
+  --alert-tip-bg: #1a7f37;
+  --alert-tip-code: #2da44e;
+  --alert-info-border: #0969da;
+  --alert-info-bg: #0969da;
+  --alert-info-code: #218bff;
+  --alert-important-border: var(--alert-info-border);
+  --alert-important-bg: var(--alert-info-bg);
+  --alert-important-code: var(--alert-info-code);
+  --alert-warning-border: #9a6700;
+  --alert-warning-bg: #9a6700;
+  --alert-warning-code: #bf8700;
+  --alert-danger-border: #b91c1c;
+  --alert-danger-bg: #b91c1c;
+  --alert-danger-code: #d1242f;
+  --alert-caution-border: var(--alert-danger-border);
+  --alert-caution-bg: var(--alert-danger-bg);
+  --alert-caution-code: var(--alert-danger-code);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --alert-note-border: #9198a1;
+    --alert-note-bg: #9198a1;
+    --alert-note-code: #7d8590;
+    --alert-tip-border: #7ee2b8;
+    --alert-tip-bg: #7ee2b8;
+    --alert-tip-code: #57ab5a;
+    --alert-info-border: #79c0ff;
+    --alert-info-bg: #79c0ff;
+    --alert-info-code: #4493f8;
+    --alert-important-border: var(--alert-info-border);
+    --alert-important-bg: var(--alert-info-bg);
+    --alert-important-code: var(--alert-info-code);
+    --alert-warning-border: #d29922;
+    --alert-warning-bg: #d29922;
+    --alert-warning-code: #bb8009;
+    --alert-danger-border: #ff7b72;
+    --alert-danger-bg: #ff7b72;
+    --alert-danger-code: #ff8182;
+    --alert-caution-border: var(--alert-danger-border);
+    --alert-caution-bg: var(--alert-danger-bg);
+    --alert-caution-code: var(--alert-danger-code);
+  }
+}
+
+html[data-color-mode='dark'] {
+  --alert-note-border: #9198a1;
+  --alert-note-bg: #9198a1;
+  --alert-note-code: #7d8590;
+  --alert-tip-border: #7ee2b8;
+  --alert-tip-bg: #7ee2b8;
+  --alert-tip-code: #57ab5a;
+  --alert-info-border: #79c0ff;
+  --alert-info-bg: #79c0ff;
+  --alert-info-code: #4493f8;
+  --alert-important-border: var(--alert-info-border);
+  --alert-important-bg: var(--alert-info-bg);
+  --alert-important-code: var(--alert-info-code);
+  --alert-warning-border: #d29922;
+  --alert-warning-bg: #d29922;
+  --alert-warning-code: #bb8009;
+  --alert-danger-border: #ff7b72;
+  --alert-danger-bg: #ff7b72;
+  --alert-danger-code: #ff8182;
+  --alert-caution-border: var(--alert-danger-border);
+  --alert-caution-bg: var(--alert-danger-bg);
+  --alert-caution-code: var(--alert-danger-code);
+}
+
+html[data-color-mode='light'] {
+  --alert-note-border: #57606a;
+  --alert-note-bg: #57606a;
+  --alert-note-code: #6e7781;
+  --alert-tip-border: #1a7f37;
+  --alert-tip-bg: #1a7f37;
+  --alert-tip-code: #2da44e;
+  --alert-info-border: #0969da;
+  --alert-info-bg: #0969da;
+  --alert-info-code: #218bff;
+  --alert-important-border: var(--alert-info-border);
+  --alert-important-bg: var(--alert-info-bg);
+  --alert-important-code: var(--alert-info-code);
+  --alert-warning-border: #9a6700;
+  --alert-warning-bg: #9a6700;
+  --alert-warning-code: #bf8700;
+  --alert-danger-border: #b91c1c;
+  --alert-danger-bg: #b91c1c;
+  --alert-danger-code: #d1242f;
+  --alert-caution-border: var(--alert-danger-border);
+  --alert-caution-bg: var(--alert-danger-bg);
+  --alert-caution-code: var(--alert-danger-code);
+}
+
+// Emits the hand-picked, WCAG-AA-verified `.z-*` syntax-highlighting token
+// colours for a given light/dark sub-map (see themes/tapestry/sass/css/_code.scss
+// for the rules that consume these, and specs/terminus-compat-contract.md §7 /
+// CONSTITUTION.md §1 for why these replaced the single baked-in Monokai theme:
+// Zola's `markdown.highlighting` inline/class-theme mechanisms can't adapt
+// per variant or light/dark mode, so token colours are authored here instead,
+// contrast-checked against each variant's own `code-bg`).
+@mixin _syntax-vars($m) {
+  --syntax-comment: #{map-get($m, 'syntax-comment')};
+  --syntax-keyword: #{map-get($m, 'syntax-keyword')};
+  --syntax-storage: #{map-get($m, 'syntax-storage')};
+  --syntax-string: #{map-get($m, 'syntax-string')};
+  --syntax-variable: #{map-get($m, 'syntax-variable')};
+  --syntax-constant: #{map-get($m, 'syntax-constant')};
+  --syntax-entity: #{map-get($m, 'syntax-entity')};
+  --syntax-support: #{map-get($m, 'syntax-support')};
+  --syntax-punctuation: #{map-get($m, 'syntax-punctuation')};
+}
+
+// Emits the optional decorative background-pattern tokens (CONSTITUTION.md
+// §8) for a given light/dark sub-map. Most variants don't define
+// pattern-bg-image/-size at all — map-get returns null for those, and the
+// `if()` fallback resolves to the no-op none/auto pair so the body element
+// still gets valid values either way.
+@mixin _pattern-vars($m) {
+  $img: map-get($m, 'pattern-bg-image');
+  $size: map-get($m, 'pattern-bg-size');
+  --pattern-bg-image: #{if($img, $img, none)};
+  --pattern-bg-size: #{if($size, $size, auto)};
+}
+
+// `quote()` alone doesn't survive `#{}` interpolation below: Dart Sass's
+// interpolation always emits a string's unquoted characters, discarding the
+// internal "quoted" flag `quote()` sets. Concatenating literal `"` characters
+// into the string's own content (not just flagging it as quoted) is the only
+// way the quote marks make it into the compiled CSS.
+@function _font-stack($list) {
+  $out: (
+  );
+
+@each $f in $list {
+  @if type-of($f)=='string' and str-index($f, ' ') {
+    $out: append($out, unquote('"' + $f + '"'), comma);
+  }
+
+  @else {
+    $out: append($out, $f, comma);
+  }
+}
+
+@return $out;
+}
+
+@each $name, $tokens in $variants {
+  body[data-variant='#{$name}'] {
+    --font-family-heading: #{_font-stack(map-get($tokens, 'font-heading'))};
+    --font-family-body: #{_font-stack(map-get($tokens, 'font-body'))};
+    --font-family-code: #{_font-stack(map-get($tokens, 'font-code'))};
+    --font-size-h1: #{map-get($tokens, 'font-size-h1')};
+    --font-size-h2: #{map-get($tokens, 'font-size-h2')};
+    --font-size-h3: #{map-get($tokens, 'font-size-h3')};
+    --font-size-body: #{map-get($tokens, 'font-size-body')};
+    --font-size-small: #{map-get($tokens, 'font-size-small')};
+    --line-height-heading: #{map-get($tokens, 'line-height-heading')};
+    --line-height-body: #{map-get($tokens, 'line-height-body')};
+    --radius-sm: #{map-get($tokens, 'radius-sm')};
+    --radius-md: #{map-get($tokens, 'radius-md')};
+    --shadow-sm: #{map-get($tokens, 'shadow-sm')};
+    --shadow-md: #{map-get($tokens, 'shadow-md')};
+
+    $light: map-get($tokens, 'light');
+    --colour-bg-primary: #{map-get($light, 'bg-primary')};
+    --colour-bg-secondary: #{map-get($light, 'bg-secondary')};
+    --colour-text-primary: #{map-get($light, 'text-primary')};
+    --colour-text-heading: #{map-get($light, 'text-heading')};
+    --colour-text-muted: #{map-get($light, 'text-muted')};
+    --colour-accent-primary: #{map-get($light, 'accent-primary')};
+    --colour-accent-secondary: #{map-get($light, 'accent-secondary')};
+    --colour-border: #{map-get($light, 'border')};
+    --colour-code-bg: #{map-get($light, 'code-bg')};
+    @include _syntax-vars($light);
+    @include _pattern-vars($light);
+
+    // Compatibility aliases consumed by the structural CSS ported from terminus.
+    --accent-color: var(--colour-accent-primary);
+    --background-color: var(--colour-bg-primary);
+    --text-color: var(--colour-text-primary);
+    --footnote-color: var(--colour-text-muted);
+    --radius: var(--radius-md);
+    --font-size: var(--font-size-body);
+    --line-height: var(--line-height-body);
+    --serif-font: var(--font-family-body);
+
+    @media (prefers-color-scheme: dark) {
+      $dark: map-get($tokens, 'dark');
+      --colour-bg-primary: #{map-get($dark, 'bg-primary')};
+      --colour-bg-secondary: #{map-get($dark, 'bg-secondary')};
+      --colour-text-primary: #{map-get($dark, 'text-primary')};
+      --colour-text-heading: #{map-get($dark, 'text-heading')};
+      --colour-text-muted: #{map-get($dark, 'text-muted')};
+      --colour-accent-primary: #{map-get($dark, 'accent-primary')};
+      --colour-accent-secondary: #{map-get($dark, 'accent-secondary')};
+      --colour-border: #{map-get($dark, 'border')};
+      --colour-code-bg: #{map-get($dark, 'code-bg')};
+      @include _syntax-vars($dark);
+      @include _pattern-vars($dark);
+    }
+  }
+
+  html[data-color-mode='dark'] body[data-variant='#{$name}'] {
+    $dark: map-get($tokens, 'dark');
+    --colour-bg-primary: #{map-get($dark, 'bg-primary')};
+    --colour-bg-secondary: #{map-get($dark, 'bg-secondary')};
+    --colour-text-primary: #{map-get($dark, 'text-primary')};
+    --colour-text-heading: #{map-get($dark, 'text-heading')};
+    --colour-text-muted: #{map-get($dark, 'text-muted')};
+    --colour-accent-primary: #{map-get($dark, 'accent-primary')};
+    --colour-accent-secondary: #{map-get($dark, 'accent-secondary')};
+    --colour-border: #{map-get($dark, 'border')};
+    --colour-code-bg: #{map-get($dark, 'code-bg')};
+    @include _syntax-vars($dark);
+    @include _pattern-vars($dark);
+  }
+
+  html[data-color-mode='light'] body[data-variant='#{$name}'] {
+    $light: map-get($tokens, 'light');
+    --colour-bg-primary: #{map-get($light, 'bg-primary')};
+    --colour-bg-secondary: #{map-get($light, 'bg-secondary')};
+    --colour-text-primary: #{map-get($light, 'text-primary')};
+    --colour-text-heading: #{map-get($light, 'text-heading')};
+    --colour-text-muted: #{map-get($light, 'text-muted')};
+    --colour-accent-primary: #{map-get($light, 'accent-primary')};
+    --colour-accent-secondary: #{map-get($light, 'accent-secondary')};
+    --colour-border: #{map-get($light, 'border')};
+    --colour-code-bg: #{map-get($light, 'code-bg')};
+    @include _syntax-vars($light);
+    @include _pattern-vars($light);
+  }
+}

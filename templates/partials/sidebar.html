@@ -1,0 +1,18 @@
+{#- Rendered only when page.html has already determined `show_sidebar` is -#}
+{#- true (see block main in templates/page.html) — this partial shares that -#}
+{#- template's scope, so `has_toc`/`has_custom_sidebar`/`sidebar_setting` are -#}
+{#- already set and don't need recomputing here. -#}
+<aside class="sidebar" aria-label="Page sidebar">
+    {%- if has_custom_sidebar %}
+    {%- set sidebar_content = load_data(path=sidebar_setting, format="plain") %}
+    <div class="sidebar-custom">
+        {{ sidebar_content | markdown | safe }}
+    </div>
+    {%- endif %}
+    {%- if has_toc %}
+    <nav class="sidebar-toc" aria-label="Table of contents">
+        <p class="sidebar-toc-title">On this page</p>
+        {{ self::toc(items=page.toc) }}
+    </nav>
+    {%- endif %}
+</aside>

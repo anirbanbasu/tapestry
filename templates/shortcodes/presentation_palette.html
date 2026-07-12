@@ -1,0 +1,251 @@
+{#- Renders the active presentation style/variant name plus a light+dark -#}
+{#- colour-palette swatch grid, read from config.extra.presentation_style / -#}
+{#- config.extra.presentation_variant — so it always reflects whichever -#}
+{#- group/variant the site is actually configured for, per the same -#}
+{#- fallback rules as templates/base.html (CONSTITUTION.md §7). -#}
+
+{#- Palette hex values are mirrored from the frozen tokens in -#}
+{#- themes/tapestry/sass/css/_variants.scss ($variants Sass map) and -#}
+{#- specs/design-tokens-scholarly.md / specs/design-tokens-creative.md / -#}
+{#- specs/design-tokens-natural.md / specs/design-tokens-precision.md / -#}
+{#- specs/design-tokens-collective.md. -#}
+{#- "scholarly", "creative", "natural", "precision", and "collective" are -#}
+{#- implemented so far; extend this map when other groups land. -#}
+
+{%- set requested_style = config.extra.presentation_style | default(value="scholarly") -%}
+{%- set valid_styles = ["scholarly", "creative", "natural", "precision", "collective"] -%}
+{%- if requested_style in valid_styles -%}
+{%- set resolved_style = requested_style -%}
+{%- else -%}
+{%- set resolved_style = "scholarly" -%}
+{%- endif -%}
+
+{%- set valid_scholarly_variants = ["classic-ivy", "nordic-minimalist", "dark-academia", "scientific-journal",
+"contemporary-research-lab"] -%}
+{%- set valid_creative_variants = ["bauhaus-studio", "editorial-zine", "watercolor-atelier", "neon-studio",
+"collage-mixed-media"] -%}
+{%- set valid_natural_variants = ["celestial-observatory", "periodic-table-chemistry", "field-notebook",
+"chalkboard-proof", "quantum-circuit"] -%}
+{%- set valid_precision_variants = ["blueprint-drafting", "surgical-precision", "aerospace-materials-lab",
+"biomedical-diagnostics", "swiss-precision-instrument"] -%}
+{%- set valid_collective_variants = ["cartographers-atlas", "ledger-index", "social-network-diagram",
+"agora-classical-philosophy", "strata-geology"] -%}
+{%- if resolved_style == "creative" -%}
+{%- set requested_variant = config.extra.presentation_variant | default(value="editorial-zine") -%}
+{%- if requested_variant in valid_creative_variants -%}
+{%- set resolved_variant = requested_variant -%}
+{%- else -%}
+{%- set resolved_variant = "editorial-zine" -%}
+{%- endif -%}
+{%- elif resolved_style == "natural" -%}
+{%- set requested_variant = config.extra.presentation_variant | default(value="periodic-table-chemistry") -%}
+{%- if requested_variant in valid_natural_variants -%}
+{%- set resolved_variant = requested_variant -%}
+{%- else -%}
+{%- set resolved_variant = "periodic-table-chemistry" -%}
+{%- endif -%}
+{%- elif resolved_style == "precision" -%}
+{%- set requested_variant = config.extra.presentation_variant | default(value="swiss-precision-instrument") -%}
+{%- if requested_variant in valid_precision_variants -%}
+{%- set resolved_variant = requested_variant -%}
+{%- else -%}
+{%- set resolved_variant = "swiss-precision-instrument" -%}
+{%- endif -%}
+{%- elif resolved_style == "collective" -%}
+{%- set requested_variant = config.extra.presentation_variant | default(value="cartographers-atlas") -%}
+{%- if requested_variant in valid_collective_variants -%}
+{%- set resolved_variant = requested_variant -%}
+{%- else -%}
+{%- set resolved_variant = "cartographers-atlas" -%}
+{%- endif -%}
+{%- else -%}
+{%- set requested_variant = config.extra.presentation_variant | default(value="contemporary-research-lab") -%}
+{%- if requested_variant in valid_scholarly_variants -%}
+{%- set resolved_variant = requested_variant -%}
+{%- else -%}
+{%- set resolved_variant = "contemporary-research-lab" -%}
+{%- endif -%}
+{%- endif -%}
+
+{#- Tera's `set` tag has no object-literal syntax, so each variant's palette -#}
+{#- is constructed via `load_data(literal=..., format="json")` — the same -#}
+{#- technique already used in partials/content_security_policy.html. -#}
+{%- if resolved_variant == "classic-ivy" -%}
+{%- set light = load_data(literal=`{"bg_primary": "#faf6ec", "text_heading": "#14212c", "accent_primary": "#7a2231",
+"accent_secondary": "#a8823f"}`, format="json") -%}
+{%- set dark = load_data(literal=`{"bg_primary": "#14191f", "text_heading": "#f5efe0", "accent_primary": "#e0a5ad",
+"accent_secondary": "#d1ab6c"}`, format="json") -%}
+{%- elif resolved_variant == "nordic-minimalist" -%}
+{%- set light = load_data(literal=`{"bg_primary": "#f7f8f7", "text_heading": "#14171b", "accent_primary": "#2f5f8f",
+"accent_secondary": "#4b6b4b"}`, format="json") -%}
+{%- set dark = load_data(literal=`{"bg_primary": "#14171b", "text_heading": "#f4f5f5", "accent_primary": "#8fb4de",
+"accent_secondary": "#9dc09d"}`, format="json") -%}
+{%- elif resolved_variant == "dark-academia" -%}
+{%- set light = load_data(literal=`{"bg_primary": "#efe6d8", "text_heading": "#201712", "accent_primary": "#6e2c33",
+"accent_secondary": "#33502f"}`, format="json") -%}
+{%- set dark = load_data(literal=`{"bg_primary": "#1b1512", "text_heading": "#f4ead9", "accent_primary": "#c98089",
+"accent_secondary": "#86ab82"}`, format="json") -%}
+{%- elif resolved_variant == "scientific-journal" -%}
+{%- set light = load_data(literal=`{"bg_primary": "#ffffff", "text_heading": "#0d1117", "accent_primary": "#1449a6",
+"accent_secondary": "#0b6d64"}`, format="json") -%}
+{%- set dark = load_data(literal=`{"bg_primary": "#0d1117", "text_heading": "#f4f8fb", "accent_primary": "#79b1ff",
+"accent_secondary": "#57d9c4"}`, format="json") -%}
+{%- elif resolved_variant == "contemporary-research-lab" -%}
+{%- set light = load_data(literal=`{"bg_primary": "#fbfaf8", "text_heading": "#1e1521", "accent_primary": "#a8481f",
+"accent_secondary": "#1f5c50"}`, format="json") -%}
+{%- set dark = load_data(literal=`{"bg_primary": "#1a1420", "text_heading": "#faf7f5", "accent_primary": "#e8916b",
+"accent_secondary": "#6cb5a4"}`, format="json") -%}
+{%- elif resolved_variant == "bauhaus-studio" -%}
+{%- set light = load_data(literal=`{"bg_primary": "#ffffff", "text_heading": "#000000", "accent_primary": "#c81d25",
+"accent_secondary": "#1b3a8a"}`, format="json") -%}
+{%- set dark = load_data(literal=`{"bg_primary": "#121212", "text_heading": "#ffffff", "accent_primary": "#ff6b6b",
+"accent_secondary": "#6ea8fe"}`, format="json") -%}
+{%- elif resolved_variant == "watercolor-atelier" -%}
+{%- set light = load_data(literal=`{"bg_primary": "#fbf3f0", "text_heading": "#2c1f28", "accent_primary": "#a3475a",
+"accent_secondary": "#3f6355"}`, format="json") -%}
+{%- set dark = load_data(literal=`{"bg_primary": "#241a20", "text_heading": "#f9f0f3", "accent_primary": "#e39aad",
+"accent_secondary": "#8bbfa8"}`, format="json") -%}
+{%- elif resolved_variant == "neon-studio" -%}
+{%- set light = load_data(literal=`{"bg_primary": "#f5f2fb", "text_heading": "#17102a", "accent_primary": "#b0158a",
+"accent_secondary": "#0a7a86"}`, format="json") -%}
+{%- set dark = load_data(literal=`{"bg_primary": "#150f24", "text_heading": "#ffffff", "accent_primary": "#ff6fd8",
+"accent_secondary": "#4de8f0"}`, format="json") -%}
+{%- elif resolved_variant == "collage-mixed-media" -%}
+{%- set light = load_data(literal=`{"bg_primary": "#faf3e7", "text_heading": "#201607", "accent_primary": "#7d6118",
+"accent_secondary": "#6b3f57"}`, format="json") -%}
+{%- set dark = load_data(literal=`{"bg_primary": "#201812", "text_heading": "#fbf5e9", "accent_primary": "#d9b24c",
+"accent_secondary": "#c98fb0"}`, format="json") -%}
+{%- elif resolved_variant == "celestial-observatory" -%}
+{%- set light = load_data(literal=`{"bg_primary": "#f7f3e8", "text_heading": "#10162b", "accent_primary": "#7d621b",
+"accent_secondary": "#2c4a7c"}`, format="json") -%}
+{%- set dark = load_data(literal=`{"bg_primary": "#0a0e1c", "text_heading": "#ffffff", "accent_primary": "#d9b968",
+"accent_secondary": "#7fa8e0"}`, format="json") -%}
+{%- elif resolved_variant == "periodic-table-chemistry" -%}
+{%- set light = load_data(literal=`{"bg_primary": "#f5f7f8", "text_heading": "#0c161e", "accent_primary": "#1a5ba8",
+"accent_secondary": "#157a4f"}`, format="json") -%}
+{%- set dark = load_data(literal=`{"bg_primary": "#0c1319", "text_heading": "#ffffff", "accent_primary": "#6fa8e8",
+"accent_secondary": "#4fd68f"}`, format="json") -%}
+{%- elif resolved_variant == "field-notebook" -%}
+{%- set light = load_data(literal=`{"bg_primary": "#f3ecd9", "text_heading": "#241a10", "accent_primary": "#3f5c3a",
+"accent_secondary": "#7a4a24"}`, format="json") -%}
+{%- set dark = load_data(literal=`{"bg_primary": "#1c2318", "text_heading": "#f7f0dc", "accent_primary": "#8fbf80",
+"accent_secondary": "#d19a5f"}`, format="json") -%}
+{%- elif resolved_variant == "chalkboard-proof" -%}
+{%- set light = load_data(literal=`{"bg_primary": "#f7f5ef", "text_heading": "#16160f", "accent_primary": "#2f5c46",
+"accent_secondary": "#8a6d16"}`, format="json") -%}
+{%- set dark = load_data(literal=`{"bg_primary": "#1b2e22", "text_heading": "#ffffff", "accent_primary": "#e8d67a",
+"accent_secondary": "#9fd8e0"}`, format="json") -%}
+{%- elif resolved_variant == "quantum-circuit" -%}
+{%- set light = load_data(literal=`{"bg_primary": "#f5f3fb", "text_heading": "#150f28", "accent_primary": "#0a7a86",
+"accent_secondary": "#a3157e"}`, format="json") -%}
+{%- set dark = load_data(literal=`{"bg_primary": "#120c24", "text_heading": "#ffffff", "accent_primary": "#4de8f0",
+"accent_secondary": "#ef6fd8"}`, format="json") -%}
+{%- elif resolved_variant == "blueprint-drafting" -%}
+{%- set light = load_data(literal=`{"bg_primary": "#f5f7fa", "text_heading": "#12293f", "accent_primary": "#0f5fa8",
+"accent_secondary": "#b8302a"}`, format="json") -%}
+{%- set dark = load_data(literal=`{"bg_primary": "#0b2e4a", "text_heading": "#ffffff", "accent_primary": "#6fc3e8",
+"accent_secondary": "#e0846b"}`, format="json") -%}
+{%- elif resolved_variant == "surgical-precision" -%}
+{%- set light = load_data(literal=`{"bg_primary": "#f7f9fa", "text_heading": "#101416", "accent_primary": "#0d6e6e",
+"accent_secondary": "#b3123a"}`, format="json") -%}
+{%- set dark = load_data(literal=`{"bg_primary": "#12171a", "text_heading": "#ffffff", "accent_primary": "#4fc9c4",
+"accent_secondary": "#ef6f8e"}`, format="json") -%}
+{%- elif resolved_variant == "aerospace-materials-lab" -%}
+{%- set light = load_data(literal=`{"bg_primary": "#ece9e4", "text_heading": "#141311", "accent_primary": "#96490a",
+"accent_secondary": "#2b4c6f"}`, format="json") -%}
+{%- set dark = load_data(literal=`{"bg_primary": "#17140f", "text_heading": "#fbf7ee", "accent_primary": "#e8a33d",
+"accent_secondary": "#7fa8c9"}`, format="json") -%}
+{%- elif resolved_variant == "biomedical-diagnostics" -%}
+{%- set light = load_data(literal=`{"bg_primary": "#f2f9f7", "text_heading": "#0e1a1f", "accent_primary": "#0d7d6e",
+"accent_secondary": "#c1473a"}`, format="json") -%}
+{%- set dark = load_data(literal=`{"bg_primary": "#0c1917", "text_heading": "#f5fffb", "accent_primary": "#5fd6c0",
+"accent_secondary": "#ef8672"}`, format="json") -%}
+{%- elif resolved_variant == "swiss-precision-instrument" -%}
+{%- set light = load_data(literal=`{"bg_primary": "#ffffff", "text_heading": "#000000", "accent_primary": "#c8102e",
+"accent_secondary": "#c8102e"}`, format="json") -%}
+{%- set dark = load_data(literal=`{"bg_primary": "#101010", "text_heading": "#ffffff", "accent_primary": "#ff3b52",
+"accent_secondary": "#ff3b52"}`, format="json") -%}
+{%- elif resolved_variant == "cartographers-atlas" -%}
+{%- set light = load_data(literal=`{"bg_primary": "#e8edf0", "text_heading": "#12191f", "accent_primary": "#245c3f",
+"accent_secondary": "#1f4e73"}`, format="json") -%}
+{%- set dark = load_data(literal=`{"bg_primary": "#101823", "text_heading": "#f5f8fa", "accent_primary": "#6fc99a",
+"accent_secondary": "#6fa8d9"}`, format="json") -%}
+{%- elif resolved_variant == "ledger-index" -%}
+{%- set light = load_data(literal=`{"bg_primary": "#f8f7f4", "text_heading": "#0c140f", "accent_primary": "#8a6817",
+"accent_secondary": "#164d33"}`, format="json") -%}
+{%- set dark = load_data(literal=`{"bg_primary": "#0d1510", "text_heading": "#f7f4e6", "accent_primary": "#d9ab52",
+"accent_secondary": "#6fbf94"}`, format="json") -%}
+{%- elif resolved_variant == "social-network-diagram" -%}
+{%- set light = load_data(literal=`{"bg_primary": "#faf6f2", "text_heading": "#181410", "accent_primary": "#b8472e",
+"accent_secondary": "#1f6b6b"}`, format="json") -%}
+{%- set dark = load_data(literal=`{"bg_primary": "#1c1815", "text_heading": "#fbf7f2", "accent_primary": "#e88a6c",
+"accent_secondary": "#5fc9c4"}`, format="json") -%}
+{%- elif resolved_variant == "agora-classical-philosophy" -%}
+{%- set light = load_data(literal=`{"bg_primary": "#f2efe9", "text_heading": "#171614", "accent_primary": "#a8432b",
+"accent_secondary": "#3f6b5c"}`, format="json") -%}
+{%- set dark = load_data(literal=`{"bg_primary": "#1c1c1a", "text_heading": "#faf7f0", "accent_primary": "#d97a5f",
+"accent_secondary": "#7fada0"}`, format="json") -%}
+{%- elif resolved_variant == "strata-geology" -%}
+{%- set light = load_data(literal=`{"bg_primary": "#e6e0d5", "text_heading": "#1c130b", "accent_primary": "#9c4318",
+"accent_secondary": "#57616b"}`, format="json") -%}
+{%- set dark = load_data(literal=`{"bg_primary": "#1f160f", "text_heading": "#f7efdf", "accent_primary": "#d98a56",
+"accent_secondary": "#9aa3ab"}`, format="json") -%}
+{%- else -%}
+{#- editorial-zine (creative group default) -#}
+{%- set light = load_data(literal=`{"bg_primary": "#fdfdfb", "text_heading": "#000000", "accent_primary": "#c2006e",
+"accent_secondary": "#3f7d20"}`, format="json") -%}
+{%- set dark = load_data(literal=`{"bg_primary": "#121212", "text_heading": "#ffffff", "accent_primary": "#ff5fa8",
+"accent_secondary": "#9ee36b"}`, format="json") -%}
+{%- endif -%}
+
+{#- `class="presentation-palette*"` and `data-palette-*` hooks below let -#}
+{#- static/js/presentation-style-switcher.js rewrite this section's colours -#}
+{#- AND its style/variant text live when a visitor uses the switcher — see -#}
+{#- that file's PALETTE table, which mirrors the same values as this -#}
+{#- shortcode's light/dark maps above. Without JS (or with the switcher -#}
+{#- disabled), these attributes are inert and this renders exactly as a -#}
+{#- static build-time snapshot, same as before. -#}
+{%- macro swatch(name, token, mode, hex, border) -%}
+<div style="width:88px;" class="presentation-palette-swatch" data-palette-token="{{ token }}"
+    data-palette-mode="{{ mode }}">
+    <div style="height:48px;border-radius:6px;border:1px solid {{ border }};background:{{ hex }};"
+        class="presentation-palette-swatch-color"></div>
+    <small style="display:block;font-size:0.7rem;">{{ name }}<br><span class="presentation-palette-swatch-hex">{{ hex
+            }}</span></small>
+</div>
+{%- endmacro -%}
+
+<div style="margin:2rem 0;" class="presentation-palette" data-palette-style="{{ resolved_style }}"
+    data-palette-variant="{{ resolved_variant }}">
+    <p><strong>Style:</strong> <code class="presentation-palette-style-name">{{ resolved_style }}</code> &middot;
+        <strong>Variant:</strong> <code class="presentation-palette-variant-name">{{ resolved_variant }}</code>
+    </p>
+    <div style="display:flex; flex-wrap:wrap; gap:2rem; margin:1rem 0;">
+        <div style="flex:1 1 240px;">
+            <p style="font-weight:600; margin-bottom:0.5rem;">Light mode</p>
+            <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
+                {{ self::swatch(name="bg-primary", token="bg_primary", mode="light", hex=light.bg_primary,
+                border="rgba(0,0,0,0.15)") }}
+                {{ self::swatch(name="text-heading", token="text_heading", mode="light", hex=light.text_heading,
+                border="rgba(0,0,0,0.15)") }}
+                {{ self::swatch(name="accent-primary", token="accent_primary", mode="light", hex=light.accent_primary,
+                border="rgba(0,0,0,0.15)") }}
+                {{ self::swatch(name="accent-secondary", token="accent_secondary", mode="light",
+                hex=light.accent_secondary, border="rgba(0,0,0,0.15)") }}
+            </div>
+        </div>
+        <div style="flex:1 1 240px;">
+            <p style="font-weight:600; margin-bottom:0.5rem;">Dark mode</p>
+            <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
+                {{ self::swatch(name="bg-primary", token="bg_primary", mode="dark", hex=dark.bg_primary,
+                border="rgba(255,255,255,0.15)") }}
+                {{ self::swatch(name="text-heading", token="text_heading", mode="dark", hex=dark.text_heading,
+                border="rgba(255,255,255,0.15)") }}
+                {{ self::swatch(name="accent-primary", token="accent_primary", mode="dark", hex=dark.accent_primary,
+                border="rgba(255,255,255,0.15)") }}
+                {{ self::swatch(name="accent-secondary", token="accent_secondary", mode="dark",
+                hex=dark.accent_secondary, border="rgba(255,255,255,0.15)") }}
+            </div>
+        </div>
+    </div>
+</div>

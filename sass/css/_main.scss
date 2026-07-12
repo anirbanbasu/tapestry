@@ -1,0 +1,387 @@
+// Adapted from themes/terminus/sass/css/_main.scss: terminus hardcodes a
+// single monospace font and relative type-scale multipliers; Tapestry's
+// scholarly variants each specify serif/sans body+heading fonts and a frozen
+// absolute type scale (specs/design-tokens-scholarly.md), wired via the
+// --font-family-*/--font-size-*/--colour-*/--space-* custom properties from
+// _variants.scss.
+
+$max-layout-width: 1200px;
+
+:root {
+  --external-link-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'%3E%3Cpath d='M11 5h-6v14h14v-6'/%3E%3Cpath d='M13 11l7 -7'/%3E%3Cpath d='M21 3h-6M21 3v6'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+html {
+  box-sizing: border-box;
+  accent-color: var(--accent-color);
+  scrollbar-color: var(--accent-color) transparent;
+
+  @media (prefers-reduced-motion: no-preference) {
+    scroll-behavior: smooth;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-size: var(--font-size);
+  line-height: var(--line-height);
+  background: var(--background-color);
+  // Optional per-variant decorative pattern (CONSTITUTION.md §8) — resolves
+  // to none/auto for variants that don't define one (_variants.scss).
+  background-image: var(--pattern-bg-image);
+  background-size: var(--pattern-bg-size);
+  color: var(--text-color);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  text-size-adjust: 100%;
+
+  &.layout-left,
+  &.layout-center,
+  &.layout-full-width {
+    // Deliberately not a flex container: `.header`/`main.grid`/`.footer` each
+    // independently centre themselves with `max-width: 1200px; margin-inline:
+    // auto`. An element with auto inline margins inside a flex container
+    // suppresses the default cross-axis stretch (shrink-to-fit instead),
+    // which silently collapsed `.header` to its content width — plain block
+    // stacking avoids that footgun entirely and needs no flex here.
+    padding: var(--space-lg) var(--space-xl);
+    min-height: 100vh;
+
+    @media (max-width: 684px) {
+      padding: var(--space-md);
+    }
+  }
+
+  &.layout-full-width {
+    max-width: 100%;
+  }
+}
+
+main {
+  overflow-wrap: break-word;
+
+  a.external:not(:has(img, svg, video, picture, figure))::after {
+    content: '' / '(external link)';
+    display: inline-block;
+    height: 0.8em;
+    width: 0.8em;
+    margin-inline-start: 0.1em;
+    vertical-align: -0.05em;
+    background-color: currentColor;
+    mask: var(--external-link-icon);
+    mask-size: cover;
+  }
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  line-height: var(--line-height-heading);
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  line-height: var(--line-height-heading);
+}
+
+h3 {
+  font-size: var(--font-size-h3);
+  line-height: var(--line-height-heading);
+}
+
+h4,
+h5,
+h6 {
+  font-size: calc(var(--font-size-h3) * 0.85);
+  line-height: var(--line-height-heading);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+img,
+figure,
+video,
+table {
+  margin: var(--space-md) 0;
+}
+
+a {
+  color: var(--accent-color);
+  outline: none;
+
+  &.read-more {
+    text-decoration: none;
+  }
+}
+
+button {
+  position: relative;
+  font: inherit;
+  font-weight: bold;
+  text-decoration: none;
+  text-align: center;
+  align-items: center;
+  background: transparent;
+  color: var(--accent-color);
+  padding: 5px 18px;
+  border: 2px solid var(--accent-color);
+  border-radius: var(--radius);
+  transition: background 0.15s linear;
+  appearance: none;
+  cursor: pointer;
+  outline: none;
+
+  &:hover {
+    background: color-mix(in srgb, var(--accent-color) 15%, transparent);
+  }
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  border-color: var(--accent-color);
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+input {
+  border: 1px solid var(--text-color);
+  border-radius: var(--radius);
+  padding: 10px;
+  background: transparent;
+  color: var(--text-color);
+  appearance: none;
+
+  &[type='checkbox'] {
+    vertical-align: middle;
+    box-shadow: inset 0 0 0 3px var(--background-color);
+
+    &:checked {
+      background: var(--accent-color);
+    }
+  }
+}
+
+img,
+video {
+  display: block;
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+figure {
+  margin: 0 auto;
+  width: fit-content;
+  max-width: 100%;
+
+  img,
+  video {
+    margin: 0 auto;
+  }
+
+  &:not(.mastodon-post) {
+    figcaption {
+      background: var(--colour-bg-secondary);
+      color: var(--colour-text-muted);
+      text-align: center;
+      font-size: var(--font-size-small);
+      margin-top: 5px;
+      padding: 5px 8px;
+      border-radius: 0 0 var(--radius) var(--radius);
+
+      p:first-child {
+        margin: 0;
+      }
+    }
+  }
+}
+
+ul,
+ol {
+  margin-inline-start: 1.5em;
+  padding: 0;
+
+  ul,
+  ol {
+    margin-block: 5px;
+  }
+
+  li {
+    position: relative;
+
+    &::marker {
+      color: var(--accent-color);
+    }
+  }
+}
+
+@mixin preformatted {
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
+  background: var(--colour-code-bg);
+  border: 1px solid var(--colour-border);
+  padding: 1px 6px;
+  margin: 0 2px;
+  font-size: calc(var(--font-size-body) * 0.9);
+  border-radius: var(--radius-sm);
+}
+
+code {
+  @include preformatted;
+
+  color: var(--accent-color);
+
+  code {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+kbd {
+  @include preformatted;
+
+  border-bottom: 3px solid var(--accent-color);
+}
+
+pre {
+  tab-size: 4;
+  background: var(--colour-code-bg);
+  color: var(--text-color);
+  padding: var(--space-sm);
+  font-size: calc(var(--font-size-body) * 0.9) !important;
+  border-radius: var(--radius);
+  border: 1px solid var(--colour-border);
+  direction: ltr;
+
+  code {
+    background: unset;
+    color: unset;
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+}
+
+abbr {
+  position: relative;
+  text-decoration-style: wavy;
+  text-decoration-color: var(--accent-color);
+  cursor: help;
+}
+
+mark {
+  background: color-mix(in srgb, var(--accent-color) 45%, transparent);
+  color: var(--text-color);
+}
+
+blockquote {
+  position: relative;
+  border-inline-start: 3px solid var(--accent-color);
+  margin: 0;
+  padding: var(--space-md);
+  background: var(--colour-bg-secondary);
+  border-radius: 0 var(--radius) var(--radius) 0;
+
+  p:first-child {
+    margin-top: 0;
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+table {
+  border-collapse: collapse;
+  max-width: 100%;
+
+  th,
+  td {
+    border: 1px solid var(--colour-border);
+    padding: 10px;
+  }
+
+  th {
+    color: var(--colour-text-heading);
+    text-align: start;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+}
+
+hr {
+  width: 100%;
+  height: 1px;
+  border: none;
+  background: var(--colour-border);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+details {
+  position: relative;
+  margin: var(--space-md) 0;
+  width: 100%;
+  border: 1px solid var(--colour-border);
+  border-radius: var(--radius);
+
+  >summary {
+    padding: 5px 10px;
+    color: var(--accent-color);
+    cursor: pointer;
+
+    &::marker {
+      content: none;
+    }
+
+    &::before {
+      display: inline-block;
+      content: '';
+      border: 0.35rem solid transparent;
+      border-top-color: var(--accent-color);
+      margin-inline: 0.3em 0.75rem;
+      transform: rotate(-90deg);
+      transition: transform 0.1s ease-out;
+    }
+  }
+
+  &[open]>summary::before {
+    transform: translateY(0.15rem);
+  }
+
+  > :not(img, pre > code, summary) {
+    margin-inline: 15px;
+
+    &:first-of-type {
+      margin-top: 15px;
+    }
+
+    &:last-child {
+      margin-bottom: 15px;
+    }
+  }
+}

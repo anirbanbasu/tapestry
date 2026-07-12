@@ -1,0 +1,62 @@
+// Sidebar (columns 9-12, single-article view only) — content-driven per
+// specs/design-tokens-scholarly.md: an automatic "On this page" TOC and/or
+// custom content from page.extra.sidebar (see templates/partials/sidebar.html).
+
+aside.sidebar {
+  @media (max-width: 1023.98px) {
+    margin-top: var(--space-lg);
+  }
+}
+
+.sidebar-custom {
+  margin-bottom: var(--space-md);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.sidebar-toc {
+  position: sticky;
+  top: var(--space-md);
+  border: 1px solid var(--colour-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--colour-bg-secondary);
+  font-size: var(--font-size-small);
+
+  @media (max-width: 1023.98px) {
+    position: static;
+  }
+}
+
+.sidebar-toc-title {
+  margin: 0 0 var(--space-xs);
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--colour-text-muted);
+}
+
+.sidebar-toc ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  ul {
+    margin-inline-start: var(--space-sm);
+  }
+}
+
+.sidebar-toc a {
+  display: inline-block;
+  padding: 2px 0;
+  color: var(--colour-text-primary);
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--colour-accent-primary);
+    text-decoration: underline;
+  }
+}

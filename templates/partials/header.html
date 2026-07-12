@@ -1,0 +1,23 @@
+<div class="header-container">
+    <span class="header-logo-container">
+        {% filter indent -%}{%- filter indent -%}
+        {% include "partials/logo.html" %}
+        {%- endfilter -%}{%- endfilter %}
+    </span>
+    <div class="header-controls">
+        {%- if config.extra.presentation_style_switcher %}
+        {% filter indent -%}{%- filter indent -%}
+        {% include "partials/style-switcher.html" %}
+        {%- endfilter -%}{%- endfilter %}
+        {%- endif %}
+        <button type="button" class="theme-toggle" data-theme-toggle aria-pressed="false" aria-label="Switch to dark mode">
+            {% filter indent -%}{%- filter indent -%}
+            {% include "partials/icon-sun.svg.html" %}
+            {% include "partials/icon-moon.svg.html" %}
+            {%- endfilter -%}{%- endfilter %}
+        </button>
+    </div>
+</div>
+{% if config.extra.main_menu -%}
+{% include "partials/menu.html" %}
+{%- endif %}

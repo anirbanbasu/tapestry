@@ -1,0 +1,122 @@
+// Note: terminus's `copy_button`/`.copy-button` styling is intentionally
+// omitted — the button is dropped entirely per CONSTITUTION.md §2 and
+// specs/terminus-compat-contract.md §7 (no JS-free clipboard write exists).
+
+// Syntax highlighting: `markdown.highlighting.style = "class"` (config.toml)
+// makes Zola emit `.z-*` token classes instead of baked-in inline colours.
+// Zola's own light_theme/dark_theme mechanism was tried first and rejected —
+// it doesn't reliably respect the configured theme name in this Zola version
+// (always falls back to a fixed github-light/nord pair regardless), and no
+// single theme suits all 5 variants x 2 modes anyway. Token colours below are
+// hand-picked per variant/mode instead (see _variants.scss's `_syntax-vars`
+// mixin and $variants map), each verified >=4.5:1 against that variant's own
+// `--colour-code-bg`. We don't link Zola's auto-generated giallo*.css at all
+// (see .gitignore) — `.z-code`'s own base colour/background is defined here.
+$header-padding-vertical: 6px;
+
+:root {
+  --code-comment: color-mix(in srgb, var(--text-color) 53%, transparent);
+}
+
+.z-code {
+  color: var(--text-color);
+  background-color: var(--colour-code-bg);
+}
+
+.z-comment {
+  color: var(--syntax-comment);
+}
+
+.z-keyword {
+  color: var(--syntax-keyword);
+}
+
+.z-storage {
+  color: var(--syntax-storage);
+}
+
+.z-string {
+  color: var(--syntax-string);
+}
+
+.z-variable {
+  color: var(--syntax-variable);
+}
+
+.z-constant {
+  color: var(--syntax-constant);
+}
+
+.z-entity {
+  color: var(--syntax-entity);
+}
+
+.z-support {
+  color: var(--syntax-support);
+}
+
+.z-punctuation {
+  color: var(--syntax-punctuation);
+}
+
+pre.giallo:not(:has(code[data-lang='plain'])) {
+  display: block;
+  position: relative;
+  padding: 0;
+  overflow-y: hidden;
+  direction: ltr;
+
+  code[data-lang] {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding-bottom: 10px;
+    overflow-x: auto;
+    overscroll-behavior-x: none;
+
+    &::before {
+      content: attr(data-lang);
+      position: sticky;
+      inset-inline-start: 0;
+      width: 100%;
+      padding: $header-padding-vertical 10px;
+      border-bottom: 1px solid var(--colour-border);
+      margin-bottom: 10px;
+      color: var(--code-comment);
+      font-size: calc(var(--font-size-body) * 0.8);
+      text-transform: uppercase;
+      line-height: 21px;
+    }
+
+    &[data-name]::after {
+      content: attr(data-name);
+      position: absolute;
+      inset-inline-end: 0;
+      overflow: hidden;
+      max-width: 60%;
+      padding: $header-padding-vertical 10px;
+      color: var(--code-comment);
+      font-size: calc(var(--font-size-body) * 0.8);
+      line-height: 21px;
+      text-overflow: ellipsis;
+    }
+
+    .giallo-l {
+      min-height: var(--line-height-body);
+      padding-inline: 10px;
+
+      span[style*='background-color'] {
+        background-color: unset !important;
+      }
+    }
+
+    .giallo-ln {
+      display: inline-block;
+      min-width: 2ch;
+      margin-inline-end: 20px;
+      color: var(--code-comment);
+      text-align: end;
+      user-select: none;
+    }
+  }
+}

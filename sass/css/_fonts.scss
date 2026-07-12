@@ -1,0 +1,2360 @@
+// All fonts are self-hosted as WOFF2 files under
+// themes/tapestry/static/fonts/scholarly/<variant>/ (CONSTITUTION.md §4).
+// This file declares the @font-face rules for every scholarly variant and
+// wires the resulting font-family custom properties onto elements.
+
+// Metric-adjusted @font-face fallbacks for CLS reduction.
+// Each declaration wraps a system font with overridden vertical metrics and
+// a size-adjust multiplier to approximate the corresponding Google Font,
+// minimising layout shift when the web font swaps in.
+//
+// Values are calibrated approximations based on published font metrics
+// (ascender/descender tables, UPM). They can be refined with tooling
+// such as fontaine or the @capsizecss/metrics package if a closer
+// match is needed after real-world measurement.
+//
+// Code (monospace) fonts are omitted: monospace fallbacks (SFMono, Consolas)
+// have fixed advance widths that produce negligible layout shift on swap.
+
+// contemporary-research-lab — body: Inter → Arial / Helvetica Neue
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial'), local('Helvetica Neue');
+  size-adjust: 107%;
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
+// contemporary-research-lab — heading: Fraunces → Georgia
+@font-face {
+  font-family: 'Fraunces Fallback';
+  src: local('Georgia');
+  size-adjust: 96%;
+  ascent-override: 88%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
+// classic-ivy — heading: Playfair Display → Georgia
+@font-face {
+  font-family: 'Playfair Display Fallback';
+  src: local('Georgia');
+  size-adjust: 93%;
+  ascent-override: 93%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+}
+
+// classic-ivy + nordic-minimalist — body: Source Serif 4 → Georgia
+@font-face {
+  font-family: 'Source Serif 4 Fallback';
+  src: local('Georgia');
+  size-adjust: 98%;
+  ascent-override: 91%;
+  descent-override: 23%;
+  line-gap-override: 0%;
+}
+
+// nordic-minimalist — heading: Space Grotesk → Arial / Helvetica Neue
+@font-face {
+  font-family: 'Space Grotesk Fallback';
+  src: local('Arial'), local('Helvetica Neue');
+  size-adjust: 101%;
+  ascent-override: 91%;
+  descent-override: 21%;
+  line-gap-override: 0%;
+}
+
+// dark-academia — heading: Cormorant Garamond → Garamond / Georgia
+@font-face {
+  font-family: 'Cormorant Garamond Fallback';
+  src: local('Garamond'), local('Georgia');
+  size-adjust: 97%;
+  ascent-override: 88%;
+  descent-override: 21%;
+  line-gap-override: 0%;
+}
+
+// dark-academia — body: EB Garamond → Garamond / Georgia
+@font-face {
+  font-family: 'EB Garamond Fallback';
+  src: local('Garamond'), local('Georgia');
+  size-adjust: 106%;
+  ascent-override: 88%;
+  descent-override: 20%;
+  line-gap-override: 0%;
+}
+
+// scientific-journal — heading: Spectral → Georgia
+@font-face {
+  font-family: 'Spectral Fallback';
+  src: local('Georgia');
+  size-adjust: 97%;
+  ascent-override: 90%;
+  descent-override: 23%;
+  line-gap-override: 0%;
+}
+
+// scientific-journal — body: PT Serif → Georgia
+@font-face {
+  font-family: 'PT Serif Fallback';
+  src: local('Georgia');
+  size-adjust: 99%;
+  ascent-override: 90%;
+  descent-override: 23%;
+  line-gap-override: 0%;
+}
+
+// Self-hosted fonts for the contemporary-research-lab variant.
+// Latin + latin-ext subsets only. Fraunces and Inter are variable fonts;
+// a single file covers the full weight range used by this variant.
+// All three typefaces are licensed under SIL OFL 1.1.
+//
+// Note: several codepoints (U+0131, U+0152-0153, U+0304, U+0308, U+0329,
+// U+2020) appear in both the latin-ext and latin unicode-range values.
+// This overlap is intentional — it is copied verbatim from the Google Fonts
+// API response and ensures those codepoints are covered regardless of which
+// subset the browser loads first. Do not deduplicate the ranges.
+
+// Fraunces — heading font (weights 600, 900)
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 600 900;
+  font-display: swap;
+  src: url('/fonts/scholarly/contemporary-research-lab/Fraunces-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 600 900;
+  font-display: swap;
+  src: url('/fonts/scholarly/contemporary-research-lab/Fraunces-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Inter — body font (weights 400, 500)
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/scholarly/contemporary-research-lab/Inter-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/scholarly/contemporary-research-lab/Inter-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Space Mono — code font (weight 400 regular)
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/scholarly/contemporary-research-lab/SpaceMono-Regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/scholarly/contemporary-research-lab/SpaceMono-Regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Space Mono — code font (weight 700 bold)
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/scholarly/contemporary-research-lab/SpaceMono-Bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/scholarly/contemporary-research-lab/SpaceMono-Bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// ─── classic-ivy ──────────────────────────────────────────────────────────────
+// Playfair Display — heading font (variable, weights 700–900)
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 700 900;
+  font-display: swap;
+  src: url('/fonts/scholarly/classic-ivy/PlayfairDisplay-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 700 900;
+  font-display: swap;
+  src: url('/fonts/scholarly/classic-ivy/PlayfairDisplay-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Source Serif 4 (Classic Ivy) — body font (variable, weights 400–600)
+@font-face {
+  font-family: 'Source Serif 4 Classic Ivy';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('/fonts/scholarly/classic-ivy/SourceSerif4-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Source Serif 4 Classic Ivy';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('/fonts/scholarly/classic-ivy/SourceSerif4-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// IBM Plex Mono — code font (static weight 400 regular)
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/scholarly/classic-ivy/IBMPlexMono-Regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/scholarly/classic-ivy/IBMPlexMono-Regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// IBM Plex Mono — code font (static weight 500 medium)
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/scholarly/classic-ivy/IBMPlexMono-Medium-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/scholarly/classic-ivy/IBMPlexMono-Medium-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// ─── nordic-minimalist ────────────────────────────────────────────────────────
+// Space Grotesk — heading font (variable, weights 500–700)
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 500 700;
+  font-display: swap;
+  src: url('/fonts/scholarly/nordic-minimalist/SpaceGrotesk-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 500 700;
+  font-display: swap;
+  src: url('/fonts/scholarly/nordic-minimalist/SpaceGrotesk-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Source Serif 4 (Nordic Minimalist) — body font (variable, weights 400–600)
+@font-face {
+  font-family: 'Source Serif 4 Nordic Minimalist';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('/fonts/scholarly/nordic-minimalist/SourceSerif4-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Source Serif 4 Nordic Minimalist';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('/fonts/scholarly/nordic-minimalist/SourceSerif4-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// JetBrains Mono — code font (variable, weights 400–500)
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/scholarly/nordic-minimalist/JetBrainsMono-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/scholarly/nordic-minimalist/JetBrainsMono-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// ─── dark-academia ────────────────────────────────────────────────────────────
+// Cormorant Garamond — heading font (variable, weights 600–700)
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 600 700;
+  font-display: swap;
+  src: url('/fonts/scholarly/dark-academia/CormorantGaramond-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 600 700;
+  font-display: swap;
+  src: url('/fonts/scholarly/dark-academia/CormorantGaramond-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// EB Garamond — body font (variable, weights 400–500)
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/scholarly/dark-academia/EBGaramond-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/scholarly/dark-academia/EBGaramond-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Fira Code — code font (variable, weights 400–500)
+@font-face {
+  font-family: 'Fira Code';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/scholarly/dark-academia/FiraCode-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Fira Code';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/scholarly/dark-academia/FiraCode-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// ─── scientific-journal ───────────────────────────────────────────────────────
+// Spectral — heading font (static weights 600 and 700)
+@font-face {
+  font-family: 'Spectral';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/scholarly/scientific-journal/Spectral-SemiBold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Spectral';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/scholarly/scientific-journal/Spectral-SemiBold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Spectral';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/scholarly/scientific-journal/Spectral-Bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Spectral';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/scholarly/scientific-journal/Spectral-Bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// PT Serif — body font (static weights 400 and 700)
+@font-face {
+  font-family: 'PT Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/scholarly/scientific-journal/PTSerif-Regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'PT Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/scholarly/scientific-journal/PTSerif-Regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'PT Serif';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/scholarly/scientific-journal/PTSerif-Bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'PT Serif';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/scholarly/scientific-journal/PTSerif-Bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Source Code Pro — code font (variable, weights 400–500)
+@font-face {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/scholarly/scientific-journal/SourceCodePro-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/scholarly/scientific-journal/SourceCodePro-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Self-hosted fonts for the "creative" presentation style group
+// (specs/design-tokens-creative.md). Same self-hosting/latin+latin-ext/
+// font-display: swap rules as the scholarly group above. Fallback metrics
+// below were derived with the @capsizecss/metrics database (capHeight-ratio
+// size-adjust, ascent/descent/line-gap expressed as a percentage of the
+// webfont's own unitsPerEm and rescaled by that size-adjust) — the same
+// tooling-based approach CONSTITUTION.md §4 calls out as an acceptable way
+// to refine these "calibrated approximations". Code/monospace fallbacks are
+// omitted for the same reason as scholarly: fixed-advance-width monospace
+// fallbacks produce negligible CLS on swap.
+
+// bauhaus-studio — heading: Archivo → Helvetica Neue / Arial
+@font-face {
+  font-family: 'Archivo Fallback';
+  src: local('Helvetica Neue'), local('Arial');
+  size-adjust: 95.6%;
+  ascent-override: 91.8%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
+// bauhaus-studio — body: Work Sans → Segoe UI
+@font-face {
+  font-family: 'Work Sans Fallback';
+  src: local('Segoe UI'), local('Helvetica'), local('Arial');
+  size-adjust: 94.3%;
+  ascent-override: 98.7%;
+  descent-override: 25.8%;
+  line-gap-override: 0%;
+}
+
+// editorial-zine — heading: Anton → Arial Narrow / Arial (capsize has no
+// "Arial Narrow" entry; sized against Arial, whose vertical metrics Arial
+// Narrow shares — only the horizontal proportions differ between the two)
+@font-face {
+  font-family: 'Anton Fallback';
+  src: local('Arial Narrow'), local('Arial');
+  size-adjust: 120%;
+  ascent-override: 98%;
+  descent-override: 27.4%;
+  line-gap-override: 0%;
+}
+
+// editorial-zine — body: Public Sans → Segoe UI
+@font-face {
+  font-family: 'Public Sans Fallback';
+  src: local('Segoe UI'), local('Helvetica'), local('Arial');
+  size-adjust: 103.3%;
+  ascent-override: 92%;
+  descent-override: 21.8%;
+  line-gap-override: 0%;
+}
+
+// watercolor-atelier — heading: DM Serif Display → Georgia
+@font-face {
+  font-family: 'DM Serif Display Fallback';
+  src: local('Georgia');
+  size-adjust: 95.3%;
+  ascent-override: 108.8%;
+  descent-override: 35.2%;
+  line-gap-override: 0%;
+}
+
+// watercolor-atelier — body: Karla → Segoe UI
+@font-face {
+  font-family: 'Karla Fallback';
+  src: local('Segoe UI'), local('Helvetica'), local('Arial');
+  size-adjust: 89.7%;
+  ascent-override: 102.2%;
+  descent-override: 28.1%;
+  line-gap-override: 0%;
+}
+
+// neon-studio — heading: Orbitron → Segoe UI / Arial
+@font-face {
+  font-family: 'Orbitron Fallback';
+  src: local('Segoe UI'), local('Arial');
+  size-adjust: 102.8%;
+  ascent-override: 98.3%;
+  descent-override: 23.6%;
+  line-gap-override: 0%;
+}
+
+// neon-studio — body: Manrope → Segoe UI
+@font-face {
+  font-family: 'Manrope Fallback';
+  src: local('Segoe UI'), local('Helvetica'), local('Arial');
+  size-adjust: 102.8%;
+  ascent-override: 103.7%;
+  descent-override: 29.2%;
+  line-gap-override: 0%;
+}
+
+// collage-mixed-media — heading: Fredoka → Segoe UI
+@font-face {
+  font-family: 'Fredoka Fallback';
+  src: local('Segoe UI'), local('Helvetica'), local('Arial');
+  size-adjust: 100%;
+  ascent-override: 97.4%;
+  descent-override: 23.6%;
+  line-gap-override: 0%;
+}
+
+// collage-mixed-media — body: Mulish → Segoe UI
+@font-face {
+  font-family: 'Mulish Fallback';
+  src: local('Segoe UI'), local('Helvetica'), local('Arial');
+  size-adjust: 100.7%;
+  ascent-override: 99.8%;
+  descent-override: 24.8%;
+  line-gap-override: 0%;
+}
+
+// ─── bauhaus-studio ───────────────────────────────────────────────────────────
+// Archivo — heading font (variable, weights 700–900)
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 700 900;
+  font-display: swap;
+  src: url('/fonts/creative/bauhaus-studio/Archivo-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 700 900;
+  font-display: swap;
+  src: url('/fonts/creative/bauhaus-studio/Archivo-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Work Sans — body font (variable, weights 400–500)
+@font-face {
+  font-family: 'Work Sans';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/creative/bauhaus-studio/WorkSans-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Work Sans';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/creative/bauhaus-studio/WorkSans-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// DM Mono — code font (static weight 400 regular)
+@font-face {
+  font-family: 'DM Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/creative/bauhaus-studio/DMMono-Regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'DM Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/creative/bauhaus-studio/DMMono-Regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// DM Mono — code font (static weight 500 medium)
+@font-face {
+  font-family: 'DM Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/creative/bauhaus-studio/DMMono-Medium-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'DM Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/creative/bauhaus-studio/DMMono-Medium-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// ─── editorial-zine ───────────────────────────────────────────────────────────
+// Anton — heading font (static weight 400, single weight)
+@font-face {
+  font-family: 'Anton';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/creative/editorial-zine/Anton-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Anton';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/creative/editorial-zine/Anton-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Public Sans — body font (variable, weights 400–700)
+@font-face {
+  font-family: 'Public Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/creative/editorial-zine/PublicSans-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Public Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/creative/editorial-zine/PublicSans-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Courier Prime — code font (static weight 400 regular)
+@font-face {
+  font-family: 'Courier Prime';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/creative/editorial-zine/CourierPrime-Regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Courier Prime';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/creative/editorial-zine/CourierPrime-Regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Courier Prime — code font (static weight 700 bold)
+@font-face {
+  font-family: 'Courier Prime';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/creative/editorial-zine/CourierPrime-Bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Courier Prime';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/creative/editorial-zine/CourierPrime-Bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// ─── watercolor-atelier ───────────────────────────────────────────────────────
+// DM Serif Display — heading font (static weight 400, single weight)
+@font-face {
+  font-family: 'DM Serif Display';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/creative/watercolor-atelier/DMSerifDisplay-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'DM Serif Display';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/creative/watercolor-atelier/DMSerifDisplay-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Karla — body font (variable, weights 400–500)
+@font-face {
+  font-family: 'Karla';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/creative/watercolor-atelier/Karla-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Karla';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/creative/watercolor-atelier/Karla-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// IBM Plex Mono (Watercolor Atelier) — code font (static weight 400 regular).
+// Font-family name is disambiguated from scholarly/classic-ivy's own "IBM
+// Plex Mono" declaration (same upstream typeface, but self-hosted under this
+// group's own fonts/creative/watercolor-atelier/ path per CONSTITUTION.md
+// §4 — mirrors how scholarly disambiguates "Source Serif 4 Classic Ivy" vs
+// "Source Serif 4 Nordic Minimalist" above).
+@font-face {
+  font-family: 'IBM Plex Mono Watercolor Atelier';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/creative/watercolor-atelier/IBMPlexMono-Regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Watercolor Atelier';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/creative/watercolor-atelier/IBMPlexMono-Regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// IBM Plex Mono (Watercolor Atelier) — code font (static weight 500 medium)
+@font-face {
+  font-family: 'IBM Plex Mono Watercolor Atelier';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/creative/watercolor-atelier/IBMPlexMono-Medium-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Watercolor Atelier';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/creative/watercolor-atelier/IBMPlexMono-Medium-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// ─── neon-studio ──────────────────────────────────────────────────────────────
+// Orbitron — heading font (variable, weights 700–900). Google Fonts ships no
+// latin-ext subset for Orbitron at all (upstream limitation, not a Tapestry
+// omission) — only the latin block exists to vendor.
+@font-face {
+  font-family: 'Orbitron';
+  font-style: normal;
+  font-weight: 700 900;
+  font-display: swap;
+  src: url('/fonts/creative/neon-studio/Orbitron-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Manrope — body font (variable, weights 400–500)
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/creative/neon-studio/Manrope-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/creative/neon-studio/Manrope-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Space Mono (Neon Studio) — code font (static weight 400 regular). Font-
+// family name disambiguated from scholarly/contemporary-research-lab's own
+// "Space Mono" declaration, same rationale as IBM Plex Mono above.
+@font-face {
+  font-family: 'Space Mono Neon Studio';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/creative/neon-studio/SpaceMono-Regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Space Mono Neon Studio';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/creative/neon-studio/SpaceMono-Regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Space Mono (Neon Studio) — code font (static weight 700 bold)
+@font-face {
+  font-family: 'Space Mono Neon Studio';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/creative/neon-studio/SpaceMono-Bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Space Mono Neon Studio';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/creative/neon-studio/SpaceMono-Bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// ─── collage-mixed-media ──────────────────────────────────────────────────────
+// Fredoka — heading font (variable, weights 500–700)
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 500 700;
+  font-display: swap;
+  src: url('/fonts/creative/collage-mixed-media/Fredoka-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 500 700;
+  font-display: swap;
+  src: url('/fonts/creative/collage-mixed-media/Fredoka-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Mulish — body font (variable, weights 400–500)
+@font-face {
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/creative/collage-mixed-media/Mulish-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/creative/collage-mixed-media/Mulish-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Ubuntu Mono — code font (static weight 400 regular)
+@font-face {
+  font-family: 'Ubuntu Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/creative/collage-mixed-media/UbuntuMono-Regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Ubuntu Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/creative/collage-mixed-media/UbuntuMono-Regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Ubuntu Mono — code font (static weight 700 bold)
+@font-face {
+  font-family: 'Ubuntu Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/creative/collage-mixed-media/UbuntuMono-Bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Ubuntu Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/creative/collage-mixed-media/UbuntuMono-Bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// ─── natural group (specs/design-tokens-natural.md) ───────────────────────
+// Same self-hosting/latin+latin-ext/font-display: swap rules and syntax-
+// colour mapping formula as scholarly/creative above. Metric-adjusted
+// fallbacks below follow the same calibrated-approximation methodology as
+// the scholarly/creative fallback blocks (top of file / line ~475) — code
+// fonts omitted from fallbacks for the same reason (fixed-advance-width
+// monospace has negligible layout shift on swap).
+
+// celestial-observatory — heading: Cardo → Georgia
+@font-face {
+  font-family: 'Cardo Fallback';
+  src: local('Georgia'), local('Times New Roman');
+  size-adjust: 99%;
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
+// celestial-observatory — body: Crimson Pro → Georgia / Cambria
+@font-face {
+  font-family: 'Crimson Pro Fallback';
+  src: local('Georgia'), local('Cambria');
+  size-adjust: 97%;
+  ascent-override: 89%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
+// periodic-table-chemistry — heading: Roboto Slab → Georgia
+@font-face {
+  font-family: 'Roboto Slab Fallback';
+  src: local('Georgia'), local('Times New Roman');
+  size-adjust: 100%;
+  ascent-override: 92%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+}
+
+// periodic-table-chemistry — body: Noto Sans → Segoe UI / Helvetica Neue / Arial
+@font-face {
+  font-family: 'Noto Sans Fallback';
+  src: local('Segoe UI'), local('Helvetica Neue'), local('Arial');
+  size-adjust: 103%;
+  ascent-override: 91%;
+  descent-override: 21%;
+  line-gap-override: 0%;
+}
+
+// field-notebook — heading: Lora → Georgia
+@font-face {
+  font-family: 'Lora Fallback';
+  src: local('Georgia'), local('Times New Roman');
+  size-adjust: 98%;
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
+// field-notebook — body: Vollkorn → Georgia
+@font-face {
+  font-family: 'Vollkorn Fallback';
+  src: local('Georgia');
+  size-adjust: 100%;
+  ascent-override: 91%;
+  descent-override: 23%;
+  line-gap-override: 0%;
+}
+
+// chalkboard-proof — heading: Newsreader → Georgia
+@font-face {
+  font-family: 'Newsreader Fallback';
+  src: local('Georgia'), local('Times New Roman');
+  size-adjust: 98%;
+  ascent-override: 89%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
+// chalkboard-proof — body: Literata → Georgia
+@font-face {
+  font-family: 'Literata Fallback';
+  src: local('Georgia');
+  size-adjust: 99%;
+  ascent-override: 90%;
+  descent-override: 23%;
+  line-gap-override: 0%;
+}
+
+// quantum-circuit — heading: Chivo → Helvetica Neue / Arial
+@font-face {
+  font-family: 'Chivo Fallback';
+  src: local('Helvetica Neue'), local('Arial');
+  size-adjust: 104%;
+  ascent-override: 92%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
+// quantum-circuit — body: Plus Jakarta Sans → Segoe UI / Helvetica Neue / Arial
+@font-face {
+  font-family: 'Plus Jakarta Sans Fallback';
+  src: local('Segoe UI'), local('Helvetica Neue'), local('Arial');
+  size-adjust: 102%;
+  ascent-override: 91%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
+// ─── celestial-observatory ─────────────────────────────────────────────────
+// Cardo — heading font (static, weights 400 regular + 700 bold — no
+// variable axis published for Cardo on Google Fonts).
+@font-face {
+  font-family: 'Cardo';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/natural/celestial-observatory/Cardo-Regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Cardo';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/natural/celestial-observatory/Cardo-Regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Cardo';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/natural/celestial-observatory/Cardo-Bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Cardo';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/natural/celestial-observatory/Cardo-Bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Crimson Pro — body font (variable, weights 400–500)
+@font-face {
+  font-family: 'Crimson Pro';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/natural/celestial-observatory/CrimsonPro-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Crimson Pro';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/natural/celestial-observatory/CrimsonPro-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// JetBrains Mono (Celestial Observatory) — code font (variable, weights
+// 400–500). Font-family name disambiguated from scholarly/nordic-minimalist's
+// own bare 'JetBrains Mono' declaration, same rationale as 'IBM Plex Mono
+// Watercolor Atelier' disambiguates from scholarly/classic-ivy's bare 'IBM
+// Plex Mono' (see the creative-group comment above).
+@font-face {
+  font-family: 'JetBrains Mono Celestial Observatory';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/natural/celestial-observatory/JetBrainsMono-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'JetBrains Mono Celestial Observatory';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/natural/celestial-observatory/JetBrainsMono-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// ─── periodic-table-chemistry ──────────────────────────────────────────────
+// Roboto Slab — heading font (variable, weights 600–700)
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 600 700;
+  font-display: swap;
+  src: url('/fonts/natural/periodic-table-chemistry/RobotoSlab-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 600 700;
+  font-display: swap;
+  src: url('/fonts/natural/periodic-table-chemistry/RobotoSlab-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Noto Sans — body font (variable, weights 400–500)
+@font-face {
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/natural/periodic-table-chemistry/NotoSans-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/natural/periodic-table-chemistry/NotoSans-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// IBM Plex Mono (Periodic Table Chemistry) — code font (static, weight 400
+// regular). Third disambiguated copy of this typeface (after scholarly/
+// classic-ivy's bare 'IBM Plex Mono' and creative/watercolor-atelier's 'IBM
+// Plex Mono Watercolor Atelier') — same rationale each time.
+@font-face {
+  font-family: 'IBM Plex Mono Periodic Table Chemistry';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/natural/periodic-table-chemistry/IBMPlexMono-Regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Periodic Table Chemistry';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/natural/periodic-table-chemistry/IBMPlexMono-Regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Periodic Table Chemistry';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/natural/periodic-table-chemistry/IBMPlexMono-Medium-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Periodic Table Chemistry';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/natural/periodic-table-chemistry/IBMPlexMono-Medium-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// ─── field-notebook ─────────────────────────────────────────────────────────
+// Lora — heading font (variable, weights 600–700)
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 600 700;
+  font-display: swap;
+  src: url('/fonts/natural/field-notebook/Lora-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 600 700;
+  font-display: swap;
+  src: url('/fonts/natural/field-notebook/Lora-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Vollkorn — body font (variable, weights 400–500)
+@font-face {
+  font-family: 'Vollkorn';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/natural/field-notebook/Vollkorn-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Vollkorn';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/natural/field-notebook/Vollkorn-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// IBM Plex Mono (Field Notebook) — code font (static, weights 400/500).
+// Fourth disambiguated copy of this typeface — same rationale as Periodic
+// Table Chemistry's above.
+@font-face {
+  font-family: 'IBM Plex Mono Field Notebook';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/natural/field-notebook/IBMPlexMono-Regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Field Notebook';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/natural/field-notebook/IBMPlexMono-Regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Field Notebook';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/natural/field-notebook/IBMPlexMono-Medium-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Field Notebook';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/natural/field-notebook/IBMPlexMono-Medium-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// ─── chalkboard-proof ───────────────────────────────────────────────────────
+// Newsreader — heading font (variable, weights 500–600)
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 500 600;
+  font-display: swap;
+  src: url('/fonts/natural/chalkboard-proof/Newsreader-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 500 600;
+  font-display: swap;
+  src: url('/fonts/natural/chalkboard-proof/Newsreader-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Literata — body font (variable, weights 400–500)
+@font-face {
+  font-family: 'Literata';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/natural/chalkboard-proof/Literata-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Literata';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/natural/chalkboard-proof/Literata-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Fira Code (Chalkboard Proof) — code font (variable, weights 400–500).
+// Disambiguated from scholarly/dark-academia's own bare 'Fira Code'.
+@font-face {
+  font-family: 'Fira Code Chalkboard Proof';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/natural/chalkboard-proof/FiraCode-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Fira Code Chalkboard Proof';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/natural/chalkboard-proof/FiraCode-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// ─── quantum-circuit ────────────────────────────────────────────────────────
+// Chivo — heading font (variable, weights 600–700)
+@font-face {
+  font-family: 'Chivo';
+  font-style: normal;
+  font-weight: 600 700;
+  font-display: swap;
+  src: url('/fonts/natural/quantum-circuit/Chivo-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Chivo';
+  font-style: normal;
+  font-weight: 600 700;
+  font-display: swap;
+  src: url('/fonts/natural/quantum-circuit/Chivo-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Plus Jakarta Sans — body font (variable, weights 400–500)
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/natural/quantum-circuit/PlusJakartaSans-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/natural/quantum-circuit/PlusJakartaSans-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// JetBrains Mono (Quantum Circuit) — code font (variable, weights 400–500).
+// Third disambiguated copy of this typeface (after scholarly/nordic-
+// minimalist's bare 'JetBrains Mono' and natural/celestial-observatory's
+// 'JetBrains Mono Celestial Observatory').
+@font-face {
+  font-family: 'JetBrains Mono Quantum Circuit';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/natural/quantum-circuit/JetBrainsMono-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'JetBrains Mono Quantum Circuit';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/natural/quantum-circuit/JetBrainsMono-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// ─── precision group (specs/design-tokens-precision.md) ───────────────────
+// Same self-hosting/latin+latin-ext/font-display: swap rules and syntax-
+// colour mapping formula as scholarly/creative/natural above. Metric-adjusted
+// fallback values below were computed with the standard fontaine/capsize
+// size-adjust formula (sizeAdjust = (font xWidthAvg / font unitsPerEm) /
+// (fallback xWidthAvg / fallback unitsPerEm); ascent/descent/line-gap
+// overrides = each metric / (unitsPerEm * sizeAdjust)) using
+// @capsizecss/metrics' published tables for both the webfont and its system
+// fallback, cross-checked against this file's existing Inter-vs-Arial values
+// (reproduced within ~1-2 points). Big Shoulders Display has no
+// @capsizecss/metrics entry, so its own metrics were read directly from the
+// vendored file (fontTools) and compared against a real local Arial
+// Narrow.ttf; both use an unweighted average advance width across a-z as the
+// xWidthAvg proxy, which reproduced the same known-good Inter-vs-Arial
+// values within ~2-3 points when cross-checked, so it's a reasonable stand-in
+// for the one font missing from the metrics database. Blueprint Drafting's
+// and Surgical Precision's heading faces (Big Shoulders Display, Barlow
+// Condensed) are genuinely condensed/narrow relative to their system
+// fallbacks, hence the higher-than-usual size-adjust/ascent-override swing —
+// that is an expected, correct consequence of the formula for a narrow
+// display face, not a calculation error. Code fonts are omitted from
+// fallbacks for the same reason as every other group (fixed-advance-width
+// monospace has negligible layout shift on swap); this also means
+// swiss-precision-instrument (heading+body+code all IBM Plex Mono, per the
+// corrected spec — see specs/design-tokens-precision.md) needs no fallback
+// block at all.
+
+// blueprint-drafting — heading: Big Shoulders Display → Arial Narrow / Arial
+@font-face {
+  font-family: 'Big Shoulders Display Fallback';
+  src: local('Arial Narrow'), local('Arial');
+  size-adjust: 64%;
+  ascent-override: 155%;
+  descent-override: 34%;
+  line-gap-override: 0%;
+}
+
+// blueprint-drafting — body: IBM Plex Sans → Segoe UI / Arial
+@font-face {
+  font-family: 'IBM Plex Sans Fallback';
+  src: local('Segoe UI'), local('Arial');
+  size-adjust: 102%;
+  ascent-override: 101%;
+  descent-override: 27%;
+  line-gap-override: 0%;
+}
+
+// surgical-precision — heading: Barlow Condensed → Arial Narrow / Arial
+@font-face {
+  font-family: 'Barlow Condensed Fallback';
+  src: local('Arial Narrow'), local('Arial');
+  size-adjust: 80%;
+  ascent-override: 125%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+}
+
+// surgical-precision — body: Roboto → Segoe UI / Arial
+@font-face {
+  font-family: 'Roboto Fallback';
+  src: local('Segoe UI'), local('Arial');
+  size-adjust: 100%;
+  ascent-override: 92%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+}
+
+// aerospace-materials-lab — heading: Rajdhani → Segoe UI / Arial
+@font-face {
+  font-family: 'Rajdhani Fallback';
+  src: local('Segoe UI'), local('Arial');
+  size-adjust: 93%;
+  ascent-override: 100%;
+  descent-override: 37%;
+  line-gap-override: 0%;
+}
+
+// aerospace-materials-lab — body: Overpass → Segoe UI / Arial
+@font-face {
+  font-family: 'Overpass Fallback';
+  src: local('Segoe UI'), local('Arial');
+  size-adjust: 101%;
+  ascent-override: 87%;
+  descent-override: 38%;
+  line-gap-override: 0%;
+}
+
+// biomedical-diagnostics — heading: Sora → Segoe UI / Arial
+@font-face {
+  font-family: 'Sora Fallback';
+  src: local('Segoe UI'), local('Arial');
+  size-adjust: 116%;
+  ascent-override: 84%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+}
+
+// biomedical-diagnostics — body: Work Sans → reuses the existing
+// 'Work Sans Fallback' rule declared above for bauhaus-studio (creative
+// group) — same upstream typeface, no new fallback needed.
+
+// ─── blueprint-drafting ─────────────────────────────────────────────────────
+// Big Shoulders Display — heading font (variable, weights 600-800)
+@font-face {
+  font-family: 'Big Shoulders Display';
+  font-style: normal;
+  font-weight: 600 800;
+  font-display: swap;
+  src: url('/fonts/precision/blueprint-drafting/BigShouldersDisplay-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Big Shoulders Display';
+  font-style: normal;
+  font-weight: 600 800;
+  font-display: swap;
+  src: url('/fonts/precision/blueprint-drafting/BigShouldersDisplay-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// IBM Plex Sans — body font (variable, weights 400-500)
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/precision/blueprint-drafting/IBMPlexSans-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/precision/blueprint-drafting/IBMPlexSans-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// IBM Plex Mono (Blueprint Drafting) — code font (static, weight 400 regular)
+// Byte-identical to the classic-ivy/biomedical-diagnostics/
+// swiss-precision-instrument copies below — same upstream font, disambiguated
+// per-variant family name so each variant's @font-face stays self-contained
+// (CONSTITUTION.md §4 per-variant font directories).
+@font-face {
+  font-family: 'IBM Plex Mono Blueprint Drafting';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/precision/blueprint-drafting/IBMPlexMono-Regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Blueprint Drafting';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/precision/blueprint-drafting/IBMPlexMono-Regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// IBM Plex Mono (Blueprint Drafting) — code font (static, weight 500 medium)
+@font-face {
+  font-family: 'IBM Plex Mono Blueprint Drafting';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/precision/blueprint-drafting/IBMPlexMono-Medium-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Blueprint Drafting';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/precision/blueprint-drafting/IBMPlexMono-Medium-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// ─── surgical-precision ─────────────────────────────────────────────────────
+// Barlow Condensed — heading font (static, weight 600 semibold)
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/precision/surgical-precision/BarlowCondensed-SemiBold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/precision/surgical-precision/BarlowCondensed-SemiBold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Barlow Condensed — heading font (static, weight 700 bold)
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/precision/surgical-precision/BarlowCondensed-Bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/precision/surgical-precision/BarlowCondensed-Bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Roboto — body font (variable, weights 400-500)
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/precision/surgical-precision/Roboto-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/precision/surgical-precision/Roboto-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Roboto Mono — code font (variable, weights 400-500)
+@font-face {
+  font-family: 'Roboto Mono';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/precision/surgical-precision/RobotoMono-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Roboto Mono';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/precision/surgical-precision/RobotoMono-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// ─── aerospace-materials-lab ────────────────────────────────────────────────
+// Rajdhani — heading font (static, weight 600 semibold)
+@font-face {
+  font-family: 'Rajdhani';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/precision/aerospace-materials-lab/Rajdhani-SemiBold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Rajdhani';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/precision/aerospace-materials-lab/Rajdhani-SemiBold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Rajdhani — heading font (static, weight 700 bold)
+@font-face {
+  font-family: 'Rajdhani';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/precision/aerospace-materials-lab/Rajdhani-Bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Rajdhani';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/precision/aerospace-materials-lab/Rajdhani-Bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Overpass — body font (variable, weights 400-500)
+@font-face {
+  font-family: 'Overpass';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/precision/aerospace-materials-lab/Overpass-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Overpass';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/precision/aerospace-materials-lab/Overpass-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Red Hat Mono — code font (variable, weights 400-500)
+@font-face {
+  font-family: 'Red Hat Mono';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/precision/aerospace-materials-lab/RedHatMono-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Red Hat Mono';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/precision/aerospace-materials-lab/RedHatMono-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// ─── biomedical-diagnostics ─────────────────────────────────────────────────
+// Sora — heading font (variable, weights 600-700)
+@font-face {
+  font-family: 'Sora';
+  font-style: normal;
+  font-weight: 600 700;
+  font-display: swap;
+  src: url('/fonts/precision/biomedical-diagnostics/Sora-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sora';
+  font-style: normal;
+  font-weight: 600 700;
+  font-display: swap;
+  src: url('/fonts/precision/biomedical-diagnostics/Sora-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Work Sans (Biomedical Diagnostics) — body font (variable, weights 400-500).
+// Byte-identical to bauhaus-studio's copy (creative group) — same upstream
+// font, disambiguated per-variant family name (CONSTITUTION.md §4).
+@font-face {
+  font-family: 'Work Sans Biomedical Diagnostics';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/precision/biomedical-diagnostics/WorkSans-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Work Sans Biomedical Diagnostics';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/precision/biomedical-diagnostics/WorkSans-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// IBM Plex Mono (Biomedical Diagnostics) — code font (static, weight 400 regular)
+@font-face {
+  font-family: 'IBM Plex Mono Biomedical Diagnostics';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/precision/biomedical-diagnostics/IBMPlexMono-Regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Biomedical Diagnostics';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/precision/biomedical-diagnostics/IBMPlexMono-Regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// IBM Plex Mono (Biomedical Diagnostics) — code font (static, weight 500 medium)
+@font-face {
+  font-family: 'IBM Plex Mono Biomedical Diagnostics';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/precision/biomedical-diagnostics/IBMPlexMono-Medium-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Biomedical Diagnostics';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/precision/biomedical-diagnostics/IBMPlexMono-Medium-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// ─── swiss-precision-instrument ─────────────────────────────────────────────
+// IBM Plex Mono (Swiss Precision Instrument) — the variant's single typeface,
+// used for heading, body, and code alike (per the corrected spec — see
+// specs/design-tokens-precision.md's "one typeface for everything"
+// resolution). Weights 400/500 are byte-identical copies of classic-ivy's
+// files; weight 700 is newly vendored (classic-ivy only needed 400/500).
+@font-face {
+  font-family: 'IBM Plex Mono Swiss Precision Instrument';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/precision/swiss-precision-instrument/IBMPlexMono-Regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Swiss Precision Instrument';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/precision/swiss-precision-instrument/IBMPlexMono-Regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Swiss Precision Instrument';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/precision/swiss-precision-instrument/IBMPlexMono-Medium-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Swiss Precision Instrument';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/precision/swiss-precision-instrument/IBMPlexMono-Medium-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Swiss Precision Instrument';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/precision/swiss-precision-instrument/IBMPlexMono-Bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Swiss Precision Instrument';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/precision/swiss-precision-instrument/IBMPlexMono-Bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// ─── collective group (specs/design-tokens-collective.md) ─────────────────
+// Same self-hosting/latin+latin-ext/font-display: swap rules and syntax-
+// colour mapping formula as scholarly/creative/natural/precision above.
+// Metric-adjusted fallback values below were computed with the same
+// fontaine/capsize-style size-adjust formula used throughout this file
+// (sizeAdjust = (font xWidthAvg / font unitsPerEm) / (fallback xWidthAvg /
+// fallback unitsPerEm); ascent/descent/line-gap overrides = each metric /
+// (unitsPerEm * sizeAdjust)), with xWidthAvg measured directly as the
+// unweighted average advance width across a-z from each font's own glyph
+// outlines (not the OS/2 xAvgCharWidth field, which is frequency-weighted
+// across Latin-1 and diverges substantially from the capsize convention —
+// cross-checked by reproducing this file's existing Inter-vs-Arial values
+// from raw glyph metrics within ~2 points using the a-z average approach).
+// Georgia and Arial were measured from the local macOS system fonts; Segoe
+// UI (Outfit, Hanken Grotesk's fallback) has no local install available, so
+// its @capsizecss/metrics published xWidthAvg (857/2048 upm) was used
+// instead, consistent with how aerospace-materials-lab's Segoe UI fallback
+// values were sourced in the precision group above. Code fonts are omitted
+// from fallbacks for the same reason as every other group (fixed-advance-
+// width monospace has negligible layout shift on swap).
+
+// cartographers-atlas — heading: Domine → Georgia
+@font-face {
+  font-family: 'Domine Fallback';
+  src: local('Georgia');
+  size-adjust: 111.3%;
+  ascent-override: 80.9%;
+  descent-override: 21.6%;
+  line-gap-override: 0%;
+}
+
+// cartographers-atlas — body: Noto Serif → Georgia
+@font-face {
+  font-family: 'Noto Serif Fallback';
+  src: local('Georgia');
+  size-adjust: 110%;
+  ascent-override: 97.2%;
+  descent-override: 26.6%;
+  line-gap-override: 0%;
+}
+
+// ledger-index — heading: Bitter → Georgia
+@font-face {
+  font-family: 'Bitter Fallback';
+  src: local('Georgia');
+  size-adjust: 103.7%;
+  ascent-override: 90.2%;
+  descent-override: 25.6%;
+  line-gap-override: 0%;
+}
+
+// ledger-index — body: IBM Plex Sans → reuses the existing
+// 'IBM Plex Sans Fallback' rule declared above for blueprint-drafting
+// (precision group) — same upstream typeface, no new fallback needed.
+
+// social-network-diagram — heading: Outfit → Segoe UI / Arial
+@font-face {
+  font-family: 'Outfit Fallback';
+  src: local('Segoe UI'), local('Arial');
+  size-adjust: 117.8%;
+  ascent-override: 84.9%;
+  descent-override: 22.1%;
+  line-gap-override: 0%;
+}
+
+// social-network-diagram — body: Hanken Grotesk → Segoe UI / Arial
+@font-face {
+  font-family: 'Hanken Grotesk Fallback';
+  src: local('Segoe UI'), local('Arial');
+  size-adjust: 120.4%;
+  ascent-override: 83.1%;
+  descent-override: 25.2%;
+  line-gap-override: 0%;
+}
+
+// agora-classical-philosophy — heading: Marcellus → Georgia
+@font-face {
+  font-family: 'Marcellus Fallback';
+  src: local('Georgia');
+  size-adjust: 100.7%;
+  ascent-override: 96.8%;
+  descent-override: 27.8%;
+  line-gap-override: 0%;
+}
+
+// agora-classical-philosophy — body: PT Serif → reuses the existing
+// 'PT Serif Fallback' rule declared above for scientific-journal (scholarly
+// group) — same upstream typeface, no new fallback needed.
+
+// strata-geology — heading: Zilla Slab → Georgia
+@font-face {
+  font-family: 'Zilla Slab Fallback';
+  src: local('Georgia');
+  size-adjust: 101.1%;
+  ascent-override: 93.4%;
+  descent-override: 25.3%;
+  line-gap-override: 0%;
+}
+
+// strata-geology — body: Public Sans → reuses the existing
+// 'Public Sans Fallback' rule declared above for editorial-zine (creative
+// group) — same upstream typeface, no new fallback needed.
+
+// ─── cartographers-atlas ────────────────────────────────────────────────────
+// Domine — heading font (variable, weights 400-700)
+@font-face {
+  font-family: 'Domine';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/collective/cartographers-atlas/Domine-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Domine';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/collective/cartographers-atlas/Domine-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Noto Serif — body font (variable, weights 400-700, used at 400/500)
+@font-face {
+  font-family: 'Noto Serif';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/collective/cartographers-atlas/NotoSerif-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Noto Serif';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/collective/cartographers-atlas/NotoSerif-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// IBM Plex Mono (Cartographers Atlas) — code font (static, weight 400 regular)
+// Byte-identical to the blueprint-drafting/biomedical-diagnostics/
+// swiss-precision-instrument copies — same upstream font, disambiguated
+// per-variant family name so each variant's @font-face stays self-contained
+// (CONSTITUTION.md §4 per-variant font directories).
+@font-face {
+  font-family: 'IBM Plex Mono Cartographers Atlas';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/collective/cartographers-atlas/IBMPlexMono-Regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Cartographers Atlas';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/collective/cartographers-atlas/IBMPlexMono-Regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// IBM Plex Mono (Cartographers Atlas) — code font (static, weight 500 medium)
+@font-face {
+  font-family: 'IBM Plex Mono Cartographers Atlas';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/collective/cartographers-atlas/IBMPlexMono-Medium-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Cartographers Atlas';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/collective/cartographers-atlas/IBMPlexMono-Medium-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// ─── ledger-index ───────────────────────────────────────────────────────────
+// Bitter — heading font (variable, weights 100-900, used at 600/700)
+@font-face {
+  font-family: 'Bitter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/collective/ledger-index/Bitter-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Bitter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/collective/ledger-index/Bitter-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// IBM Plex Sans (Ledger Index) — body font (variable, weights 400-500).
+// Byte-identical to blueprint-drafting's copy (precision group) — same
+// upstream font, disambiguated per-variant family name (CONSTITUTION.md §4).
+@font-face {
+  font-family: 'IBM Plex Sans Ledger Index';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/collective/ledger-index/IBMPlexSans-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Sans Ledger Index';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/collective/ledger-index/IBMPlexSans-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// IBM Plex Mono (Ledger Index) — code font (static, weight 400 regular)
+@font-face {
+  font-family: 'IBM Plex Mono Ledger Index';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/collective/ledger-index/IBMPlexMono-Regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Ledger Index';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/collective/ledger-index/IBMPlexMono-Regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// IBM Plex Mono (Ledger Index) — code font (static, weight 500 medium)
+@font-face {
+  font-family: 'IBM Plex Mono Ledger Index';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/collective/ledger-index/IBMPlexMono-Medium-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Ledger Index';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/collective/ledger-index/IBMPlexMono-Medium-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// ─── social-network-diagram ─────────────────────────────────────────────────
+// Outfit — heading font (variable, weights 100-900, used at 600/700)
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/collective/social-network-diagram/Outfit-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/collective/social-network-diagram/Outfit-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Hanken Grotesk — body font (variable, weights 100-900, used at 400/500)
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/collective/social-network-diagram/HankenGrotesk-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/collective/social-network-diagram/HankenGrotesk-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// JetBrains Mono (Social Network Diagram) — code font (variable, weights
+// 400-500). Byte-identical to quantum-circuit's copy (natural group) — same
+// upstream font, disambiguated per-variant family name (CONSTITUTION.md §4).
+@font-face {
+  font-family: 'JetBrains Mono Social Network Diagram';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/collective/social-network-diagram/JetBrainsMono-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'JetBrains Mono Social Network Diagram';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/collective/social-network-diagram/JetBrainsMono-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// ─── agora-classical-philosophy ─────────────────────────────────────────────
+// Marcellus — heading font (static, weight 400 — the variant's single
+// heading weight, per specs/design-tokens-collective.md)
+@font-face {
+  font-family: 'Marcellus';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/collective/agora-classical-philosophy/Marcellus-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Marcellus';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/collective/agora-classical-philosophy/Marcellus-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// PT Serif (Agora Classical Philosophy) — body font (static, weight 400
+// regular). Byte-identical to scientific-journal's copy (scholarly group) —
+// same upstream font, disambiguated per-variant family name
+// (CONSTITUTION.md §4).
+@font-face {
+  font-family: 'PT Serif Agora Classical Philosophy';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/collective/agora-classical-philosophy/PTSerif-Regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'PT Serif Agora Classical Philosophy';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/collective/agora-classical-philosophy/PTSerif-Regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// PT Serif (Agora Classical Philosophy) — body font (static, weight 700 bold)
+@font-face {
+  font-family: 'PT Serif Agora Classical Philosophy';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/collective/agora-classical-philosophy/PTSerif-Bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'PT Serif Agora Classical Philosophy';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/collective/agora-classical-philosophy/PTSerif-Bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// IBM Plex Mono (Agora Classical Philosophy) — code font (static, weight 400 regular)
+@font-face {
+  font-family: 'IBM Plex Mono Agora Classical Philosophy';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/collective/agora-classical-philosophy/IBMPlexMono-Regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Agora Classical Philosophy';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/collective/agora-classical-philosophy/IBMPlexMono-Regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// IBM Plex Mono (Agora Classical Philosophy) — code font (static, weight 500 medium)
+@font-face {
+  font-family: 'IBM Plex Mono Agora Classical Philosophy';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/collective/agora-classical-philosophy/IBMPlexMono-Medium-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Agora Classical Philosophy';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/collective/agora-classical-philosophy/IBMPlexMono-Medium-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// ─── strata-geology ──────────────────────────────────────────────────────────
+// Zilla Slab — heading font (static, weight 600 semibold)
+@font-face {
+  font-family: 'Zilla Slab';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/collective/strata-geology/ZillaSlab-SemiBold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Zilla Slab';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/collective/strata-geology/ZillaSlab-SemiBold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Zilla Slab — heading font (static, weight 700 bold)
+@font-face {
+  font-family: 'Zilla Slab';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/collective/strata-geology/ZillaSlab-Bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Zilla Slab';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/collective/strata-geology/ZillaSlab-Bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// Public Sans (Strata Geology) — body font (variable, weights 400-500).
+// Byte-identical to editorial-zine's copy (creative group), which uses the
+// same variable file for its 400/700 range — disambiguated per-variant
+// family name (CONSTITUTION.md §4).
+@font-face {
+  font-family: 'Public Sans Strata Geology';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/collective/strata-geology/PublicSans-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Public Sans Strata Geology';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/collective/strata-geology/PublicSans-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// IBM Plex Mono (Strata Geology) — code font (static, weight 400 regular)
+@font-face {
+  font-family: 'IBM Plex Mono Strata Geology';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/collective/strata-geology/IBMPlexMono-Regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Strata Geology';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/collective/strata-geology/IBMPlexMono-Regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// IBM Plex Mono (Strata Geology) — code font (static, weight 500 medium)
+@font-face {
+  font-family: 'IBM Plex Mono Strata Geology';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/collective/strata-geology/IBMPlexMono-Medium-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Strata Geology';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/collective/strata-geology/IBMPlexMono-Medium-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+body {
+  font-family: var(--font-family-body);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-family-heading);
+  color: var(--colour-text-heading);
+}
+
+code,
+kbd,
+pre,
+pre code {
+  font-family: var(--font-family-code);
+}

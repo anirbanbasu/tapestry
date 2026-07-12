@@ -1,0 +1,9 @@
+{#- Renders its body only while the site is in light mode (see -#}
+{#- dark_mode_only.html for the inverse). Pure CSS, no JS: visibility is -#}
+{#- driven by the same `prefers-color-scheme` / `data-color-mode` contract -#}
+{#- js/theme-switcher.js and _variants.scss already use, so this degrades -#}
+{#- correctly with JS disabled instead of showing both/neither. -#}
+
+<div class="colour-mode-only colour-mode-only-light">
+    {{ body | markdown | safe }}
+</div>

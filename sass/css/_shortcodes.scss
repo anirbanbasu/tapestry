@@ -1,0 +1,80 @@
+figure.mastodon-post {
+  position: relative;
+  border: 1px solid var(--colour-border);
+  border-radius: var(--radius-md);
+  margin: 0;
+  padding: var(--space-lg) var(--space-md) var(--space-md);
+
+  &::before {
+    content: '\2192 From Mastodon:';
+    position: absolute;
+    top: var(--space-sm);
+    inset-inline-start: var(--space-md);
+    display: block;
+    color: var(--colour-accent-primary);
+    font-weight: bold;
+  }
+
+  blockquote {
+    padding: unset;
+    border: unset;
+    background: none;
+    overflow-wrap: anywhere;
+  }
+
+  figcaption {
+    margin-top: var(--space-md);
+  }
+}
+
+.references-list p {
+  text-indent: -2.4rem;
+  margin-inline-start: 2.4rem;
+}
+
+.wide-container {
+  margin: 0;
+
+  @media (max-width: 684px) {
+    overflow-x: auto;
+  }
+}
+
+// light_mode_only / dark_mode_only shortcodes. Same no-JS-safe pattern as the
+// theme-toggle icon swap above (_header.scss): default appearance follows
+// `prefers-color-scheme`, with `data-color-mode` (set by
+// js/theme-switcher.js) overriding it once a visitor makes an explicit
+// choice. Nothing here depends on JS running.
+.colour-mode-only-dark {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  .colour-mode-only-light {
+    display: none;
+  }
+
+  .colour-mode-only-dark {
+    display: block;
+  }
+}
+
+html[data-color-mode='dark'] {
+  .colour-mode-only-light {
+    display: none;
+  }
+
+  .colour-mode-only-dark {
+    display: block;
+  }
+}
+
+html[data-color-mode='light'] {
+  .colour-mode-only-light {
+    display: block;
+  }
+
+  .colour-mode-only-dark {
+    display: none;
+  }
+}

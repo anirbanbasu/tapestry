@@ -1,0 +1,147 @@
+// Nav collapse (CONSTITUTION.md §6). Verified reference implementation:
+// prototypes/spikes/nav-collapse-spike.html — native popover/popovertarget,
+// zero JS. Breakpoint: --breakpoint-nav (860px, defined in _variants.scss).
+
+.main-menu {
+  // Sits on its own full-width row below `.header-container` (logo + theme
+  // toggle), separated by that row's own border-bottom (see _header.scss).
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  gap: var(--space-md);
+  margin-top: var(--space-sm);
+  position: relative;
+}
+
+.main-menu-items {
+  // No unconditional `display` here on purpose (see nav-collapse-spike.html):
+  // below --breakpoint-nav the element's `popover` attribute means the UA
+  // stylesheet already applies `display: none` while closed. Setting
+  // `display: flex` unconditionally would override that closed-state default
+  // and render the panel even when not open. `display: flex` is instead set
+  // only inside the two media queries below (open-state and >=860px).
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-md);
+
+  li {
+    display: flex;
+  }
+
+  a {
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: var(--colour-text-primary);
+    text-decoration: none;
+    white-space: nowrap;
+    padding: 0.3em 0;
+    border-bottom: 2px solid transparent;
+
+    &:hover,
+    &:focus-visible {
+      border-bottom-color: var(--colour-accent-primary);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--colour-accent-primary);
+      outline-offset: 2px;
+      border-radius: var(--radius-sm);
+    }
+  }
+}
+
+.main-menu-dropdown-button {
+  display: none;
+  font: inherit;
+  font-size: var(--font-size-small);
+  font-weight: 600;
+  background: var(--colour-accent-primary);
+  color: var(--colour-bg-primary);
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: var(--radius-md);
+  anchor-name: --popover-button;
+
+  &:focus-visible {
+    outline: 2px solid var(--colour-accent-primary);
+    outline-offset: 2px;
+  }
+}
+
+// Below the breakpoint: rely on the native popover UA default of
+// `display: none` while closed — do not style `.main-menu-items`
+// unconditionally, or the panel would render regardless of open state (the
+// exact bug the spike's own testing caught).
+@media (max-width: 859.98px) {
+  .main-menu-dropdown-button {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .main-menu-items:popover-open {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position-anchor: --popover-button;
+    position-area: block-end span-inline-start;
+    margin-top: var(--space-xs);
+    padding: var(--space-xs);
+    background: var(--colour-bg-secondary);
+    border: 1px solid var(--colour-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    min-width: min-content;
+
+    li {
+      border-bottom: 1px solid var(--colour-border);
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    a {
+      display: block;
+      padding: 0.6em 0.5em;
+    }
+  }
+}
+
+// Above the breakpoint: force the popover to render as a normal inline list,
+// overriding the UA's default "closed popover = display:none" — standard
+// author-origin override, not a hack (see spike comment).
+@media (min-width: 860px) {
+  .main-menu-items {
+    display: flex !important;
+    position: static;
+    inset: unset;
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    background: none;
+  }
+}
+
+.skip-to-content {
+  position: fixed;
+  top: var(--space-md);
+  left: -1vw;
+  z-index: 99;
+  transform: translateX(-100vw);
+  text-align: center;
+  padding: 0.5em 1em;
+  background: var(--colour-bg-secondary);
+  color: var(--colour-text-heading);
+  border: 1px solid var(--colour-border);
+  border-radius: var(--radius-md);
+
+  &:focus {
+    left: 50%;
+    transform: translateX(-50%);
+    outline: none;
+  }
+}

@@ -1,0 +1,254 @@
+.header {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding: var(--space-md) var(--space-lg) 0;
+
+  @media (max-width: 684px) {
+    padding: var(--space-sm) var(--space-md) 0;
+  }
+}
+
+// Single full-width row: logo (left) / nav (centre, flex:1 — see _menu.scss)
+// / theme toggle (right), spread across the full 1200px content width.
+// `align-items: center` vertically centres the toggle button against the
+// logo regardless of the logo's rendered height.
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  width: 100%;
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--colour-border);
+}
+
+.header-logo-container {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+
+  a {
+    display: flex;
+    align-items: center;
+    color: var(--colour-text-heading);
+    text-decoration: none;
+  }
+}
+
+// Default Tapestry brand mark: inlined SVG using `currentColor`
+// (specs/brand-logo.md, CONSTITUTION.md §9) — inherits --colour-text-heading
+// from the surrounding link. Minimum clear space / minimum size per
+// specs/brand-logo.md §5. Height doubled from the original 2rem to make the
+// mark clearly legible in the wide (1200px) header row; scales down via
+// `clamp()` on narrow viewports so it never crowds the nav/toggle at 320px.
+.logo-svg {
+  display: block;
+  height: clamp(2rem, 5vw, 4rem);
+  width: auto;
+  color: var(--colour-text-heading);
+}
+
+// Fallback path when `config.extra.header_logo` overrides the default mark
+// with a raster/vector image file (terminus compat, specs/terminus-compat-contract.md §3).
+.logo-img {
+  display: inline;
+  height: clamp(2rem, 5vw, 4rem);
+  margin: 0;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex: 0 0 auto;
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--colour-border);
+  background: var(--colour-bg-secondary);
+  color: var(--colour-text-heading);
+  flex: 0 0 auto;
+}
+
+// Presentation style/variant switcher (CONSTITUTION.md §2, amendment
+// 2026-JUL-05-002) — opt-in via `extra.presentation_style_switcher`. Gear
+// button styled identically to .theme-toggle; dropdown reuses the exact
+// popover pattern verified in prototypes/spikes/nav-collapse-spike.html and
+// already applied to .main-menu-items (_menu.scss) — same "no unconditional
+// display" rule applies here for the same reason.
+.style-switcher {
+  position: relative;
+}
+
+.style-switcher-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--colour-border);
+  background: var(--colour-bg-secondary);
+  color: var(--colour-text-heading);
+  flex: 0 0 auto;
+  anchor-name: --style-switcher-button;
+}
+
+.style-switcher-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: currentColor;
+}
+
+.style-switcher-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  &:popover-open {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position-anchor: --style-switcher-button;
+    position-area: block-end span-inline-end;
+    margin-top: var(--space-xs);
+    padding: var(--space-xs);
+    background: var(--colour-bg-secondary);
+    border: 1px solid var(--colour-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    min-width: 12rem;
+
+    li {
+      border-bottom: 1px solid var(--colour-border);
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+}
+
+.style-switcher-option {
+  display: block;
+  width: 100%;
+  font: inherit;
+  font-family: var(--font-family-code);
+  font-size: var(--font-size-small);
+  text-align: start;
+  background: none;
+  border: none;
+  padding: 0.6em 0.5em;
+  color: var(--colour-text-primary);
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    background: color-mix(in srgb, var(--colour-accent-primary) 12%, transparent);
+    color: var(--colour-accent-primary);
+  }
+
+  &[aria-current='true'] {
+    color: var(--colour-accent-primary);
+    font-weight: 700;
+  }
+}
+
+// Grouped accordion (specs/presentation-style-switcher.md, CONSTITUTION.md §2
+// amendment 2026-JUL-10-001): one <details name="style-switcher-group"> per
+// style group, wrapping a nested <ul> of that group's variants. The `name`
+// attribute alone gives the exclusive-accordion behaviour (native HTML, no
+// JS) — this block is purely visual: resetting the nested list's default
+// markers/indentation, styling the group's <summary> like a menu item, and
+// bolding whichever group matches the visitor's current style, open or not.
+.style-switcher-group {
+  & > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    padding-inline-start: var(--space-sm);
+  }
+
+  & > summary {
+    display: block;
+    width: 100%;
+    font: inherit;
+    font-family: var(--font-family-code);
+    font-size: var(--font-size-small);
+    padding: 0.6em 0.5em;
+    color: var(--colour-text-primary);
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+      background: color-mix(in srgb, var(--colour-accent-primary) 12%, transparent);
+      color: var(--colour-accent-primary);
+    }
+  }
+
+  &.style-switcher-group-current > summary {
+    color: var(--colour-accent-primary);
+    font-weight: 700;
+  }
+}
+
+// Two inlined Font Awesome Free SVGs (sun + moon; see partials/icon-sun.svg.html
+// and partials/icon-moon.svg.html, attribution in specs/third-party-licenses.md),
+// swapped by CSS depending on colour mode rather than JS — the icon shown is
+// the mode you'd switch TO (sun while in dark mode, moon while in light mode).
+// No-JS default follows `prefers-color-scheme`, same graceful-degradation
+// pattern as the colour tokens themselves (_variants.scss).
+.theme-toggle-icon {
+  display: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: currentColor;
+}
+
+.theme-toggle-icon-moon {
+  display: block;
+}
+
+@media (prefers-color-scheme: dark) {
+  .theme-toggle-icon-sun {
+    display: block;
+  }
+
+  .theme-toggle-icon-moon {
+    display: none;
+  }
+}
+
+html[data-color-mode='dark'] {
+  .theme-toggle-icon-sun {
+    display: block;
+  }
+
+  .theme-toggle-icon-moon {
+    display: none;
+  }
+}
+
+html[data-color-mode='light'] {
+  .theme-toggle-icon-sun {
+    display: none;
+  }
+
+  .theme-toggle-icon-moon {
+    display: block;
+  }
+}
+
+@media print {
+  .header {
+    display: none;
+  }
+}

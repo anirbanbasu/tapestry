@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{#- Recursive TOC macro for the sidebar (partials/sidebar.html), defined here -#}
+{#- rather than in a separate macros/*.html file: Tera macros can only call -#}
+{#- themselves recursively via `self::`, which resolves against the entry -#}
+{#- template of the current render (this page.html), not against whichever -#}
+{#- file the macro happens to be defined in — so a macro in its own imported -#}
+{#- file can't reliably call itself via `self::`. Defining it directly here, -#}
+{#- where it's the only caller (partials/sidebar.html is included, not a -#}
+{#- separate render), keeps `self::toc` resolvable. -#}
+{%- macro toc(items) -%}
+<ul>
+    {%- for h in items %}
+    <li>
+        <a href="{{ h.permalink | safe }}">{{ h.title }}</a>
+        {%- if h.children | length > 0 %}
+        {{ self::toc(items=h.children) }}
+        {%- endif %}
+    </li>
+    {%- endfor %}
+</ul>
+{%- endmacro -%}
+
+{%- block title -%}
+{{ page.title }} | {{ config.title }}
+{%- endblock -%}
+
+{%- block description -%}
+    {%- if page.description %}
+    <meta name="description" content="{{ page.description | markdown(inline=true) | striptags }}">
+    {%- elif page.summary %}
+    <meta name="description" content="{{ page.summary | linebreaksbr | replace(from="<br>", to=" ") | striptags | trim_end_matches(pat=".") | replace(from='"', to="&quot;") | replace(from="&", to="&amp;") | safe }}…">
+    {%- elif config.description %}
+    <meta name="description" content="{{ config.description }}">
+    {%- endif %}
+{%- endblock -%}
+
+{%- block translations -%}
+    {%- for translation in page.translations -%}
+    <link rel="alternate" hreflang="{{ translation.lang }}" href="{{ translation.permalink | safe }}">
+    {% endfor -%}
+{%- endblock -%}
+
+{%- block main -%}
+{#- Sidebar (columns 9-12) is content-driven, not unconditional (CONSTITUTION.md -#}
+{#- §5): it renders only when the page actually has something to put there — -#}
+{#- an automatic "On this page" TOC for pages with >= 2 headings, and/or custom -#}
+{#- content pointed to by `page.extra.sidebar` (a path to a colocated Markdown -#}
+{#- snippet, loaded via `load_data`). `page.extra.sidebar = false` forces no -#}
+{#- sidebar regardless of headings/custom content. When no sidebar renders, the -#}
+{#- article reclaims the full 12 columns (see sass/css/_grid.scss) instead of -#}
+{#- leaving columns 9-12 reserved and empty. -#}
+{%- set sidebar_setting = page.extra.sidebar | default(value=-1) -%}
+{%- set sidebar_disabled = sidebar_setting == false -%}
+{%- set has_custom_sidebar = sidebar_setting is string -%}
+{%- set has_toc = page.toc | length >= 2 -%}
+{%- set show_sidebar = not sidebar_disabled and (has_custom_sidebar or has_toc) -%}
+{%- filter indent -%}{%- filter indent -%}
+<article class="post content{%- if show_sidebar %} has-sidebar{%- endif %}">
+    {{ post_macros::header(page=page, heading="h1") | indent | safe }}
+{%- endfilter %}{%- endfilter %}
+
+{{ page.content | safe }}
+
+{%- filter indent -%}{%- filter indent %}
+</article>
+{%- if show_sidebar %}
+{% include "partials/sidebar.html" %}
+{%- endif %}
+{%- if page.lower or page.higher %}
+<nav class="post-navigation">
+    <header class="post-navigation-title">
+        <h2>Read More Posts</h2>
+        <hr>
+    </header>
+    <div class="post-navigation-buttons">
+        {%- if page.lower %}
+        <a rel="next" href="{{ page.lower.permalink | safe }}" aria-label="Next article" aria-describedby="next-title">
+            &lt;&nbsp;[<span id="next-title">{{- page.lower.title | truncate(value=100, end="…") -}}</span>]
+        </a>
+        {%- endif %}
+        {%- if page.lower and page.higher %}
+        <span aria-hidden="true" role="separator">::</span>
+        {%- endif %}
+        {%- if page.higher %}
+        <a rel="prev" href="{{ page.higher.permalink | safe }}" aria-label="Prev article" aria-describedby="prev-title">
+            [<span id="prev-title">{{- page.higher.title | truncate(value=100, end="…") -}}</span>]&nbsp;&gt;
+        </a>
+        {%- endif %}
+    </div>
+</nav>
+{%- endif %}
+{% include "partials/comments.html" -%}
+{% endfilter %}{% endfilter %}
+{%- endblock -%}
