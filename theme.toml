@@ -17,6 +17,26 @@ homepage = "https://eyalkalderon.com"
 repo = "https://github.com/ebkalderon/terminus"
 
 [extra]
+# Stable per-site identifier used to namespace the theme switcher's and
+# presentation style switcher's localStorage keys (both write to
+# window.localStorage, scoped by the browser to the page's origin —
+# scheme+host+port, but NOT by path). Without this, two Tapestry sites
+# deployed under the same origin but different paths (e.g. two GitHub Pages
+# project sites both under username.github.io/, or several sites reverse-
+# proxied under one domain) share one localStorage bucket and silently
+# overwrite each other's saved colour-mode/style choice.
+#
+# Falls back to `config.base_url` if unset, which is enough to distinguish
+# sites in a plain `zola build` — but NOT during `zola serve` (which always
+# rewrites `config.base_url` to `http://127.0.0.1:<port>/`, discarding any
+# path) or a `zola build --base-url <url>` override that strips or
+# normalises the path. Set this explicitly for any site that is: (a)
+# deployed to a path-based subdirectory shared with other Tapestry sites on
+# the same origin, or (b) regularly tested locally via `zola serve`/
+# `--base-url` alongside other Tapestry projects on the same port. Any
+# unique string works — a site slug, UUID, or the repo name.
+# site_id = "my-site-slug"
+
 # Presentation style group + variant (see CONSTITUTION.md §7).
 #
 # Maximum of 5 preset style groups; each may offer multiple fully-specified

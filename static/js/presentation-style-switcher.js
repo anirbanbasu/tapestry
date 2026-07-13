@@ -34,7 +34,13 @@
 (function () {
   "use strict";
 
-  var STORAGE_KEY = "tapestry-presentation-style";
+  // Namespaced by `data-storage-ns` (base.html: extra.site_id, falling back
+  // to config.base_url) so two Tapestry sites sharing one browser origin
+  // (e.g. two GitHub Pages project sites under the same username.github.io
+  // host) don't clobber each other's stored style/variant choice.
+  var STORAGE_KEY =
+    "tapestry-presentation-style::" +
+    (document.documentElement.getAttribute("data-storage-ns") || "");
 
   // Mirrors themes/tapestry/sass/css/_variants.scss's $variants map and
   // templates/shortcodes/presentation_palette.html's light/dark maps.

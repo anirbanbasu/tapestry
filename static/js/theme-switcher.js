@@ -15,8 +15,13 @@
  *   - CSS should therefore scope dark-mode token overrides under
  *     `html[data-color-mode="dark"] { ... }` (and light-mode overrides, if
  *     any are needed explicitly, under `html[data-color-mode="light"]`).
- *   - Preference order: localStorage["tapestry-color-mode"] (explicit user
- *     choice) > system `prefers-color-scheme` > "light".
+ *   - Preference order: localStorage["tapestry-color-mode::<namespace>"]
+ *     (explicit user choice) > system `prefers-color-scheme` > "light". The
+ *     namespace comes from the `data-storage-ns` attribute base.html sets on
+ *     <html> (extra.site_id, falling back to config.base_url) so that two
+ *     Tapestry sites sharing one browser origin (e.g. two GitHub Pages
+ *     project sites under the same username.github.io host) don't clobber
+ *     each other's stored preference.
  *   - No-JS graceful degradation: this attribute is simply absent if JS is
  *     disabled or fails to load. CSS MUST NOT rely on `data-color-mode`
  *     alone to establish the default appearance — the default/no-JS case is
@@ -28,8 +33,8 @@
 (function () {
   "use strict";
 
-  var STORAGE_KEY = "tapestry-color-mode";
   var root = document.documentElement;
+  var STORAGE_KEY = "tapestry-color-mode::" + (root.getAttribute("data-storage-ns") || "");
 
   function getSystemPreference() {
     return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches

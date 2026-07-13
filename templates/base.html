@@ -3,7 +3,7 @@
 {%- import "macros/post.html" as post_macros -%}
 
 <!doctype html>
-<html lang="{{ lang }}">
+<html lang="{{ lang }}" data-storage-ns="{{ config.extra.site_id | default(value=config.base_url) }}">
 
 <head>
     <meta charset="utf-8">
