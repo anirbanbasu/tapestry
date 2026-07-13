@@ -1,21 +1,35 @@
 <a href="{{ get_url(path='/', lang=lang) }}">
     <span class="logo">
         {%- if config.extra.header_logo -%}
-        {#- Terminus compat: an explicit `header_logo` image path still overrides -#}
-        {#- the default Tapestry brand mark (this cannot inherit `currentColor` -#}
-        {#- unless the referenced file itself is an inlined SVG, but preserving -#}
-        {#- this override keeps the config key from the compatibility contract -#}
-        {#- functional; see specs/terminus-compat-contract.md §3). -#}
+        {#- Terminus compat: an explicit `header_logo` image path overrides -#}
+        {#- both the Tapestry brand mark and `header_title` (this cannot inherit -#}
+        {#- `currentColor` unless the referenced file itself is an inlined SVG, -#}
+        {#- but preserving this override keeps the config key from the -#}
+        {#- compatibility contract functional; see -#}
+        {#- specs/terminus-compat-contract.md §3). Sized via .logo-img -#}
+        {#- (see _header.scss) so an arbitrary-aspect-ratio image never -#}
+        {#- dominates the header row. -#}
         <img class="logo-img" src="{{ get_url(path=config.extra.header_logo, cachebust=true) }}"
             alt="{{ config.extra.header_title | default(value=config.title) | safe }}">
+        {%- elif config.extra.header_title -%}
+        {#- Terminus compat: no image, but an explicit header_title still -#}
+        {#- overrides the Tapestry brand mark with plain text (mirrors -#}
+        {#- terminus's own logo.html, which has no third-tier brand mark to -#}
+        {#- fall back to). -#}
+        <span class="logo-text">{{ config.extra.header_title | safe }}</span>
         {%- else -%}
-        {#- Default: Tapestry's own brand logo, inlined so `currentColor` -#}
-        {#- inherits the surrounding text colour (see specs/brand-logo.md, -#}
-        {#- CONSTITUTION.md §9). -#}
+        {#- Default: neither header_logo nor header_title is set. Tapestry's -#}
+        {#- own brand logo, inlined so `currentColor` inherits the surrounding -#}
+        {#- text colour (see specs/brand-logo.md, CONSTITUTION.md §9). The -#}
+        {#- accessible name is deliberately config.title alone (not paired -#}
+        {#- with any visible text next to the mark) — screen-reader-only, per -#}
+        {#- CONSTITUTION.md §1 (a link needs a non-empty accessible name); -#}
+        {#- set header_logo or header_title if you want a visible title next -#}
+        {#- to (or instead of) the mark. -#}
         {% filter indent -%}{%- filter indent -%}
         {% include "partials/logo-mark.svg.html" %}
         {%- endfilter -%}{%- endfilter %}
-        <span class="sr-only">{{ config.extra.header_title | default(value=config.title) | safe }}</span>
+        <span class="sr-only">{{ config.title }}</span>
         {%- endif -%}
     </span>
 </a>
