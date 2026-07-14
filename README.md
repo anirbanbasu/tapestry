@@ -64,6 +64,9 @@ Try the demo at the following links.
       +++
       ```
 
+## Contributing
+
+Contributions to this theme are very welcome! However, if you want to contribute to the theme, please do so at the [theme-tapestry-dev](https://github.com/anirbanbasu/theme-tapestry-dev) repository. Meanwhile, this repository exists only to serve the purpose of a Git submodule installable theme for your Zola project.
 
 ## License
 
