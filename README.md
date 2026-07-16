@@ -4,7 +4,7 @@ Tapestry is a researcher profile website theme for the [Zola static site generat
 
 Inspired by and derived from the [terminus theme](https://github.com/ebkalderon/terminus), specifically its `aa8d8b67f9ab69ae48e1405f96e152d41f03e0ed` commit, tapestry inherits a number of features from the terminus theme. The key differences include the following.
 
-- A number of presentation styles (e.g., `creative`), each with a number of variants (e.g., `editorial-zine`) replace the `extra.color_scheme` setting of the terminus theme.
+- Five presentation style groups — `scholarly`, `creative`, `natural`, `precision`, and `collective` — each with a number of variants (e.g., `creative`'s `editorial-zine`) replace the `extra.color_scheme` setting of the terminus theme.
 - Each presentation style and its variants are available in both light and dark modes.
 - Additional shortcodes, such as for showing the colour palette.
 
@@ -14,6 +14,30 @@ Try the demo at the following links.
 - [https://ghp-tapestry.anirbanbasu.com](https://ghp-tapestry.anirbanbasu.com)
 
 ![Tapestry screenshot](screenshot.png)
+
+## Features
+
+- **Five presentation style groups** — `scholarly`, `creative`, `natural`,
+  `precision`, and `collective` — each offering multiple fully-specified
+  variants (distinct typefaces, colour palettes, and layout treatments), all
+  with matching light and dark modes.
+- **WCAG 2.1 Level AA accessibility** across every shipped template and
+  style/variant combination — colour contrast, keyboard navigation,
+  semantic landmarks, visible focus states.
+- Practically **no JavaScript**: only a light/dark theme switcher, optional
+  client-side KaTeX math rendering, and an optional presentation
+  style/variant switcher — nothing else, no analytics, no third-party
+  embeds.
+- **Self-hosted fonts** — no runtime calls to Google Fonts or any other
+  font CDN.
+- A 12-column responsive grid, GitHub-style Markdown alerts, and a set of
+  extra shortcodes (e.g. a colour palette preview) on top of everything
+  inherited from terminus.
+
+## Requirements
+
+- [Zola](https://www.getzola.org/) `0.22.1` or newer (the theme's own
+  `theme.toml` pins `min_version = "0.22.0"`).
 
 ## Usage
 
@@ -63,6 +87,17 @@ Try the demo at the following links.
       max_posts = 5  # Show 5 posts and a link to posts section on home page.
       +++
       ```
+
+## Configuration
+
+Beyond the homepage setup above, Tapestry reads a range of `extra.*` keys at
+the site, section, and page level — presentation style/variant selection,
+KaTeX, social/navigation links, image handling, content security policy,
+and more. Rather than duplicate that reference here, consult the live,
+always-up-to-date documentation on either demo site:
+
+- [https://ghp-tapestry.anirbanbasu.com/docs](https://ghp-tapestry.anirbanbasu.com/docs)
+- [https://ghp-tapestry.netlify.app/docs](https://ghp-tapestry.netlify.app/docs)
 
 ## Contributing
 

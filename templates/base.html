@@ -450,8 +450,13 @@
     <meta name="twitter:data1" content="{{ config.author }}">
     {%- endif -%}
     {%- if page.reading_time %}
+    {%- if page.reading_time == 0 -%}
+    {%- set reading_time = "<1 min" -%}
+    {%- else -%}
+    {%- set reading_time = page.reading_time ~ " min" -%}
+    {%- endif -%}
     <meta name="twitter:label2" content="Reading time">
-    <meta name="twitter:data2" content="{{ page.reading_time ~ " min" | replace(from="0 min" , to="<1 min" ) }}">
+    <meta name="twitter:data2" content="{{ reading_time }}">
     {%- endif -%}
     {%- if config.extra.fediverse_creator %}
     <meta name="fediverse:creator" content="{{ config.extra.fediverse_creator }}">
