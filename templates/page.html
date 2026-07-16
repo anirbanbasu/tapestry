@@ -60,7 +60,14 @@
     {{ post_macros::header(page=page, heading="h1") | indent | safe }}
 {%- endfilter %}{%- endfilter %}
 
-{{ page.content | safe }}
+{#- Zola's Markdown renderer emits GFM task-list checkboxes as bare -#}
+{#- `<input disabled type="checkbox">` with no accessible name (axe's -#}
+{#- "label" rule, WCAG 4.1.2) — there's no Tera hook into that rendering -#}
+{#- step, so the two literal tags it produces are patched here. -#}
+{{ page.content
+    | replace(from='<input disabled="" type="checkbox" checked=""/>', to='<input disabled="" type="checkbox" checked="" aria-label="Completed task item"/>')
+    | replace(from='<input disabled="" type="checkbox"/>', to='<input disabled="" type="checkbox" aria-label="Incomplete task item"/>')
+    | safe }}
 
 {%- filter indent -%}{%- filter indent %}
 </article>

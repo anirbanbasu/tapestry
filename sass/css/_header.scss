@@ -43,33 +43,42 @@
 // protects itself the same way below. `align-items: center` on
 // `.header-container` (already present) takes over vertical centring.
 .header-logo-container {
-  display: contents;
-
-  // KNOWN ISSUE (accepted, not yet fixed): `display: contents` on this
-  // anchor removes it from Chromium's focus/tab order entirely — verified
-  // empirically (real Tab traversal, `.focus()`, and CDP accessibility-tree
-  // inspection) that the home/logo link is currently keyboard-unreachable
-  // on every page (this wrapper is shared by all three logo.html fallback
-  // tiers, not just the `header_logo` case). The link's role/name still
-  // show up correctly in the accessibility tree, but SC 2.1.1 (Keyboard)
-  // and SC 2.4.7 (Focus Visible) are not met — a keyboard-only user cannot
-  // reach or activate this link. This is a WCAG AA regression against
-  // CONSTITUTION.md §1, knowingly accepted for now in exchange for fixing
-  // the more severe 0x0 `.logo-img` rendering bug it was introduced to
-  // solve (see `.logo` below for the full root-cause writeup). Every
-  // CSS-only fix that keeps `<a>` off `display: contents` (tried:
-  // `flex`/`block`/`inline-block`/`grid`/`table` with various
-  // `min-width`/`width: fit-content`/`flex-shrink` overrides, and a
-  // CSS Grid restructuring of `.header-container`) either reintroduced the
-  // 0x0 collapse or only worked by giving the logo slot a fixed envelope
-  // box independent of the actual image's aspect ratio — a different,
-  // real trade-off (oversized click/focus target for narrow logos) that
-  // was not adopted here without explicit sign-off. Tracked externally by
-  // project maintainers; do not silently "fix" this by re-introducing an
+  // The 0x0 `.logo-img` collapse this three-level `display: contents`
+  // flattening exists to fix (see the `:has(.logo-img)` block and `.logo`
+  // below for the full root-cause writeup) is specific to the raster/
+  // vector `header_logo` fallback tier — `.logo-svg` (an inlined,
+  // non-replaced <svg> sized independently via its own height/width rule)
+  // and `.logo-text` (non-replaced content) never needed it (per the
+  // original investigation). Applying it unconditionally to all three
+  // tiers anyway was a previously accepted, documented WCAG AA regression:
+  // `display: contents` on the anchor removes it from Chromium's focus/tab
+  // order entirely (verified empirically — real Tab traversal, `.focus()`,
+  // and CDP accessibility-tree inspection — the home/logo link was
+  // keyboard-unreachable, SC 2.1.1/2.4.7). Scoping the flattening to only
+  // fire when a `.logo-img` is actually present restores keyboard
+  // reachability for the two tiers that never needed the fix, without
+  // touching the one that does. `:has()` (Chromium 105+) is safe to rely
+  // on given this theme's zero-IE/legacy-browser stance (WCAG AA doesn't
+  // require supporting browsers without it).
+  //
+  // RESIDUAL KNOWN ISSUE (accepted, not yet fixed): sites that set
+  // `extra.header_logo` still hit the original SC 2.1.1/2.4.7 gap on the
+  // logo link specifically, since that tier still needs the flattening.
+  // This is strictly narrower than before (opt-in config key vs. every
+  // Tapestry site by default) but not eliminated — the underlying 0x0
+  // collapse still resists every non-flattening approach already tried
+  // (see `.logo` below). Do not silently close this by reintroducing an
   // untested variant without re-running the empirical Tab-traversal check
-  // this comment describes.
-  a {
+  // described here and for `.logo` below.
+  &:has(.logo-img) {
     display: contents;
+
+    a {
+      display: contents;
+    }
+  }
+
+  a {
     color: var(--colour-text-heading);
     text-decoration: none;
   }
@@ -78,33 +87,32 @@
 // The single wrapping <span class="logo"> shared by all three logo.html
 // tiers (partials/logo.html) has no visual role of its own — it's a pure
 // grouping element. Giving it `display: contents` removes its own box from
-// the render tree entirely, same as its two ancestors above.
+// the render tree entirely, same as `.header-logo-container` and `a` above
+// — scoped the same way, to the `.logo-img` tier only (see that block for
+// why).
 //
 // This three-level flattening (`.header-logo-container` > `a` > `.logo`,
-// all `display: contents`) is the fix for a 0x0 rendering bug found in
-// verification: a replaced <img> sized only via `max-height`/`max-width`
-// (no `width`/`height` attributes on the file, no `width`/`height` CSS —
-// deliberate, to preserve arbitrary-aspect-ratio scaling; see .logo-img
-// below) has its content-based preferred/min-content size resolve to 0 in
-// Chromium as soon as it sits inside *any* number of nested
-// `display: flex` containers whose own sizing is otherwise
-// indefinite/shrink-to-fit (verified empirically — flattening only one or
-// two of the three levels still left the collapse in place; only removing
-// all three intermediate boxes, so the <img> becomes a direct flex item of
-// `.header-container` itself, which has a genuinely definite `width: 100%`,
-// fixed it). Tried and rejected: `flex-shrink`/`flex-basis`/`min-width`/
-// `width: max-content` overrides at each intermediate level individually —
-// none affect the underlying min-content/max-content computation that
-// resolves to 0 for this specific replaced-element configuration. See
+// all `display: contents`, active only when `.logo-img` is present) is the
+// fix for a 0x0 rendering bug found in verification: a replaced <img>
+// sized only via `max-height`/`max-width` (no `width`/`height` attributes
+// on the file, no `width`/`height` CSS — deliberate, to preserve
+// arbitrary-aspect-ratio scaling; see .logo-img below) has its
+// content-based preferred/min-content size resolve to 0 in Chromium as
+// soon as it sits inside *any* number of nested `display: flex` containers
+// whose own sizing is otherwise indefinite/shrink-to-fit (verified
+// empirically — flattening only one or two of the three levels still left
+// the collapse in place; only removing all three intermediate boxes, so
+// the <img> becomes a direct flex item of `.header-container` itself,
+// which has a genuinely definite `width: 100%`, fixed it). Tried and
+// rejected: `flex-shrink`/`flex-basis`/`min-width`/`width: max-content`
+// overrides at each intermediate level individually — none affect the
+// underlying min-content/max-content computation that resolves to 0 for
+// this specific replaced-element configuration. See
 // docs/superpowers/plans/2026-07-13-header-logo-fallback-and-sizing.md
 // (Task 4's original finding covered only the innermost `.logo` span; this
 // fix extends the same technique up through the other two flex wrappers,
-// which turned out to reproduce the identical collapse). `.logo-svg`
-// (already an inlined, non-replaced <svg> sized independently via its own
-// height/width rule) and `.logo-text` (non-replaced content) are
-// unaffected by this change — neither depended on any of these three
-// wrappers generating their own box.
-.logo {
+// which turned out to reproduce the identical collapse).
+.header-logo-container:has(.logo-img) a .logo {
   display: contents;
 }
 
@@ -225,7 +233,23 @@
     border: 1px solid var(--colour-border);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-md);
-    min-width: 12rem;
+    // 13rem rather than the original 12rem: gives long, wrapped variant
+    // labels ("Swiss Precision Instrument", "Agora Classical Philosophy")
+    // a bit more breathing room so they wrap to fewer lines.
+    min-width: 13rem;
+    max-width: min(18rem, calc(100vw - 2 * var(--space-md)));
+    // Every label wraps (see .style-switcher-option's `white-space: normal`
+    // below) so there is never real content that needs horizontal
+    // scrolling — measured via scrollWidth/clientWidth, a few px of
+    // horizontal overflow persists regardless of available width, coming
+    // from <details><summary>'s native disclosure-marker box (a Chromium
+    // sizing quirk, present on every group regardless of label length, not
+    // from any actual clipped text). The `[popover]` UA stylesheet's
+    // default `overflow: auto` would otherwise turn that into a persistent,
+    // unwanted horizontal scrollbar; disabling only the horizontal axis
+    // here is safe since nothing real is ever cut off, while keeping
+    // vertical scrolling for a group with more variants than fit on screen.
+    overflow-x: hidden;
 
     li {
       border-bottom: 1px solid var(--colour-border);
@@ -244,6 +268,15 @@
   font-family: var(--font-family-code);
   font-size: var(--font-size-small);
   text-align: start;
+  // Explicit rather than relying on the inherited/UA default: guarantees
+  // long variant labels ("Swiss Precision Instrument", "Agora Classical
+  // Philosophy") wrap onto multiple lines instead of ever depending on
+  // browser-specific `<button>` white-space defaults. Paired with
+  // `overflow-x: hidden` on .style-switcher-menu above, which absorbs an
+  // unrelated few-px Chromium marker-sizing quirk so no horizontal
+  // scrollbar can appear regardless.
+  white-space: normal;
+  overflow-wrap: break-word;
   background: none;
   border: none;
   padding: 0.6em 0.5em;
