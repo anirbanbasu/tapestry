@@ -3,7 +3,7 @@
     {%- set allowed_domains = [] -%}
 
     {#- Allow WebSocket protocol if served via `zola serve` -#}
-    {%- if config.mode == " serve" -%} {%- set connect_src=load_data(literal=`{"directive": "connect-src" , "domains" :
+    {%- if config.mode == "serve" -%} {%- set connect_src=load_data(literal=`{"directive": "connect-src" , "domains" :
     ["'self'", "ws:" ]}`, format="json" ) -%} {%- set script_src_elem=load_data(literal=`{"directive": "script-src-elem"
     , "domains" : ["'self'", "'unsafe-inline'" ]}`, format="json" ) -%} {%- set allowed_domains=allowed_domains |
     concat(with=connect_src) | concat(with=script_src_elem) -%} {%- endif -%} {#- Allow `data:` URL scheme for `img-src`
