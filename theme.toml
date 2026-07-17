@@ -4,7 +4,7 @@ tags = ["scholarly", "academic", "portfolio", "blog", "minimal", "personal", "re
 license = "MIT"
 homepage = "https://github.com/anirbanbasu/tapestry"
 min_version = "0.22.0"
-demo = "https://anirbanbasu.github.io/tapestry"
+demo = "https://ghp-tapestry.anirbanbasu.com"
 
 [author]
 name = "Anirban Basu"
