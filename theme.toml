@@ -97,6 +97,13 @@ feed_icon = true
 # specs/brand-logo.md) instead of falling back to text.
 # header_logo = "images/logo/logo.svg"
 
+# When a custom header_logo is set, paints the whole header row with
+# --colour-accent-primary in dark mode, so arbitrary logo files that don't
+# use currentColor (and might otherwise vanish against a dark page
+# background) always sit on a predictable, mode-appropriate backdrop. Has
+# no effect when header_logo is unset. Default: on.
+header_logo_accent_background = true
+
 # Enable KaTeX support for all posts. Rendered client-side via
 # js/katex.min.js (one of the three sanctioned JS exceptions) — see
 # specs/terminus-compat-contract.md §7.

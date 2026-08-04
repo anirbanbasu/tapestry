@@ -532,8 +532,9 @@
 {%- endif -%}
 {%- endif -%}
 
+{%- set header_logo_accent_bg = config.extra.header_logo and config.extra.header_logo_accent_background -%}
 <body class="layout-{{ config.extra.layout }}" data-style="{{ resolved_style }}" data-variant="{{ resolved_variant }}">
-    <header class="header">
+    <header class="header{% if header_logo_accent_bg %} header--accent-logo-bg{% endif %}">
         {% filter indent -%}{%- filter indent -%}
         {%- block header -%}
         {% include "partials/header.html" %}

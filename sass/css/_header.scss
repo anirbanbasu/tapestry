@@ -8,6 +8,64 @@
   }
 }
 
+// Dark-mode accent backdrop for a custom `header_logo` image
+// (extra.header_logo_accent_background, default true — see base.html).
+// Full-bleed: a ::before sized via 100vw + translateX(-50%) (the standard
+// "break out of a centred max-width container" technique) so it spans the
+// entire viewport width, not just .header's own 1200px box — `html, body`
+// already carry `max-width: 100%; overflow-x: hidden` (_grid.scss, the
+// 12-column grid's no-horizontal-scroll guarantee, CONSTITUTION.md §5), so
+// any sub-pixel overshoot from the 100vw/scrollbar-gutter quirk is already
+// clipped site-wide, not a new risk this introduces.
+//
+// Anchored to .header-container specifically, NOT .header: .header also
+// wraps the nav (.main-menu, a sibling of .header-container within
+// <header>, see header.html/base.html) — a naive height: 100% relative to
+// .header would swallow the nav row too. Anchoring to .header-container
+// instead makes `height: 100%` land exactly on its own border-bottom (the
+// visible horizontal line) with no calculation, since that border is
+// .header-container's own bottom edge.
+//
+// That leaves the top edge short of the true top of the page, though:
+// .header-container's own top border edge is inset by two ancestors'
+// padding-top stacked above it — .header's own (this file, top of page)
+// AND body.layout-*'s own (_main.scss) page-wide gutter. `top`/`height`
+// below explicitly subtract/add both, kept in sync with those two
+// declarations across the same max-width: 684px breakpoint both already
+// use — if either's padding value changes, this must be updated to match.
+.header--accent-logo-bg .header-container {
+  position: relative;
+  z-index: 0;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: calc(-1 * (var(--space-lg) + var(--space-md)));
+    left: 50%;
+    z-index: -1;
+    width: 100vw;
+    height: calc(100% + var(--space-lg) + var(--space-md));
+    transform: translateX(-50%);
+
+    @media (max-width: 684px) {
+      top: calc(-1 * (var(--space-md) + var(--space-sm)));
+      height: calc(100% + var(--space-md) + var(--space-sm));
+    }
+
+    @media (prefers-color-scheme: dark) {
+      background-color: var(--colour-accent-primary);
+    }
+  }
+}
+
+html[data-color-mode='dark'] .header--accent-logo-bg .header-container::before {
+  background-color: var(--colour-accent-primary);
+}
+
+html[data-color-mode='light'] .header--accent-logo-bg .header-container::before {
+  background-color: transparent;
+}
+
 // Single full-width row: logo (left) / theme toggle + optional style
 // switcher (right). The main nav (.main-menu, _menu.scss) sits on its own
 // row below this one, not inline with it. `align-items: center` vertically
