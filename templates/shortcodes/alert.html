@@ -2,10 +2,10 @@
 {#- Derived from this shortcode in Tabi theme: -#}
 {#- https://github.com/welpo/tabi/blob/93af295/templates/shortcodes/admonition.html -#}
 
-{%- set type = type | default(value="info") -%}
-{%- set title = title | default(value=type | upper) -%}
-{%- set icon = icon | default(value=type) -%}
-{%- set text = text | default(value=body) -%}
+{%- component alert(type="info", title="", icon="", text="") -%}
+{%- if title == "" -%}{%- set title = type | upper -%}{%- endif -%}
+{%- if icon == "" -%}{%- set icon = type -%}{%- endif -%}
+{%- if text == "" -%}{%- set text = body -%}{%- endif -%}
 
 {%- set label_id = get_hash(literal=type ~ title ~ icon ~ text, sha_type=256) | truncate(length=8, end="") -%}
 
@@ -16,3 +16,4 @@
         {{ text | markdown | safe -}}
     </div>
 </section>
+{%- endcomponent alert -%}

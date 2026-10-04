@@ -1,9 +1,10 @@
+{#- Generates responsive images from a given high-resolution source image -#}
+
+{%- component responsive_image(page, config, src: string, alt: string, caption="", lazy=true) -%}
 {%- set source_image_path = page.colocated_path ~ src -%}
 {%- set alt_text = alt -%}
-{%- set caption = caption | default(value="") -%}
-{%- set lazy_load = lazy | default(value=true) -%}
-
-{#- Generates responsive images from a given high-resolution source image -#}
+{%- set caption = caption -%}
+{%- set lazy_load = lazy -%}
 
 {%- set metadata = get_image_metadata(path=source_image_path) -%}
 {%- set source_width = metadata.width -%}
@@ -13,7 +14,7 @@
     {%- if source_width >= width -%}
         {%- set resized_image = resize_image(path=source_image_path, width=width, op="fit_width", quality=80) -%}
         {%- set candidate = resized_image.url ~ " " ~ width ~ "w" -%}
-        {%- set_global image_candidates = image_candidates | concat(with=candidate) -%}
+        {%- set_global image_candidates = [...image_candidates, candidate] -%}
     {%- endif -%}
 {%- endfor -%}
 
@@ -44,3 +45,4 @@
     </figcaption>
 </figure>
 {%- endif %}
+{%- endcomponent responsive_image -%}

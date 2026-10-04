@@ -1,9 +1,9 @@
 name = "tapestry"
-description = "A Zola theme for academic and industry researcher profile websites, derived from and backward-compatible with terminus"
+description = "A Zola theme for academic and industry researcher profile websites, derived from terminus, built for Zola 0.23+ (Tera v2)"
 tags = ["scholarly", "academic", "portfolio", "blog", "minimal", "personal", "responsive", "seo"]
 license = "MIT"
 homepage = "https://github.com/anirbanbasu/tapestry"
-min_version = "0.22.0"
+min_version = "0.23.6"
 demo = "https://ghp-tapestry.anirbanbasu.com"
 
 [author]

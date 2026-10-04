@@ -4,6 +4,8 @@
 {#- js/theme-switcher.js and _variants.scss already use, so this degrades -#}
 {#- correctly with JS disabled instead of showing both/neither. -#}
 
+{%- component light_mode_only() -%}
 <div class="colour-mode-only colour-mode-only-light">
     {{ body | markdown | safe }}
 </div>
+{%- endcomponent light_mode_only -%}

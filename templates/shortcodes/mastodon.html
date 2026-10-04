@@ -1,11 +1,9 @@
-{%- set mastodon_url = url -%}
-{%- set is_my_account = is_me | default(value=false) -%}
-
 {#- Embeds a Mastodon social media post located at the given `url` -#}
 {#- Upstream API docs: https://docs.joinmastodon.org/methods/statuses/#get -#}
 
-{%- set domain = mastodon_url | split(pat="/") | nth(n=2) -%}
-{%- set post_id = mastodon_url | split(pat="/") | last -%}
+{%- component mastodon(url: string, is_me=false) -%}
+{%- set domain = url | split(pat="/") | nth(n=2) -%}
+{%- set post_id = url | split(pat="/") | last -%}
 {%- set api_url = "https://" ~ domain ~ "/api/v1/statuses/" ~ post_id -%}
 {%- set response = load_data(url=api_url, format="json") -%}
 
@@ -21,9 +19,10 @@
         {%- set post_date_raw = response["created_at"] -%}
         {%- set post_date_human = response["created_at"] | date(format="%B %-d, %Y") -%}
 
-        — {{ display_name }} (<a {% if is_my_account -%} rel="me" {% endif -%}href="{{ account_url | safe }}">{{ username }}</a>),
+        — {{ display_name }} (<a {% if is_me -%} rel="me" {% endif -%}href="{{ account_url | safe }}">{{ username }}</a>),
         <a href="{{ response["url"] | safe }}">
             <time datetime="{{ post_date_raw }}">{{ post_date_human }}</time>
         </a>
     </figcaption>
 </figure>
+{%- endcomponent mastodon -%}

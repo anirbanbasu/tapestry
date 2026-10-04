@@ -2,11 +2,14 @@
 
 Tapestry is a researcher profile website theme for the [Zola static site generator](https://www.getzola.org/).
 
-Inspired by and derived from the [terminus theme](https://github.com/ebkalderon/terminus), specifically its `aa8d8b67f9ab69ae48e1405f96e152d41f03e0ed` commit, tapestry inherits a number of features from the terminus theme. The key differences include the following.
+Inspired by and derived from the [terminus theme](https://github.com/ebkalderon/terminus), specifically its `aa8d8b67f9ab69ae48e1405f96e152d41f03e0ed` commit, Tapestry carries over a number of features from the terminus theme. However, **Tapestry is not backward-compatible with terminus**: it is built for Zola `0.23.6` or newer, which bundles the Tera v2 templating engine, whereas the terminus snapshot it derives from targets Tera v1. The key differences include the following.
 
 - Five presentation style groups — `scholarly`, `creative`, `natural`, `precision`, and `collective` — each with a number of variants (e.g., `creative`'s `editorial-zine`) replace the `extra.color_scheme` setting of the terminus theme.
 - Each presentation style and its variants are available in both light and dark modes.
 - Additional shortcodes, such as for showing the colour palette.
+- **Macros are no longer supported.** Tera v2 removes macros and `{% import %}`; reusable template logic is written as components that receive `page`, `section`, `config`, `lang` and `taxonomy` explicitly. Terminus templates, template overrides and macro imports will not work with Tapestry and must be rewritten as components.
+- **Shortcodes use new invocation syntax.** Tera v2 removes the shortcode subsystem; Tapestry's shortcodes are components, invoked as `{% <name attr="x"> %}...{% </name> %}` blocks or `{{ <name attr="x" /> }}` inline, not terminus's `{% name(args) %}` / `{{ name(args) }}`. Content written for terminus must be updated accordingly.
+- Terminus-only settings, such as `extra.color_scheme` and `extra.color_scheme_switcher`, are ignored.
 
 Try the demo at the following links.
 
@@ -31,13 +34,14 @@ Try the demo at the following links.
 - **Self-hosted fonts** — no runtime calls to Google Fonts or any other
   font CDN.
 - A 12-column responsive grid, GitHub-style Markdown alerts, and a set of
-  extra shortcodes (e.g. a colour palette preview) on top of everything
-  inherited from terminus.
+  extra shortcodes (e.g. a colour palette preview), with a number of
+  features carried over from terminus.
 
 ## Requirements
 
-- [Zola](https://www.getzola.org/) `0.22.1` or newer (the theme's own
-  `theme.toml` pins `min_version = "0.22.0"`).
+- [Zola](https://www.getzola.org/) `0.23.6` or newer (the theme's own
+  `theme.toml` sets `min_version = "0.23.6"`). Earlier versions use Tera v1
+  and cannot build this theme.
 
 ## Usage
 

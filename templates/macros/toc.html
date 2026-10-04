@@ -1,0 +1,19 @@
+{#- Recursive TOC component for the sidebar (partials/sidebar.html). Tera v1 -#}
+{#- macros could only recurse via `self::`, which resolves against the entry -#}
+{#- template of the current render rather than the file the macro was -#}
+{#- defined in — the reason this used to have to live inside page.html -#}
+{#- itself. Tera v2 components are globally registered with no import step, -#}
+{#- so a component can call itself by its own name from anywhere, and this -#}
+{#- no longer needs to be co-located with its only caller. -#}
+{%- component toc.render(items) -%}
+<ul>
+    {%- for h in items %}
+    <li>
+        <a href="{{ h.permalink | safe }}">{{ h.title }}</a>
+        {%- if h.children | length > 0 %}
+        {{ <toc.render items={h.children} /> }}
+        {%- endif %}
+    </li>
+    {%- endfor %}
+</ul>
+{%- endcomponent toc.render -%}

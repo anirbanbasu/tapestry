@@ -1,26 +1,5 @@
 {% extends "base.html" %}
 
-{#- Recursive TOC macro for the sidebar (partials/sidebar.html), defined here -#}
-{#- rather than in a separate macros/*.html file: Tera macros can only call -#}
-{#- themselves recursively via `self::`, which resolves against the entry -#}
-{#- template of the current render (this page.html), not against whichever -#}
-{#- file the macro happens to be defined in — so a macro in its own imported -#}
-{#- file can't reliably call itself via `self::`. Defining it directly here, -#}
-{#- where it's the only caller (partials/sidebar.html is included, not a -#}
-{#- separate render), keeps `self::toc` resolvable. -#}
-{%- macro toc(items) -%}
-<ul>
-    {%- for h in items %}
-    <li>
-        <a href="{{ h.permalink | safe }}">{{ h.title }}</a>
-        {%- if h.children | length > 0 %}
-        {{ self::toc(items=h.children) }}
-        {%- endif %}
-    </li>
-    {%- endfor %}
-</ul>
-{%- endmacro -%}
-
 {%- block title -%}
 {{ page.title }} | {{ config.title }}
 {%- endblock -%}
@@ -29,7 +8,7 @@
     {%- if page.description %}
     <meta name="description" content="{{ page.description | markdown(inline=true) | striptags }}">
     {%- elif page.summary %}
-    <meta name="description" content="{{ page.summary | linebreaksbr | replace(from="<br>", to=" ") | striptags | trim_end_matches(pat=".") | replace(from='"', to="&quot;") | replace(from="&", to="&amp;") | safe }}…">
+    <meta name="description" content="{{ page.summary | newlines_to_br | replace(from="<br>", to=" ") | striptags | trim_end(pat=".") | replace(from='"', to="&quot;") | replace(from="&", to="&amp;") | safe }}…">
     {%- elif config.description %}
     <meta name="description" content="{{ config.description }}">
     {%- endif %}
@@ -57,7 +36,7 @@
 {%- set show_sidebar = not sidebar_disabled and (has_custom_sidebar or has_toc) -%}
 {%- filter indent -%}{%- filter indent -%}
 <article class="post content{%- if show_sidebar %} has-sidebar{%- endif %}">
-    {{ post_macros::header(page=page, heading="h1") | indent | safe }}
+    {{ <post.header page={page} config={config} lang={lang} heading="h1" /> | indent | safe }}
 {%- endfilter %}{%- endfilter %}
 
 {#- Zola's Markdown renderer emits GFM task-list checkboxes as bare -#}
@@ -83,7 +62,7 @@
     <div class="post-navigation-buttons">
         {%- if page.lower %}
         <a rel="next" href="{{ page.lower.permalink | safe }}" aria-label="Next article" aria-describedby="next-title">
-            &lt;&nbsp;[<span id="next-title">{{- page.lower.title | truncate(value=100, end="…") -}}</span>]
+            &lt;&nbsp;[<span id="next-title">{{- page.lower.title | truncate(length=100, end="…") -}}</span>]
         </a>
         {%- endif %}
         {%- if page.lower and page.higher %}
@@ -91,7 +70,7 @@
         {%- endif %}
         {%- if page.higher %}
         <a rel="prev" href="{{ page.higher.permalink | safe }}" aria-label="Prev article" aria-describedby="prev-title">
-            [<span id="prev-title">{{- page.higher.title | truncate(value=100, end="…") -}}</span>]&nbsp;&gt;
+            [<span id="prev-title">{{- page.higher.title | truncate(length=100, end="…") -}}</span>]&nbsp;&gt;
         </a>
         {%- endif %}
     </div>

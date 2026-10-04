@@ -12,6 +12,24 @@
 {#- "scholarly", "creative", "natural", "precision", and "collective" are -#}
 {#- implemented so far; extend this map when other groups land. -#}
 
+{#- `class="presentation-palette*"` and `data-palette-*` hooks below let -#}
+{#- static/js/presentation-style-switcher.js rewrite this section's colours -#}
+{#- AND its style/variant text live when a visitor uses the switcher — see -#}
+{#- that file's PALETTE table, which mirrors the same values as this -#}
+{#- shortcode's light/dark maps above. Without JS (or with the switcher -#}
+{#- disabled), these attributes are inert and this renders exactly as a -#}
+{#- static build-time snapshot, same as before. -#}
+{%- component palette.swatch(name, token, mode, hex, border) -%}
+<div style="width:88px;" class="presentation-palette-swatch" data-palette-token="{{ token }}"
+    data-palette-mode="{{ mode }}">
+    <div style="height:48px;border-radius:6px;border:1px solid {{ border }};background:{{ hex }};"
+        class="presentation-palette-swatch-color"></div>
+    <small style="display:block;font-size:0.7rem;">{{ name }}<br><span class="presentation-palette-swatch-hex">{{ hex
+            }}</span></small>
+</div>
+{%- endcomponent palette.swatch -%}
+
+{%- component presentation_palette(config) -%}
 {%- set requested_style = config.extra.presentation_style | default(value="scholarly") -%}
 {%- set valid_styles = ["scholarly", "creative", "natural", "precision", "collective"] -%}
 {%- if requested_style in valid_styles -%}
@@ -198,23 +216,6 @@
 "accent_secondary": "#9ee36b"}`, format="json") -%}
 {%- endif -%}
 
-{#- `class="presentation-palette*"` and `data-palette-*` hooks below let -#}
-{#- static/js/presentation-style-switcher.js rewrite this section's colours -#}
-{#- AND its style/variant text live when a visitor uses the switcher — see -#}
-{#- that file's PALETTE table, which mirrors the same values as this -#}
-{#- shortcode's light/dark maps above. Without JS (or with the switcher -#}
-{#- disabled), these attributes are inert and this renders exactly as a -#}
-{#- static build-time snapshot, same as before. -#}
-{%- macro swatch(name, token, mode, hex, border) -%}
-<div style="width:88px;" class="presentation-palette-swatch" data-palette-token="{{ token }}"
-    data-palette-mode="{{ mode }}">
-    <div style="height:48px;border-radius:6px;border:1px solid {{ border }};background:{{ hex }};"
-        class="presentation-palette-swatch-color"></div>
-    <small style="display:block;font-size:0.7rem;">{{ name }}<br><span class="presentation-palette-swatch-hex">{{ hex
-            }}</span></small>
-</div>
-{%- endmacro -%}
-
 <div style="margin:2rem 0;" class="presentation-palette" data-palette-style="{{ resolved_style }}"
     data-palette-variant="{{ resolved_variant }}">
     <p><strong>Style:</strong> <code class="presentation-palette-style-name">{{ resolved_style }}</code> &middot;
@@ -224,28 +225,29 @@
         <div style="flex:1 1 240px;">
             <p style="font-weight:600; margin-bottom:0.5rem;">Light mode</p>
             <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
-                {{ self::swatch(name="bg-primary", token="bg_primary", mode="light", hex=light.bg_primary,
-                border="rgba(0,0,0,0.15)") }}
-                {{ self::swatch(name="text-heading", token="text_heading", mode="light", hex=light.text_heading,
-                border="rgba(0,0,0,0.15)") }}
-                {{ self::swatch(name="accent-primary", token="accent_primary", mode="light", hex=light.accent_primary,
-                border="rgba(0,0,0,0.15)") }}
-                {{ self::swatch(name="accent-secondary", token="accent_secondary", mode="light",
-                hex=light.accent_secondary, border="rgba(0,0,0,0.15)") }}
+                {{ <palette.swatch name="bg-primary" token="bg_primary" mode="light" hex={light.bg_primary}
+                border="rgba(0,0,0,0.15)" /> }}
+                {{ <palette.swatch name="text-heading" token="text_heading" mode="light" hex={light.text_heading}
+                border="rgba(0,0,0,0.15)" /> }}
+                {{ <palette.swatch name="accent-primary" token="accent_primary" mode="light" hex={light.accent_primary}
+                border="rgba(0,0,0,0.15)" /> }}
+                {{ <palette.swatch name="accent-secondary" token="accent_secondary" mode="light"
+                hex={light.accent_secondary} border="rgba(0,0,0,0.15)" /> }}
             </div>
         </div>
         <div style="flex:1 1 240px;">
             <p style="font-weight:600; margin-bottom:0.5rem;">Dark mode</p>
             <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
-                {{ self::swatch(name="bg-primary", token="bg_primary", mode="dark", hex=dark.bg_primary,
-                border="rgba(255,255,255,0.15)") }}
-                {{ self::swatch(name="text-heading", token="text_heading", mode="dark", hex=dark.text_heading,
-                border="rgba(255,255,255,0.15)") }}
-                {{ self::swatch(name="accent-primary", token="accent_primary", mode="dark", hex=dark.accent_primary,
-                border="rgba(255,255,255,0.15)") }}
-                {{ self::swatch(name="accent-secondary", token="accent_secondary", mode="dark",
-                hex=dark.accent_secondary, border="rgba(255,255,255,0.15)") }}
+                {{ <palette.swatch name="bg-primary" token="bg_primary" mode="dark" hex={dark.bg_primary}
+                border="rgba(255,255,255,0.15)" /> }}
+                {{ <palette.swatch name="text-heading" token="text_heading" mode="dark" hex={dark.text_heading}
+                border="rgba(255,255,255,0.15)" /> }}
+                {{ <palette.swatch name="accent-primary" token="accent_primary" mode="dark" hex={dark.accent_primary}
+                border="rgba(255,255,255,0.15)" /> }}
+                {{ <palette.swatch name="accent-secondary" token="accent_secondary" mode="dark"
+                hex={dark.accent_secondary} border="rgba(255,255,255,0.15)" /> }}
             </div>
         </div>
     </div>
 </div>
+{%- endcomponent presentation_palette -%}

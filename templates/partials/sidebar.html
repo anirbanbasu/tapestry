@@ -12,7 +12,7 @@
     {%- if has_toc %}
     <nav class="sidebar-toc" aria-label="Table of contents">
         <p class="sidebar-toc-title">On this page</p>
-        {{ self::toc(items=page.toc) }}
+        {{ <toc.render items={page.toc} /> }}
     </nav>
     {%- endif %}
 </aside>
